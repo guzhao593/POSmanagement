@@ -11,15 +11,16 @@ a{
 .fl{
     float:left;
 }
-body{
+html,body{
     font-style: '微软雅黑';
     font-size: 14px;
+    height:100%;
 }
 .fr{
     float:right;
 }
 .container{
-    width: 1200px;
+    width: 100%;
     margin: 0 auto;
 }
 .clearfix:after{
