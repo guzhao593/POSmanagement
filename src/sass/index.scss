@@ -99,15 +99,49 @@
 
             }
         }
-        .tablebox{
-            width:89%;
-            text-align:center;
-            tr{
-                th{
-                    border: 1px solid #E1E1E1;
-                    padding:0 20px;
+
+        .t-table{
+            thead{
+                tr{
+                    th{text-align: center;width:120px;height: 38px;
+
+                    }
+                }
+            }
+            tbody{
+                tr:hover{background-color:#EEEEEE;}
+                tr{
+                    th{text-align: center;width:120px;height: 38px;
+                        .add{color:#449D44;margin-right:10px;}
+                        .remove{color:#C9302C;}
+                    }
+                    td{text-align: center;width:120px;height: 38px;
+                        
+                        input{border:none;width:120px;height: 38px;text-align: center;}
+                    }
+                }
+            }
+            tfoot{
+                tr:hover{background-color:#EEEEEE;}
+                tr{
+                    th{text-align: center;width:120px;height: 38px;
+                        .add{color:#449D44;margin-right:10px;}
+                        .remove{color:#C9302C;}
+                    }
+                    td{text-align: center;width:120px;height: 38px;
+                        
+                        input{border:none;width:120px;height: 38px;text-align: center;}
+                    }
+                }
+            }  
+        }
+        .page{width: 1000px;height: 50px;margin-left: 10px;margin-top:10px;
+                ul{float:right;
+                li{float:left;width: 30px;height: 30px;background-color:#31B0D5;margin-right:10px;line-height:30px;text-align: center;
+                    &:last-child{margin-right:50px;}
                 }
             }
         }
+
     }
 }
