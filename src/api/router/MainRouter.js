@@ -1,6 +1,8 @@
 var userRouter = require("./UserRouter.js");
+
 var purchaseRouter = require('./PurchaseRouter.js');
 
+var merberRouter = require("./MerberRouter.js");
 module.exports = {
     Register: function(app){
         // //跨域
@@ -16,9 +18,16 @@ module.exports = {
             }
         });
         // app.use(express.static(__dirname + '/'));
+        
         userRouter.Register(app);
+        //采购管理
         purchaseRouter.GoodsIn(app);
         purchaseRouter.ListOut(app);
         purchaseRouter.TableDel(app);
+        //会员管理
+        merberRouter.MerberFind(app);
+        merberRouter.MerberAdd(app);
+        merberRouter.MerberUpdate(app);
+        merberRouter.MerberRomove(app);
     }
 }
