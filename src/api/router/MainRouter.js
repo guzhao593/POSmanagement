@@ -1,4 +1,5 @@
 var userRouter = require("./UserRouter.js");
+var merberRouter = require("./MerberRouter.js");
 module.exports = {
     Register: function(app){
         // //跨域
@@ -15,5 +16,9 @@ module.exports = {
         });
         // app.use(express.static(__dirname + '/'));
         userRouter.Register(app);
+        merberRouter.MerberFind(app);
+        merberRouter.MerberAdd(app);
+        merberRouter.MerberUpdate(app);
+        merberRouter.MerberRomove(app);
     }
 }
