@@ -1,4 +1,6 @@
 var userRouter = require("./UserRouter.js");
+var purchaseRouter = require('./PurchaseRouter.js');
+
 module.exports = {
     Register: function(app){
         // //跨域
@@ -15,5 +17,8 @@ module.exports = {
         });
         // app.use(express.static(__dirname + '/'));
         userRouter.Register(app);
+        purchaseRouter.GoodsIn(app);
+        purchaseRouter.ListOut(app);
+        purchaseRouter.TableDel(app);
     }
 }

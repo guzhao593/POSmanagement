@@ -36,12 +36,29 @@ module.exports = {
                                 _callback({status: true, data: dataset});
                             }
                         });
-                         db.close();
+                        
                     }
                 });
             }
+             db.close();
         });
     },
     update: function(){},
-    delete: function(){}
+    delete: function(_collection,_condition,_callback){
+        db.open(function(error,db){
+            if(error){
+                _callback({status:false,message:error});
+            }else{
+                db.collection(_collection,function(error,collection){
+                    if(error){
+                        _callback({status:false,message:error})
+                    } else {
+                        collection.remove(_condition)
+                         _callback({status:true})
+                    }
+                })
+            }
+            db.close();
+        })
+    }
 }
