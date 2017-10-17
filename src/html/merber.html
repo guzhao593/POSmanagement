@@ -1,0 +1,201 @@
+<p class="navtop clearfix">
+    <span class="title"><i class="glyphicon glyphicon-file fl"></i>会员管理</span>
+</p>
+<div class="change">
+    <button type="button" class="btn btn-success add fl">增加</button>
+    <button type="button" class="btn btn-info update fl">修改</button>
+    <button type="button" class="btn btn-primary remove fl">删除</button>
+    <div class="z-find fl">
+        <select name="" id="z-condition" class="form-control-1 fl" data-name="class">
+            <option value="code">会员编号</option>
+            <option value="name">会员姓名</option>
+            <option value="class">会员类型</option>
+            <option value="gender">性别</option>
+            <option value="card">卡号</option>
+            <option value="tel">手机号</option>
+            <option value="birthday">生日</option>
+            <option value="date">办理日期</option>
+            <option value="integral">积分</option>
+            <option value="consume">累计消费</option>
+            <option value="status">状态</option>
+        </select>
+        <select name="" id="z-findclass" class="form-control-1 fl" data-name="class">
+            <option value="包含">包含</option>
+            <option value="等于">等于</option>
+            <option value="不等于">不等于</option>
+            <option value="大于">大于</option>
+            <option value="小于">小于</option>
+        </select>
+        <input type="text" class="form-control-1 z-findval fl" placeholder="查找值不能为空">
+    </div>
+    <button type="button" class="btn btn-warning select fl">查找</button>
+</div>
+<div class="tablebox">
+    <table class="z-table">
+        <thead>
+            <tr>
+                <th data-name="code">会员编号</th>
+                <th data-name="name">会员姓名</th>
+                <th data-name="class">会员类型</th>
+                <th data-name="gender">性别</th>
+                <th data-name="card">卡号</th>
+                <th data-name="tel">手机号</th>
+                <th data-name="birthday">生日</th>
+                <th data-name="date">办理日期</th>
+                <th data-name="integral">积分</th>
+                <th data-name="consume">累计消费</th>
+                <th data-name="status">状态</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="z-cover">
+    <div class="z-addform">
+        <div class="z-title"><i class="glyphicon glyphicon-plus"></i><span class="z-title-word">会员-新增</span><i class="glyphicon glyphicon-remove"></i></div>
+        <div class="z-content">
+            <div class="form-group fl">
+                <label for="mbcode" style="color:red;">会员编码</label>
+                <input type="text" class="form-control must" id="mbcode" data-name="code">
+            </div>
+            <div class="form-group fl">
+                <label for="mname"  style="color:red;">会员姓名</label>
+                <input type="text" class="form-control must" id="mname" data-name="name">
+            </div>
+            <div class="form-group fl">
+                <label for="mclass"  style="color:red;">会员类型</label>
+                <select name="" id="mclass" class="form-control must" data-name="class">
+                    <option value="普通">普通</option>
+                    <option value="黄金">黄金</option>
+                    <option value="钻石">钻石</option>
+                </select>
+            </div>
+            <div class="form-group fl">
+                <label for="mgender">性别</label>
+                <select name="" id="mgender" class="form-control" data-name="gender">
+                    <option value="男">男</option>
+                    <option value="女">女</option>
+                </select>
+            </div>
+            <div class="form-group fl">
+                <label for="mcard">卡号</label>
+                <input type="text" class="form-control" id="mcard" data-name="card">
+            </div>
+            <div class="form-group fl">
+                <label for="mtel">手机号</label>
+                <input type="tel" class="form-control" id="mtel" data-name="tel">
+            </div>
+            <div class="form-group fl">
+                <label for="mbirthday">生日</label>
+                <input type="date" class="form-control" id="mbirthday" data-name="birthday">
+            </div>
+            <div class="form-group fl">
+                <label for="mdate">办理日期</label>
+                <input type="date" class="form-control" id="mdate" data-name="date">
+            </div>
+            <div class="form-group fl">
+                <label for="mintegral">积分</label>
+                <input type="text" class="form-control" id="mintegral" data-name="integral">
+            </div>
+            <div class="form-group fl">
+                <label for="mconsume">累计消费</label>
+                <input type="text" class="form-control" id="mconsume" data-name="consume">
+            </div>
+            <div class="form-group fl">
+                <label for="mstatus">状态</label>
+                <select name="" id="mstatus" class="form-control" data-name="status">
+                    <option value="正常">正常</option>
+                    <option value="无效">无效</option>
+                </select>
+            </div>
+            <div class="tips">注：红色字体为必填项</div>
+        </div>
+        <div class="z-bottom">
+            <button type="button" class="btn btn-success btn-add">增加</button>
+        </div>
+    </div>
+    <div class="z-updateform">
+        <div class="z-title"><i class="glyphicon glyphicon-plus"></i><span class="z-title-word">会员-新增</span><i class="glyphicon glyphicon-remove"></i></div>
+        <div class="z-content">
+            <div class="form-group fl">
+                <label for="mbcode" style="color:red;">会员编码</label>
+                <input type="text" class="form-control" id="mbcode" data-name="code">
+            </div>
+            <div class="form-group fl">
+                <label for="mname"  style="color:red;">会员姓名</label>
+                <input type="text" class="form-control" id="mname" data-name="name">
+            </div>
+            <div class="form-group fl">
+                <label for="mclass"  style="color:red;">会员类型</label>
+                <select name="" id="mclass" class="form-control" data-name="class">
+                    <option value="普通">普通</option>
+                    <option value="黄金">黄金</option>
+                    <option value="钻石">钻石</option>
+                </select>
+            </div>
+            <div class="form-group fl">
+                <label for="mgender">性别</label>
+                <select name="" id="mgender" class="form-control" data-name="gender">
+                    <option value="男">男</option>
+                    <option value="女">女</option>
+                </select>
+            </div>
+            <div class="form-group fl">
+                <label for="mcard">卡号</label>
+                <input type="text" class="form-control" id="mcard" data-name="card">
+            </div>
+            <div class="form-group fl">
+                <label for="mtel">手机号</label>
+                <input type="tel" class="form-control" id="mtel" data-name="tel">
+            </div>
+            <div class="form-group fl">
+                <label for="mbirthday">生日</label>
+                <input type="date" class="form-control" id="mbirthday" data-name="birthday">
+            </div>
+            <div class="form-group fl">
+                <label for="mdate">办理日期</label>
+                <input type="date" class="form-control" id="mdate" data-name="date">
+            </div>
+            <div class="form-group fl">
+                <label for="mintegral">积分</label>
+                <input type="text" class="form-control" id="mintegral" data-name="integral">
+            </div>
+            <div class="form-group fl">
+                <label for="mconsume">累计消费</label>
+                <input type="text" class="form-control" id="mconsume" data-name="consume">
+            </div>
+            <div class="form-group fl">
+                <label for="mstatus">状态</label>
+                <select name="" id="mstatus" class="form-control" data-name="status">
+                    <option value="正常">正常</option>
+                    <option value="无效">无效</option>
+                </select>
+            </div>
+            <div class="tips">注：红色字体为必填项</div>
+        </div>
+        <div class="z-bottom">
+            <button type="button" class="btn btn-success btn-update">增加</button>
+        </div>
+    </div>
+    <div class="z-remove">
+        <div class="z-showcode">你确认要删除[<span>000001</span>]项吗？</div>
+        <div class="z-showbtn">
+            <button type="button" class="btn btn-success  affirm">确认</button>
+            <button type="button" class="btn btn-info cancel ">取消</button>
+        </div>
+    </div>
+</div>
