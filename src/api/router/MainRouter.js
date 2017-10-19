@@ -6,6 +6,12 @@ var purchaseRouter = require('./PurchaseRouter.js');
 
 var merberRouter = require("./MerberRouter.js");
 
+var staffRouter = require("./StaffRouter.js");
+
+var stockRouter = require("./StockRouter.js");
+
+var putawayRouter = require("./PutawayRouter.js");
+
 module.exports = {
     Register: function(app){
         // //跨域
@@ -38,6 +44,23 @@ module.exports = {
         merberRouter.MerberUpdate(app);
         merberRouter.MerberRomove(app);
 
+         //员工管理
+        staffRouter.StaffFind(app);
+        staffRouter.StaffAdd(app);
+        staffRouter.StaffUpdate(app);
+        staffRouter.StaffRomove(app);
+
+         //库存管理
+        stockRouter.StockFind(app);
+        stockRouter.StockAdd(app);
+        stockRouter.StockUpdate(app);
+        stockRouter.StockRomove(app);
+
+         //上架管理
+        putawayRouter.PutawayFind(app);
+        putawayRouter.PutawayAdd(app);
+        putawayRouter.PutawayUpdate(app);
+        putawayRouter.PutawayRomove(app);
     }
 
 }

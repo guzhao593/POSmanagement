@@ -113,9 +113,8 @@ module.exports = {
                     if(error){
                 _callback({status:false, message: error});
                 } else {
-                    collection.update(_condition.origin,_condition.update);
                     _callback({status:true,data:_condition});
-                    db.close();
+                    collection.update(_condition.origin,_condition.update);
                 }
                 db.close();
             });

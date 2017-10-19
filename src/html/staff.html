@@ -1,0 +1,190 @@
+<p class="navtop clearfix">
+    <span class="title"><i class="glyphicon glyphicon-file fl"></i>员工管理</span>
+</p>
+<div class="change">
+    <button type="button" class="btn btn-success add fl">增加</button>
+    <button type="button" class="btn btn-info update fl">修改</button>
+    <button type="button" class="btn btn-primary remove fl">删除</button>
+    <div class="z-find fl">
+        <select name="" id="z-condition" class="form-control-1 fl" data-name="class">
+            <option value="staffcode">员工编号</option>
+            <option value="staffname">员工姓名</option>
+            <option value="staffgender">性别</option>
+            <option value="staffdepartment">所属部门</option>
+            <option value="staffduty">职务</option>
+            <option value="staffbirthday">出生日期</option>
+            <option value="stafftel">手机号码</option>
+            <option value="staffdate">入职时间</option>
+            <option value="staffeducation">学历</option>
+            <option value="staffstatus">状态</option>
+        </select>
+        <select name="" id="z-findclass" class="form-control-1 fl" data-name="class">
+            <option value="包含">包含</option>
+            <option value="等于">等于</option>
+            <option value="不等于">不等于</option>
+            <option value="大于">大于</option>
+            <option value="小于">小于</option>
+        </select>
+        <input type="text" class="form-control-1 z-findval fl" placeholder="查找值不能为空">
+    </div>
+    <button type="button" class="btn btn-warning select fl">查找</button>
+</div>
+<div class="tablebox">
+    <table class="z-table">
+        <thead>
+            <tr>
+                <th data-name="staffcode">员工编号</th>
+                <th data-name="staffname">员工姓名</th>
+                <th data-name="staffgender">性别</th>
+                <th data-name="staffdepartment">所属部门</th>
+                <th data-name="staffduty">职务</th>
+                <th data-name="staffbirthday">出生日期</th>
+                <th data-name="stafftel">手机号码</th>
+                <th data-name="staffdate">入职时间</th>
+                <th data-name="staffeducation">学历</th>
+                <th data-name="staffstatus">状态</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
+<div class="z-cover">
+    <div class="z-addform">
+        <div class="z-title"><i class="glyphicon glyphicon-plus"></i><span class="z-title-word">员工-新增</span><i class="glyphicon glyphicon-remove"></i></div>
+        <div class="z-content">
+            <div class="form-group fl">
+                <label for="staffcode" style="color:red;">员工编号</label>
+                <input type="text" class="form-control must" id="staffcode" data-name="staffcode">
+            </div>
+            <div class="form-group fl">
+                <label for="staffname"  style="color:red;">员工姓名</label>
+                <input type="text" class="form-control must" id="staffname" data-name="staffname">
+            </div>
+            <div class="form-group fl">
+                <label for="staffgender">性别</label>
+                <select name=""  class="form-control" id="staffgender" data-name="staffgender">
+                    <option value="男">男</option>
+                    <option value="女">女</option>
+                </select>
+            </div>
+            <div class="form-group fl">
+                <label for="staffdepartment"  style="color:red;">所属部门</label>
+                <select name="" class="form-control must" id="staffdepartment" data-name="staffdepartment">
+                    <option value="采购部">采购部</option>
+                    <option value="仓储部">仓储部</option>
+                    <option value="营业部">营业部</option>
+                    <option value="人事部">人事部</option>
+                    <option value="总经办">总经办</option>
+                </select>
+            </div>
+            <div class="form-group fl">
+                <label for="staffduty">职务</label>
+                <input type="text" class="form-control" id="staffduty" data-name="staffduty">
+            </div>
+            <div class="form-group fl">
+                <label for="staffbirthday">出生日期</label>
+                <input type="date" class="form-control" id="staffbirthday" data-name="staffbirthday">
+            </div>
+            <div class="form-group fl">
+                <label for="stafftel">手机号</label>
+                <input type="tel" class="form-control" id="stafftel" data-name="stafftel">
+            </div>
+            <div class="form-group fl">
+                <label for="staffdate">入职时间</label>
+                <input type="date" class="form-control" id="staffdate" data-name="staffdate">
+            </div>
+            <div class="form-group fl">
+                <label for="staffeducation">学历</label>
+                <input type="text" class="form-control" id="staffeducation" data-name="staffeducation">
+            </div>
+            <div class="form-group fl">
+                <label for="staffstatus">状态</label>
+                <select name=""  class="form-control" id="staffstatus" data-name="staffstatus">
+                    <option value="正常">正常</option>
+                    <option value="无效">无效</option>
+                </select>
+            </div>
+            <div class="form-group fl">
+                <label for="password">登录密码</label>
+                <input type="password" class="form-control" id="password" data-name="password">
+            </div>
+            <div class="tips">注：红色字体为必填项</div>
+        </div>
+        <div class="z-bottom">
+            <button type="button" class="btn btn-success btn-add">增加</button>
+        </div>
+    </div>
+    <div class="z-updateform">
+        <div class="z-title"><i class="glyphicon glyphicon-plus"></i><span class="z-title-word">员工-修改</span><i class="glyphicon glyphicon-remove"></i></div>
+        <div class="z-content">
+            <div class="form-group fl">
+                <label for="staffcode" style="color:red;">员工编号</label>
+                <input type="text" class="form-control must" id="staffcode" data-name="staffcode">
+            </div>
+            <div class="form-group fl">
+                <label for="staffname"  style="color:red;">员工姓名</label>
+                <input type="text" class="form-control must" id="staffname" data-name="staffname">
+            </div>
+            <div class="form-group fl">
+                <label for="staffgender">性别</label>
+                <select name=""  class="form-control" id="staffgender" data-name="staffgender">
+                    <option value="男">男</option>
+                    <option value="女">女</option>
+                </select>
+            </div>
+            <div class="form-group fl">
+                <label for="staffdepartment"  style="color:red;">所属部门</label>
+                <select name="" class="form-control must" id="staffdepartment" data-name="staffdepartment">
+                    <option value="采购部">采购部</option>
+                    <option value="仓储部">仓储部</option>
+                    <option value="营业部">营业部</option>
+                    <option value="人事部">人事部</option>
+                    <option value="总经办">总经办</option>
+                </select>
+            </div>
+            <div class="form-group fl">
+                <label for="staffduty">职务</label>
+                <input type="text" class="form-control" id="staffduty" data-name="staffduty">
+            </div>
+            <div class="form-group fl">
+                <label for="staffbirthday">出生日期</label>
+                <input type="date" class="form-control" id="staffbirthday" data-name="staffbirthday">
+            </div>
+            <div class="form-group fl">
+                <label for="stafftel">手机号</label>
+                <input type="tel" class="form-control" id="stafftel" data-name="stafftel">
+            </div>
+            <div class="form-group fl">
+                <label for="staffdate">入职时间</label>
+                <input type="date" class="form-control" id="staffdate" data-name="staffdate">
+            </div>
+            <div class="form-group fl">
+                <label for="staffeducation">学历</label>
+                <input type="text" class="form-control" id="staffeducation" data-name="staffeducation">
+            </div>
+            <div class="form-group fl">
+                <label for="staffstatus">状态</label>
+                <select name=""  class="form-control" id="staffstatus" data-name="staffstatus">
+                    <option value="正常">正常</option>
+                    <option value="无效">无效</option>
+                </select>
+            </div>
+            <div class="form-group fl">
+                <label for="password">登录密码</label>
+                <input type="password" class="form-control" id="password" data-name="password">
+            </div>
+            <div class="tips">注：红色字体为必填项</div>
+        </div>
+        <div class="z-bottom">
+            <button type="button" class="btn btn-success btn-update">修改</button>
+        </div>
+    </div>
+    <div class="z-remove">
+        <div class="z-showcode">你确认要删除[<span>000001</span>]项吗？</div>
+        <div class="z-showbtn">
+            <button type="button" class="btn btn-success  affirm">确认</button>
+            <button type="button" class="btn btn-info cancel ">取消</button>
+        </div>
+    </div>
+</div>
