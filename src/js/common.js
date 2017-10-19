@@ -168,16 +168,6 @@ define(['jquery'],function(){
                                     </tr>
                                     `).appendTo(tbody);
                         }
-                        if(response.data.length <= 10){
-                            for(var i=0;i<response.data.length;i++){
-                                insert();
-                            }
-                        }else{
-                            for(var i=0;i<10;i++){
-                                insert();
-                            }
-                        }        
-                        
                         pagul.children().off('click').on('click',function(){
                             pagul.children().each(function(){
                                 $(this).css({backgroundColor:'#31B0D5'});
@@ -204,7 +194,15 @@ define(['jquery'],function(){
                             }
                             remove(); 
                         })
-                       
+                        if(response.data.length <= 10){
+                            for(var i=0;i<response.data.length;i++){
+                                insert();
+                            }
+                        }else{
+                            for(var i=0;i<10;i++){
+                                insert();
+                            }
+                        } 
                         $('.change .btn').eq(0).click(function(){
                             $('.t-cover').show();
                             $('.z-addform').show();
@@ -270,7 +268,7 @@ define(['jquery'],function(){
                                         function insert(){
                                             var tr = $(`
                                                         <tr>
-                                                            <th>${i+1}</th>
+                                                            <th>${num}</th>
                                                             <td>${response.data[i].classify}</td>
                                                             <td>${response.data[i].code}</td>
                                                             <td>${response.data[i].barc}</td>
@@ -291,14 +289,51 @@ define(['jquery'],function(){
                                             $('#total').val(total);
                                             
                                         }
-                                        console.log(response)
+                                        console.log(response);
                                     });
                                 }
-                                
                         });
                         $('.bar #barCode').focus(function(){
                             $(this).val('');
                         });
+                        //生成售货单
+                        $('.t-create').click(function(){
+                            var arry = [];
+                            $('.tbody tr').each(function(idx){
+                                var obj = {
+                                    classify:$(this).children('td').eq(0).text(),
+                                    code:$(this).children('td').eq(1).text(),
+                                    barc:$(this).children('td').eq(2).text(),
+                                    name:$(this).children('td').eq(3).text(),
+                                    typeMode:$(this).children('td').eq(4).text(),
+                                    prov:$(this).children('td').eq(5).text(),
+                                    price:$(this).children('td').eq(6).text(),
+                                    vipPrice:$(this).children('td').eq(7).text(),
+                                    num:$(this).children('td').eq(8).text(),
+                                    addDate:$(this).children('td').eq(9).text()
+                                }
+                                arry.push(JSON.stringify(obj));
+                            });
+
+                            var listNum = $('.listnum').val() || 'LJ'+Math.ceil(Math.random()*100000);
+                            var time = (new Date()).toLocaleDateString().split('/').join('-');
+                            var list = $('.tablebox .listt')
+                            var tobj = {
+                                data:arry.join(),
+                                listNum:listNum,
+                                date:time,
+                                merber:list.eq(2).val(),
+                                salesMan:list.eq(3).val(),
+                                allPrice:$('.bar .tot').val(),
+                            } 
+
+                            $.post(base + '/billIn',tobj,function(response,data){
+                                    console.log(response);
+                            });
+                        })
+                        //生成二维码
+                        // $
+
                 });
             });
         },

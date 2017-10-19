@@ -425,24 +425,37 @@
                 }
             }
         }
-        #t-money{height:600px;width: 800px;position:relative;
-            .t-table{
-                float:left;
-                .tbody{
-                    overflow:auto;
-                    height:400px;
+        #t-money{height:580px;width:100%;position:relative;margin:0 0;
+            .navtop{width:100%;float:left;}
+            .tablebox{
+                .l-form div:nth-child(n-2){
+                    margin-left:50px;
                 }
             }
-            .bar{
+            .t-tbody{height: 340px;overflow:auto;
+                .t-table{
+                margin-left:10px;
+                .tbody{
+                    }
+                }
+            }
+            .bar{position:relative;
+                margin-left:10px;
                 text-align: center;
                 line-height: 100px;
-                width: 970px;
+                width:100%;
                 position:absolute;left:0;bottom:0;
-                height:100px;border:1px solid #DDDDDD;
+                border:1px solid #DDDDDD;
                 .flbar{margin-left:20px;}
                 #barCode{width: 200px;margin:33px 50px 0 20px;}
                 #total{width:200px;margin:33px 0 0 20px;}
+                
             }
+            .bar-cover{
+                    position:absolute;top:0px;
+                    right:0px;width:100%;background-color:rgba(0,0,0,0.4);display: none;height:560px;
+                }
+
         }
     }
 }

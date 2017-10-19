@@ -28,6 +28,7 @@ module.exports = {
         productRouter.ProductOut(app);
         productRouter.ProductRemove(app);
         productRouter.ProductUpdate(app);
+        productRouter.OrderForm(app);
         //采购管理
 
         //采购管理+进货

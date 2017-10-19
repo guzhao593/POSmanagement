@@ -172,17 +172,15 @@
         </p>
         <div class="tablebox">
           <form action="" class="l-form clearfix">
-                <div>单据号<input type="text" placeholder="自动编码" class="listnum"></div>
-                <div>单据日期<input type="text" class="gys" name="gys" placeholder="自动生成"></div>
-                <div>会员<input type="text" class="mc" name="mc"></div>
-                <div class="l-div">
-                <button type="button" class="l-create btn btn-primary fr">生成进货单</button>
-                </div>      
-               
+                <div>单据号<input type="text" placeholder="自动编码" class="listnum listt"></div>
+                <div>单据日期<input type="text" class="gys listt" name="gys" placeholder="自动生成"></div>
+                <div>会员<input type="text" class="mc listt" name="mc"></div>
+                <div>售货员<input type="text" class="mc listt" name="mc"></div>
           </form>
      
         </div>
-        <table class="t-table table-bordered">
+        <div class="t-tbody">
+            <table class="t-table table-bordered">
             <thead>
                 <tr>
                     <th>序号</th>
@@ -196,22 +194,24 @@
                     <th>会员价</th>
                     <th>数量</th>
                 </tr>
-            </thead>
-            <tbody class="tbody"></tbody>
-            <tfoot></tfoot>
-        </table>
+                </thead>
+                <tbody class="tbody"></tbody>
+                <tfoot></tfoot>
+            </table>
+        </div>
         <div class="bar">
             <div class="form-group fl">
                 <label for="barCode" class="fl flbar">商品条码</label><input type="text" class="form-control fl"  id="barCode" />
             </div>
             <div class="form-group fl">
-                <label for="total" class="fl">商品总价</label><input type="text" class="form-control fl"  id="total" />
+                <label for="total" class="fl">商品总价</label><input type="text" class="form-control fl tot"  id="total" />
             </div>
             <div class="t-div">
-                <button type="button" class="l-create btn btn-primary">生成二维码</button>
+                <button type="button" class="t-create btn btn-primary">生成二维码</button>
             </div>
-            
         </div>
+        <div class="bar-cover"></div>
+
     </div>
 </body>
 </html>
