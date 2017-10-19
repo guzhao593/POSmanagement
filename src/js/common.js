@@ -586,7 +586,7 @@ define(['jquery'],function(){
                                         code:$currentTr.children('td:nth-child(3)').text(),
                                         barc:$currentTr.children('td:nth-child(4)').text(),
                                         name:$currentTr.children('td:nth-child(5)').text(),
-                                        addNum:$currentTr.children('td:nth-child(6)').text()
+                                        num:$currentTr.children('td:nth-child(6)').text()
                                     }
                                     arr.push(obj)
                                 }

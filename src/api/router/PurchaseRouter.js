@@ -35,7 +35,7 @@ module.exports = {
         app.post('/receive',function(request,response){
             var arr = JSON.parse(request.body.data);
             // console.log(arr)
-                var num;
+                var Num;
                 for(let i=0;i<arr.length;i++){
                     var object = {barc:arr[i].barc}
                     Ndb.select('product',object,function(result){
@@ -47,11 +47,12 @@ module.exports = {
                             response.send(res)
                         })
                        }else if(result.data.length > 0){
-                         
-                            num = arr[i].addNum*1 + result.data[0].addNum*1;
+                            console.log(result.data[0].num)
+                            console.log(arr[i].num)
+                            Num = arr[i].num*1 + result.data[0].num*1;
                             // console.log(num)
                            
-                            Ndb.update('product',{origin:{barc:arr[i].barc},refresh:{addNum:num}},function(res){
+                            Ndb.update('product',{origin:{barc:arr[i].barc},refresh:{num:Num}},function(res){
                                 response.send(res)
                             })
                         }
@@ -63,6 +64,7 @@ module.exports = {
         app.post('/changestatus',function(req,res){
             console.log(req.body)
             Ndb.update('addlist',{origin:{listNum:req.body.listNum},refresh:{status:req.body.status}},function(res){
+                // console.log(res)
                 response.send(res)
             })
         })
