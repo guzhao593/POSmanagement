@@ -26,6 +26,7 @@ module.exports = {
         app.use(bodyparser.urlencoded({ extended: false }));
         app.post("/merberUpdate", function(request, response){
                 var condition = JSON.parse(request.body.update);
+                console.log(condition)
                     db.update("merber", condition, function(result){
                         response.send(result);
                     });
@@ -35,7 +36,9 @@ module.exports = {
         app.use(bodyparser.json());
         app.use(bodyparser.urlencoded({ extended: false }));
         app.post("/merberRomove", function(request, response){
-                    db.delete("merber", request.body, function(result){
+                    db.delete("merber", request.body, function(result)
+                    {
+                        console.log(request.body);
                         response.send(result);
                     });
             });

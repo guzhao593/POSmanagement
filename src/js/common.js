@@ -2,7 +2,8 @@ define(['jquery'],function(){
     return {
         baseUrl:"http://localhost:8848",
         //产品管理
-        Product:function($){
+        Product:function(){
+            var base = this.baseUrl;
             $('.probtn').click(function(){
              $('.content-right').load('html/productManagement.html #t-product',function(){
                     $('.change button').click(function(){
@@ -12,7 +13,6 @@ define(['jquery'],function(){
                         var add = $('.t-table tfoot');
                         $(this).parent().parent().clone(true,true).appendTo(add);
                         var num = $('.t-table tfoot tr').children('th').eq(0).text();
-                        console.log(num);
                         $('.t-table tfoot tr').each(function(idx,item){
                                 var td = $(item).children().first();
                                 td.text(idx+1);
@@ -29,302 +29,578 @@ define(['jquery'],function(){
                         });
                     });
 
+                    // 查询表
+                    select();
+                    function remove(){
+                            $('.t-table tbody tr').click(function(){
+                                var tr = $('.t-table tbody tr');
+                                tr.each(function(idx,item){
+                                    $(item).css({backgroundColor:''});
+                                })
+                                $(this).css({backgroundColor:'#FF6600'})
+                                if($(this).css({backgroundColor:'#FF6600'})){
+                                    var $this = this;
 
-                    //表格编辑
-                    $(function(){ 
-                        $("td").click(function(event){ 
-                        //td中已经有了input,则不需要响应点击事件
-                        if($(this).children("input").length > 0){
-                            return false;
+                                    $('.change .btn').eq(3).click(function(){
+                                         
+                                        $('.t-cover').show();
+                                        $('.z-updateform').hide();
+                                        $('.z-remove').show();
+                                        $('.z-addform').hide();
+                                        $('.glyphicon-remove').click(function(){
+                                            $('.t-cover').hide();
+                                        })
+                                        $('.z-showbtn .cancel').click(function(){
+                                            $('.t-cover').hide();
+                                        })
 
-                        } 
-                    
-                        var tdObj = $(this); 
-                        var preText = tdObj.html();
-                        //得到当前文本内容 
-                        var inputObj = $("<input type='text' />");
-                        //创建一个文本框元素 
-                        tdObj.html(""); //清空td中的所有元素 
-                        inputObj 
-                        .width(tdObj.width())
-                        //设置文本框宽度与td相同 
-                        .height(tdObj.height()) 
-                        .css({border:"0px"})
-                        .val(preText) 
-                        .appendTo(tdObj)
-                        //把创建的文本框插入到tdObj子节点的最后
-                        .trigger("focus")
-                        //用trigger方法触发事件 
-                        .trigger("select"); 
-                        inputObj.keyup(function(event){ 
-                        if(13 == event.which){
-                        //用户按下回车 
-                            var text = $(this).val(); 
-                            tdObj.html(text); 
-                        } 
-                        else if(27 == event.which){ 
-                            //ESC键 
-                            tdObj.html(preText); 
-                       } 
-                      }); 
-                      //已进入编辑状态后，不再处理click事件 
-                      inputObj.click(function(){ 
-                       return false; 
-                      }); 
-                     }); 
+                                        $('.z-showbtn .affirm').off('click').on('click',function(){
+                                            var valCode = $($this).children('td').eq(1).text();
+                                            var obj = {code:valCode}
+                                            console.log(obj);
+                                            
+                                            $.post(base + '/productRemove',obj,function(response){
+                                                $('.t-table tbody').text('');
+                                                $('.page').text('');
+                                                select();
+                                                });
+                                                $('.t-cover').hide();
+                                        
+                                        });
+                                    });
+                                }    
+                            }); 
+                        }
+                    function updata(){
+                            $('.t-table tbody tr').click(function(){
+                                var tr = $('.t-table tbody tr');
+                                tr.each(function(idx,item){
+                                    $(item).css({backgroundColor:''});
+                                })
+                                $(this).css({backgroundColor:'#FF6600'})
+                                if($(this).css({backgroundColor:'#FF6600'})){
+                                    var $this = this;
+                                    $('.change .btn').eq(1).click(function(){
+                                        $('.t-cover').show();
+                                        $('.z-updateform').show();
+                                        $('.z-addform').hide();
+                                        $('.z-remove').hide();
+                                        var td = $($this).children('td');
+                                        $('.t-cover .z-updateform .form-control').each(function(idx){
+                                                $(this).val(td.eq(idx).text());
+                                        });
+
+                                        
+                                        $('.glyphicon-remove').click(function(){
+                                            $('.t-cover').hide();
+                                        })
+
+                                        $('.t-cover .z-updateform .btn-add').off('click').on('click',function(){
+                                            var input = $('.t-cover .z-updateform .form-control');
+                                            console.log(input);
+                                            var obj = {
+                                                    classify:input.eq(0).val(),
+                                                    code:input.eq(1).val(),
+                                                    barc:input.eq(2).val(),
+                                                    name:input.eq(3).val(),
+                                                    typeMode:input.eq(4).val(),
+                                                    prov:input.eq(5).val(),
+                                                    price:input.eq(6).val(),
+                                                    vipPrice:input.eq(7).val(),
+                                                    num:input.eq(8).val(),
+                                                    addDate:input.eq(9).val()
+                                                }
+                                            if(obj.provider != '' && obj.barCode != ''&& obj.productName != ''){
+                                                console.log(td.eq(1).text());
+                                                $.post(base + '/productOut',{productCode:td.eq(1).text()},function(response,data){
+                                                        var dataObj = {};
+                                                            for(var key in response.data[0]){
+                                                                if(key != "_id"){
+                                                                    dataObj[key] = response.data[0][key];
+                                                                }
+                                                        }
+                                                        console.log(response,data);
+                                                        $.post(base + '/productUpdate',{update:JSON.stringify({origin:dataObj,update:obj})},function(response,data){
+                                                            $('.t-table tbody').text('');
+                                                            $('.page').text('');
+                                                            select();
+                                                            if(response.status){
+                                                                alert('修改成功');
+                                                            }
+                                                            console.log(response,data);
+                                                    });
+                                                });
+                                                
+                                            }  
+                                        })
+                                    });    
+                                }
+                            });
+                        }
+                    function select(){
+                        $.post(base + '/productOut',{},function(response,data){
+                        var tbody = $('.t-table tbody');
+                        var tfoot = $('.t-table tfoot');
+                        var leng = response.data.length;
+                        var page = Math.ceil(leng/10);
+                        var pagul = $('<ul/>')
+                        for(var j=0;j<page;j++){
+                            $(`<li>${j+1}</li>`).appendTo(pagul);
+                        }
+                        // $('.t-table tbody').text('');
+                        pagul.appendTo($('.page'));
+                        pagul.children().eq(0).css({backgroundColor:'#337AB7'});
+                        function insert(){
+                            var tr = $(`
+                                    <tr>
+                                        <th>${i+1}</th>
+                                        <td>${response.data[i].classify}</td>
+                                        <td>${response.data[i].code}</td>
+                                        <td>${response.data[i].barc}</td>
+                                        <td>${response.data[i].name}</td>
+                                        <td>${response.data[i].typeMode}</td>
+                                        <td>${response.data[i].prov}</td>
+                                        <td>${response.data[i].price}</td>
+                                        <td>${response.data[i].vipPrice}</td>
+                                        <td>${response.data[i].num}</td>
+                                    </tr>
+                                    `).appendTo(tbody);
+                        }
+                        if(response.data.length <= 10){
+                            for(var i=0;i<response.data.length;i++){
+                                insert();
+                            }
+                        }else{
+                            for(var i=0;i<10;i++){
+                                insert();
+                            }
+                        }        
+                        
+                        pagul.children().off('click').on('click',function(){
+                            pagul.children().each(function(){
+                                $(this).css({backgroundColor:'#31B0D5'});
+                            })
+                            $(this).css({backgroundColor:'#337AB7'});
+                            tbody.text('');
+                            var num = $(this).index();
+                               
+                            for(var i=10*num;i<10*(num+1);i++){
+                                var tr = $(`
+                                    <tr>
+                                        <th>${i+1}</th>
+                                        <td>${response.data[i].classify}</td>
+                                        <td>${response.data[i].code}</td>
+                                        <td>${response.data[i].barc}</td>
+                                        <td>${response.data[i].name}</td>
+                                        <td>${response.data[i].typeMode}</td>
+                                        <td>${response.data[i].prov}</td>
+                                        <td>${response.data[i].price}</td>
+                                        <td>${response.data[i].vipPrice}</td>
+                                        <td>${response.data[i].num}</td>
+                                    </tr>
+                                    `).appendTo(tbody);
+                            }
+                            remove(); 
+                        })
+                       
+                        $('.change .btn').eq(0).click(function(){
+                            $('.t-cover').show();
+                            $('.z-addform').show();
+                            $('.z-remove').hide();
+                            $('.z-updateform').hide();
+                            $('.glyphicon-remove').click(function(){
+                                $('.t-cover').hide();
+                            })
+                            $('.z-addform .btn-add').click(function(){
+                                var obj = {
+                                    classify:$('.z-addform .must').eq(0).val(),
+                                    code:$('.z-addform .must').eq(1).val(),
+                                    barc:$('.z-addform .must').eq(2).val(),
+                                    name:$('.z-addform .must').eq(3).val(),
+                                    typeMode:$('.z-addform .must').eq(4).val(),
+                                    prov:$('.z-addform .must').eq(5).val(),
+                                    price:$('.z-addform .must').eq(6).val(),
+                                    vipPrice:$('.z-addform .must').eq(7).val(),
+                                    num:$('.z-addform .must').eq(8).val(),
+                                    addDate:$('.z-addform .must').eq(9).val()
+                                }
+                                console.log(obj);
+                                if(obj.provider != '' && obj.barCode != ''&& obj.productName != ''){
+                                    $.post(base + '/productIn',obj,function(response,data,da){
+                                            if(response.status){
+                                                alert('添加成功');
+                                                $('.t-table tbody').text('');
+                                                $('.page').text('');
+                                                select();
+                                            }
+                                    console.log(response,data);
+                                    });
+                                }  
+                            })
+                        });
+                        $('.change .btn').eq(2).click(function(){
+                            $('.t-cover').show();
+                            $('.t-find').show();
+                            $('.z-addform').hide();
+                            $('.z-remove').hide();
+                            $('.z-updateform').hide();
+                        });
+                        updata();                        
+                        remove();  
                     });
-            });
-
-            
-            //查询表
-            $.post("http://localhost:8848/productOut",{},function(response,data){
-                var tr = $('.t-table tbody .copy');
-
-                var tfoot = $('.t-table tfoot');
-                var leng = response.data.length;
-                var page = Math.ceil(leng/10);
-                var pagul = $('<ul/>')
-                for(var j=0;j<page;j++){
-                    $(`<li>${j+1}</li>`).appendTo(pagul);
-                }
-                // $('.t-table tbody').text('');
-                pagul.appendTo($('.page'));
-                pagul.children().eq(0).css({backgroundColor:'#337AB7'});
-                function Copy(){
-                        var Tr = tr.clone(true,true)
-                        $(Tr.children('th')[0]).text(`${i+1}`)
-                        $(Tr.children('td')[0]).text(`${response.data[i].provider}`);
-                        $(Tr.children('td')[1]).text(`${response.data[i].productCode}`);
-                        $(Tr.children('td')[2]).text(`${response.data[i].barCode}`);
-                        $(Tr.children('td')[3]).text(`${response.data[i].productName}`);
-                        $(Tr.children('td')[4]).text(`${response.data[i].unitPrice}`);
-                        $(Tr.children('td')[5]).text(`${response.data[i].quantity}`);
-                        Tr.appendTo(tfoot);
                     }
-                for(var i=0;i<10;i++){
-                    Copy();
-                }
-                tr.hide();
-                pagul.children().click(function(){
-                    pagul.children().each(function(){
-                        $(this).css({backgroundColor:'#31B0D5'});
-                    })
-                    $(this).css({backgroundColor:'#337AB7'});
-                    tfoot.text('');
-                    tr.show();
-                    var num = $(this).index();
-                    for(var i=10*num;i<10*(num+1);i++){
-                        var Tr = tr.clone(true,true)
-                        $(Tr.children('th')[0]).text(`${i+1}`)
-                        $(Tr.children('td')[0]).text(`${response.data[i].provider}`);
-                        $(Tr.children('td')[1]).text(`${response.data[i].productCode}`);
-                        $(Tr.children('td')[2]).text(`${response.data[i].barCode}`);
-                        $(Tr.children('td')[3]).text(`${response.data[i].productName}`);
-                        $(Tr.children('td')[4]).text(`${response.data[i].unitPrice}`);
-                        $(Tr.children('td')[5]).text(`${response.data[i].quantity}`);
-                        Tr.appendTo(tfoot);
-                }
-                    tr.hide();
-                })
-
-                console.log(response.data.length,data);
-
-
-                $('.change .btn').eq(0).click(function(){
-                    $.post("http://localhost:8848/productIn",{provider:'ee1qq',
-                        productCode:3,
-                        barCode:998283,
-                        productName:3,
-                        unitPrice:2,
-                        quantity:2
-                    },function(response,data,da){
-                        console.log(666);
-                        console.log(response,data);
-                    var addBtn = $('.t-table')
-                    console.log(addBtn);
-                    });            
-                })
-
+                                  
+                });
+                
             });
-
+        },
+        //收银管理
+        Money:function(){
+            var base = this.baseUrl;
+            $('.moneyBtn').click(function(){
+                $('.content-right').load('html/productManagement.html #t-money',function(){
+                        var num = 0;
+                        $('.bar #barCode').blur(function(event) {
+                                if($(this).val()){
+                                    $.post(base + '/productOut',{code:$(this).val()},function(response,data){
+                                        if(response.data.length>0){
+                                            num++;
+                                        }
+                                        function insert(){
+                                            var tr = $(`
+                                                        <tr>
+                                                            <th>${i+1}</th>
+                                                            <td>${response.data[i].classify}</td>
+                                                            <td>${response.data[i].code}</td>
+                                                            <td>${response.data[i].barc}</td>
+                                                            <td>${response.data[i].name}</td>
+                                                            <td>${response.data[i].typeMode}</td>
+                                                            <td>${response.data[i].prov}</td>
+                                                            <td>${response.data[i].price}</td>
+                                                            <td>${response.data[i].vipPrice}</td>
+                                                            <td>${response.data[i].num}</td>
+                                                        </tr>
+                                                        `).appendTo($('.tbody'));
+                                        }
+                                        // var total=0;
+                                        for(var i=0;i<response.data.length;i++){
+                                            insert();
+                                            var total = + response.data[i].price*1;
+                                            console.log(total,response.data[i].price); 
+                                            $('#total').val(total);
+                                            
+                                        }
+                                        console.log(response)
+                                    });
+                                }
+                                
+                        });
+                        $('.bar #barCode').focus(function(){
+                            $(this).val('');
+                        });
+                });
             });
         },
         //采购管理
         addlist:function(){
             var self = this;
             $('.addlist').click(function(){
-                // var aim = $(this).attr('data-main')
+
                 $('.content-right').load('../html/addtable.html',function(){
-                     $('.tablebox .l-table').on('click','td',function(){
-
-                        if(this == $(this).parent().children()[0] || this == $(this).parent().children()[1]){
-                            return false;
-                        }
-
-                        if($(this).find('input').length == 0){
-                            var $input = $('<input/>').text($(this).text());
-                            $(this).text('')
-                            $(this).append($input);
-                            $input.focus();
-                            //失去焦点时删除input 保留数据
-                            $input.blur(function(){
-                                $(this).parent().text($(this).val())
-                                // $(this).remove();
-                            })
-                        }
-                   })
+                    showtab();
                      //增
                     $('.l-add').click(function(){
-                        var lineNum = $('.l-table').children().children('tr:last-child').children('td:first-child').text();
-                    
-                         var $tr = $('<tr/>').html(`<td>${Number(lineNum)+1}</td><td><i class="glyphicon glyphicon-plus addtr"></i><i class="glyphicon glyphicon-remove deltr"></i></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>`).addClass(`t${Number(lineNum)+1}`);
-                            $('.l-table').append($tr);
-                    })
+                        $('.tablebox').load('../html/tablebox.html',function(){
 
-                   
-                       //动态生成表格
-                    $('.l-table').on('click','.addtr',function(){
-                        var lineNum = $(this).parent().parent().parent().children('tr:last-child').children('td:first-child').text();
-                        var $tr = $('<tr/>').html(
-                            `<td>${Number(lineNum)+1}</td>
-                            <td><i class="glyphicon glyphicon-plus addtr"></i><i class="glyphicon glyphicon-remove deltr"></i></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>`
-                            ).addClass('t'+ (Number(lineNum)+1));
-                                $('.l-table').append($tr);
-                    }).on('click','.deltr',function(){
-                        $(this).parent().parent().remove();
-
-                        });
-                    //生成进货单
-                    $('.l-create').click(function(){
-                        var listNum = $('.listnum').val() || 'LJ'+Math.ceil(Math.random()*100000);
-                        var nowTime = new Date();
-                        year =  nowTime.getFullYear();
-                        months = nowTime.getMonth();
-                        day = nowTime.getDate();
-                        time = year + '-' + months + '-' + day;
-                        console.log(time);
-                        var trs = $('.l-table').find('tbody').children().length-1;
-                        
-                        var arr = [];
-                        for(var i=1;i<=trs;i++){
-                            var $currentTr = $('.t'+i);
-                            
-                            var obj = {
-                                rank:$currentTr.children('td:nth-child(1)').text(),
-                                prov:$currentTr.children('td:nth-child(3)').text(),
-                                code:$currentTr.children('td:nth-child(4)').text(),
-                                barc:$currentTr.children('td:nth-child(5)').text(),
-                                name:$currentTr.children('td:nth-child(6)').text(),
-                                price:$currentTr.children('td:nth-child(7)').text(),
-                                num:$currentTr.children('td:nth-child(8)').text(),
-                                all:$currentTr.children('td:nth-child(9)').text()
-                            }   
-                            console.log($currentTr.children('td:nth-child(1)').text());
-                            arr.push(JSON.stringify(obj));
-                        }
-                        console.log(arr);
-                        var tab = {listNum:listNum,data:arr.join()};
-                        
-
-                        $.post(self.baseUrl+'/addlist',tab,function(response){
-                            
-                            if(response.status == true){
-                                alert('进货单已生成,单号为:'+listNum)
-                            }
-                        })
-                    })
-                    
-                    //查看进货单
-                    $('.l-find').click(function(){
-                        $.get(self.baseUrl+'/listOut',function(response){
-    
-                            var $thead = $('<thead/>').html(`<th>序号</th>
-                                                        <th>单据状态</th>
-                                                        <th>单据号</th>
-                                                        <th>采购员</th>
-                                                        <th>采购金额</th>
-                                                        <th>单据日期</th>`);
-                            var $table = $('<table/>').addClass('list').append($thead)
-                            for(var i=1;i<=response.data.length;i++){
-    
+                               //动态生成表格
+                            $('.l-table').on('click','.addtr',function(){
+                                var lineNum = $(this).parent().parent().parent().children('tr:last-child').children('td:first-child').text();
                                 var $tr = $('<tr/>').html(
-                                    `<td>${i}</td>
-                                    <td><span class="label label-info">进货</span></td>
-                                    <td class="click"><a>${response.data[i-1].listNum}</a></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>`
-                                    )
-                                $table.append($tr)
-                            }
-                            $('.tablebox').html('').append($table)
+                                    `<td>${Number(lineNum)+1}</td>
+                                    <td><i class="glyphicon glyphicon-plus addtr"></i><i class="glyphicon glyphicon-remove deltr"></i></td>
+                                    <td data-name="prov"></td>
+                                    <td data-name="code"></td>
+                                    <td data-name="barc"></td>
+                                    <td data-name="name"></td>
+                                    <td data-name="price" class="pri"></td>
+                                    <td class="number"></td>
+                                    <td class="all"></td>`
+                                    ).addClass('t'+ (Number(lineNum)+1));
+                                        $('.l-table').append($tr);
 
-                            //点击tr高亮
-                            $('.list').on('click','tr',function(){
-                                $('.list').children().removeClass('selector')
-                                $(this).addClass('selector');
-                            })
-                            // 删
-                            $('.l-del').off('click').on('click',function(){
-                                console.log($('.selector .click').text())
-                                var listNum = $('.selector .click').text()
-                                $.post(self.baseUrl+'/tableDel',{listNum:listNum},function(result){
-                                    console.log(result)
-                                }) 
-                            })
+                            }).on('click','.deltr',function(){
+                                $(this).parent().parent().remove();
 
-                            
-                            //点击单号跳到单据页面
-                            $('.click').click(function(){
-                                var listNum = $(this).text();
-                               
-                                 for(var i=0;i<response.data.length;i++){
-                                    if(response.data[i].listNum == listNum){
-                                     
-                                      var str ="["+ response.data[i].data + "]";
-                                      var arr = JSON.parse(str)
+                                });
+
+                                //可编辑表格
+                                $('.tablebox .l-table').on('click','td',function(){
+
+                                    if(this == $(this).parent().children()[0] || this == $(this).parent().children()[1]){
+                                        return false;
+                                    }
+
+                                    if($(this).find('input').length == 0){
+                                        var $input = $('<input/>').text($(this).text());
+                                        $(this).text('')
+                                        $(this).append($input);
+                                        $input.focus();
+                                        //失去焦点时删除input 保留数据
+                                        $input.blur(function(){
+                                            $(this).parent().text($(this).val())
+                                           
+                                        })
+                                    }
+                               })
+
+                                //生成进货单
+                                $('.l-create').click(function(){
+                                    var listNum = $('.listnum').val() || 'LJ'+Math.ceil(Math.random()*100000);
+
+                                    var nowTime = new Date();
+                                    year =  nowTime.getFullYear();
+                                    months = nowTime.getMonth();
+                                    day = nowTime.getDate();
+                                    time = year + '-' + months + '-' + day;
+                                    console.log(time);
+
+                                    var buyMan = $('.buy-man').val() || '未写入';
+                                    var allPrice = $('.allPrice').val() || '未写入';
+
+                                    var trs = $('.l-table').find('tbody').children().length-1;
+                                    
+                                    var arr = [];
+                                    for(var i=1;i<=trs;i++){
+                                        var $currentTr = $('.t'+i);
+                                        
+                                        var obj = {
+                                            rank:$currentTr.children('td:nth-child(1)').text(),
+                                            prov:$currentTr.children('td:nth-child(3)').text(),
+                                            code:$currentTr.children('td:nth-child(4)').text(),
+                                            barc:$currentTr.children('td:nth-child(5)').text(),
+                                            name:$currentTr.children('td:nth-child(6)').text(),
+                                            price:$currentTr.children('td:nth-child(7)').text(),
+                                            num:$currentTr.children('td:nth-child(8)').text(),
+                                            all:$currentTr.children('td:nth-child(9)').text()
+                                        }   
+                                       console.log(obj)
+                                        arr.push(JSON.stringify(obj));
+                                    }
+                                    var tab = {listNum:listNum,date:time,buyMan:buyMan,allPrice:allPrice,status:'0',data:arr.join()};
+                                    console.log(tab);
                                     
 
-                                        var $tab = $('<table/>').html(
-                                            `<tr>
-                                                <th></th>
-                                                <th>供应商</th>
-                                                <th>商品编码</th>
-                                                <th>商品条码</th>
-                                                <th>商品名称</th>
-                                                <th>批发价</th>
-                                                <th>数量</th>
-                                                <th>总计</th>
-                                            </tr>`
-                                            ).addClass('l-tab')
-                                        for(var j=0;j<arr.length;j++){
-                                            
-                                            $tr = $('<tr/>');
-                                            $rank = $('<td/>').html(arr[j].rank)
-                                            $prov = $('<td>').html(arr[j].prov)
-                                            $code = $('<td>').html(arr[j].code)
-                                            $barc = $('<td>').html(arr[j].barc)
-                                            $name = $('<td/>').html(arr[j].name)
-                                            $price = $('<td>').html(arr[j].price)
-                                            $num = $('<td>').html(arr[j].num)
-                                            $all = $('<td>').html(arr[j].all)
-                                            $tr.append($rank,$prov,$code,$barc,$name,$price,$num,$all)
-                                            $tab.append($tr)
+                                    $.post(self.baseUrl+'/addlist',tab,function(response){
+                                        
+                                        if(response.status == true){
+                                            alert('进货单已生成,单号为:'+listNum)
                                         }
-                                        $('.tablebox').html('');
-                                        $('.tablebox').append($tab)
-                                    }
-                                 }
-                            })
+                                    })
+                                })
+                                
                         })
                     })
+
+                    //查看进货单
+                    $('.l-find').click(function(){
+                        showtab();
+
+                    })
+                    
+                    function showtab(){
+                        $.get(self.baseUrl+'/listOut',function(response){
+                        console.log(response)
+                        var $thead = $('<thead/>').html(`<th></th>
+                                                    <th>单据状态</th>
+                                                    <th>单据号</th>
+                                                    <th>采购员</th>
+                                                    <th>采购金额</th>
+                                                    <th>单据日期</th>
+                                                    <th></th>`);
+                        var $table = $('<table/>').addClass('list').append($thead)
+                        var status;
+                        
+                        for(var i=1;i<=response.data.length;i++){
+
+                            if(response.data[i-1].status == '0'){
+                                status = "进货";
+
+                                
+                            }else if(response.data[i-1].status == '1'){
+                                status = '入库'
+    
+                            }
+
+
+                            var $tr = $('<tr/>').html(
+                                `<td>${i}</td>
+                                <td><span class="gb label label-info">${status}</span></td>
+                                <td class="click"><a>${response.data[i-1].listNum}</a></td>
+                                <td>${response.data[i-1].buyMan}</td>
+                                <td>${response.data[i-1].allPrice}</td>
+                                <td>${response.data[i-1].date}</td>
+                                <td><button class="btn btn-info receive">收货</button></td>`
+                                )
+                            $table.append($tr)
+                        }
+                        $('.tablebox').html('').append($table)
+
+                        //点击tr高亮
+                        $('.list').on('click','tr',function(){
+                            $('.list').children().removeClass('selector')
+                            $(this).addClass('selector');
+                        })
+                        // 删
+                        $('.l-del').off('click').on('click',function(){
+                         
+                            var listNum = $('.selector .click').text()
+                            console.log(listNum)
+                            $.post(self.baseUrl+'/tableDel',{listNum:listNum},function(result){
+                                console.log(result)
+                            }) 
+                            $('.selector .click').parent().remove()
+                        })
+
+                        
+                        //点击单号跳到单据页面
+                        $('.click').click(function(){
+                            var listNum = $(this).text();
+                            var h2 = $('<h3/>').html('进货单'+listNum)
+                             for(var i=0;i<response.data.length;i++){
+                                if(response.data[i].listNum == listNum){
+                                 
+                                  var str ="["+ response.data[i].data + "]";
+                                  var arr = JSON.parse(str)
+                                
+
+                                    var $tab = $('<table/>').html(
+                                        `<tr>
+                                            <th></th>
+                                            <th>供应商</th>
+                                            <th>商品编码</th>
+                                            <th>商品条码</th>
+                                            <th>商品名称</th>
+                                            <th>批发价</th>
+                                            <th>数量</th>
+                                            <th>总计</th>
+                                        </tr>`
+                                        ).addClass('l-tab')
+                                    for(var j=0;j<arr.length;j++){
+                                        
+                                        $tr = $('<tr/>');
+                                        $rank = $('<td/>').html(arr[j].rank)
+                                        $prov = $('<td>').html(arr[j].prov)
+                                        $code = $('<td>').html(arr[j].code)
+                                        $barc = $('<td>').html(arr[j].barc)
+                                        $name = $('<td/>').html(arr[j].name)
+                                        $price = $('<td>').html(arr[j].price)
+                                        $num = $('<td>').html(arr[j].num)
+                                        $all = $('<td>').html(arr[j].all)
+                                        $tr.append($rank,$prov,$code,$barc,$name,$price,$num,$all)
+                                        $tab.append($tr)
+                                    }
+                                    $('.tablebox').html('');
+                                    $('.tablebox').append(h2,$tab)
+                                }
+                             }
+                        })
+
+                        //生成收货单
+                        $('.receive').click(function(){
+                            var listNum = $(this).parent().parent().find('.click').text();
+                            var h2 = $('<h3/>').html('收货单'+listNum)
+                            var button = $('<button/>').html('确认收货').addClass('btn btn-info inWarehouse').css({'margin-left':'672px','margin-top':10});
+                            for(var i=0;i<response.data.length;i++){
+                                if(response.data[i].listNum == listNum){
+                                 
+                                  var str ="["+ response.data[i].data + "]";
+                                  var arr = JSON.parse(str)
+                                
+
+                                    var $tab = $('<table/>').html(
+                                        `<tr>
+                                            <th></th>
+                                            <th>供应商</th>
+                                            <th>商品编码</th>
+                                            <th>商品条码</th>
+                                            <th>商品名称</th>
+                                            <th>实收数量</th>
+                                        </tr>`
+                                        ).addClass('l-tab')
+                                    for(var j=0;j<arr.length;j++){
+                                        
+                                        $tr = $('<tr/>').addClass('t'+(j+1));
+                                        $rank = $('<td/>').html(arr[j].rank)
+                                        $prov = $('<td>').html(arr[j].prov)
+                                        $code = $('<td>').html(arr[j].code)
+                                        $barc = $('<td>').html(arr[j].barc)
+                                        $name = $('<td/>').html(arr[j].name)
+                                        $num = $('<td>').html(arr[j].num)
+                                        $tr.append($rank,$prov,$code,$barc,$name,$num)
+                                        $tab.append($tr)
+                                    }
+                                    $('.tablebox').html('');
+                                    $('.tablebox').append(h2,$tab,button)
+                                }
+                             }
+
+                            //编辑实收数量
+                            $('.tablebox .l-tab').on('click','td',function(){
+                                // console.log(66)
+                                var td = $(this).parent().children('td:last-child').get(0)
+                                
+                                if(this == td){
+                                  
+                                    if($(this).find('input').length == 0){
+                                        var $input = $('<input/>').text($(this).text()).css({'width':50,'outline':'none','border':'none'});
+                                        $(this).text('')
+                                        $(this).append($input)
+                                        $input.focus();
+                                        //失去焦点时删除input 保留数据
+                                        $input.blur(function(){
+                                            $(this).parent().text($(this).val())
+                                           
+                                        })
+
+                                    }
+                                }
+
+                           })
+
+                            //收货入库
+                            $('.inWarehouse').click(function(){
+                                console.log(response)
+                                var nowlist;
+                                $.post(self.baseUrl+'/changestatus',{listNum:listNum,status:'1'},function(res){
+                                    console.log(res)
+                                })
+                            
+                                var trs = $('.l-tab').children().length-1;
+                                var arr = [];
+                                for(var i=0;i<trs;i++){
+                                    var $currentTr = $('.t'+(i+1));
+                                    var obj = {
+                                        rank:$currentTr.children('td:nth-child(1)').text(),
+                                        prov:$currentTr.children('td:nth-child(2)').text(),
+                                        code:$currentTr.children('td:nth-child(3)').text(),
+                                        barc:$currentTr.children('td:nth-child(4)').text(),
+                                        name:$currentTr.children('td:nth-child(5)').text(),
+                                        num:$currentTr.children('td:nth-child(6)').text()
+                                    }
+                                    arr.push(obj)
+                                }
+                                console.log(JSON.stringify(arr))
+                                $.post(self.baseUrl+'/receive',{data:JSON.stringify(arr)},function(result){
+                                    console.log(result.status)
+                                    if(result.status == true){
+                                        alert('商品已入库')
+                                    }
+                                })
+                            });
+
+                        })
+                    })
+                }
                 })
 
             })
@@ -687,6 +963,27 @@ define(['jquery'],function(){
                 return false;
             });
         },
+        //判断用户是否登录
+        issign:function(){
+            var cookies = document.cookie.split('; ');
+            var token = '';
+            cookies.forEach(function(item){
+              var temp = item.split('=');
+              if(temp[0] == 'token'){
+                token = temp[1];
+              }
+            });
+            $.ajax({
+              type: 'post',
+              url: `${this.baseUrl}/index`,
+              headers: {'Authorization': token},
+              success: function(response){
+                if(response.status ==false || response == undefined ){
+                  location.href = '../login.html'
+                }
+              }
+            })
+        },
         //库存管理
         stock:function(){
             var $this = this;
@@ -769,7 +1066,7 @@ define(['jquery'],function(){
                             res.data.forEach(function(item){
                                 var tr = $('<tr/>');
                                 for( var key in item){
-                                    if(key != "_id" && key != "password"){
+                                    if(key != "_id" && key != "price" && key != "vipPrice" && key != "addDate" && key !="quantity"){
                                         $('<td/>').text(item[key]).attr('data-name',key).appendTo(tr);
                                     }else{
                                         tr.attr('data-id',item[key]);
@@ -778,7 +1075,7 @@ define(['jquery'],function(){
                             tr.appendTo($('.z-table tbody'));
                             });
                         } else {
-                            $('.z-table tbody').html(`<tr><td>查询数据为空</td></tr>`);
+                            $('.z-table tbody').html(`<tr><td colSpan="7">查询数据为空</td></tr>`);
                         }
                     });
                     return this;
@@ -953,7 +1250,7 @@ define(['jquery'],function(){
                             res.data.forEach(function(item){
                                 var tr = $('<tr/>');
                                 for( var key in item){
-                                    if(key != "_id" && key != "password"){
+                                    if(key != "_id" && key != "price" && key != "vipPrice" && key != "addDate" && key !="quantity"){
                                         $('<td/>').text(item[key]).attr('data-name',key).appendTo(tr);
                                     }else{
                                         tr.attr('data-id',item[key]);
@@ -1003,7 +1300,6 @@ define(['jquery'],function(){
                         });
                     })
                 },
-                //删除数据
                 //下架
                 outaway:function(){
                     var self = this;

@@ -1,29 +1,14 @@
 require(['config'],function(){
     require(['jquery','common','bootstrap'],function($,com){
-        var baseUrl = com.baseUrl;
-        var cookies = document.cookie.split('; ');
-        var token = '';
-        cookies.forEach(function(item){
-          var temp = item.split('=');
-          if(temp[0] == 'token'){
-            token = temp[1];
-          }
-        });
-        $.ajax({
-          type: 'post',
-          url: `${baseUrl}/index`,
-          headers: {'Authorization': token},
-          success: function(response){
-            if(response.status ==false || response == undefined ){
-              location.href = '../login.html'
-            }
-          }
-        })
+        //是否登录
+        com.issign();
         //产品管理
-        com.Product($);
+        com.Product();
+        //收银管理
+        com.Money();
         //进货单
         com.addlist();
-        //点击会员管理按纽
+        //点击菜单按纽
         $('.navlist').on('click','li',function(){
           //点击会员管理按纽
           if($(this).hasClass('merber')){
@@ -33,9 +18,6 @@ require(['config'],function(){
                   com.merber();
               }); 
           }
-        })
-        //点击员工管理按纽
-        $('.navlist').on('click','li',function(){
           //点击员工管理按纽
           if($(this).hasClass('staff')){
                //点击员工管理按纽加载员工管理页面
@@ -44,9 +26,6 @@ require(['config'],function(){
                   com.staff();
               }); 
           }
-        })
-        //点击库存管理按纽
-        $('.navlist').on('click','li',function(){
           //点击库存管理按纽
           if($(this).hasClass('stock')){
                //点击库存管理按纽加载库存管理页面
@@ -55,9 +34,6 @@ require(['config'],function(){
                   com.stock();
               }); 
           }
-        })
-        //点击上架管理按纽
-        $('.navlist').on('click','li',function(){
           //点击上架管理按纽
           if($(this).hasClass('putawaygoods')){
                //点击上架管理按纽加载上架管理页面

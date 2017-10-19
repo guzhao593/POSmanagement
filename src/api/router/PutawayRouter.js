@@ -15,7 +15,7 @@ module.exports = {
                 } else {
                     request.body.quantity = request.body.quantity*1 + result.data[0].quantity*1;
                     var condition = {origin:result.data[0],update:request.body}
-                    newdb.update("putaway", condition, function(result){
+                    newdb.Zupdate("putaway", condition, function(result){
                         console.log(result);
                         response.send(result);
                     });
