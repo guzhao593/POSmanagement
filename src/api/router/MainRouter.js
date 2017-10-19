@@ -29,9 +29,13 @@ module.exports = {
         productRouter.ProductRemove(app);
         productRouter.ProductUpdate(app);
         //采购管理
+
+        //采购管理+进货
         purchaseRouter.GoodsIn(app);
         purchaseRouter.ListOut(app);
         purchaseRouter.TableDel(app);
+        purchaseRouter.Receive(app);
+        purchaseRouter.ChangeStatus(app);
 
         //会员管理
         merberRouter.MerberFind(app);

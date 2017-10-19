@@ -1,12 +1,11 @@
 require(['config'],function(){
     require(['jquery','common','bootstrap'],function($,com){
+        var baseUrl = com.baseUrl;
         //产品管理
         com.Product();
         com.Money();
         //进货单
         com.addlist();
-        // var baseUrl = com.baseUrl;
-        
         //点击会员管理按纽
         $('.navlist').on('click','li',function(){
           //点击会员管理按纽
