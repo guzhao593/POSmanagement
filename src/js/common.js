@@ -254,14 +254,14 @@ define(['jquery'],function(){
                 
             });
         },
-        Money:function(){
+        Money:function(jq){
             var base = this.baseUrl;
             $('.moneyBtn').click(function(){
                 $('.content-right').load('html/productManagement.html #t-money',function(){
                         var num = 0;
                         $('.bar #barCode').blur(function(event) {
                                 if($(this).val()){
-                                    $.post(base + '/productOut',{code:$(this).val()},function(response,data){
+                                    $.post(base + '/productOut',{barc:$(this).val()},function(response,data){
                                         if(response.data.length>0){
                                             num++;
                                         }
@@ -326,13 +326,17 @@ define(['jquery'],function(){
                                 salesMan:list.eq(3).val(),
                                 allPrice:$('.bar .tot').val(),
                             } 
-
+                           
                             $.post(base + '/billIn',tobj,function(response,data){
                                     console.log(response);
                             });
+
+                            //生成二维码
+                                $('#qrcode').qrcode("http://10.3.131.37:666/html/prcode.html");
+                                $('.bar-cover').show();
                         })
-                        //生成二维码
-                        // $
+                        
+                        
 
                 });
             });
