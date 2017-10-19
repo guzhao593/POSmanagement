@@ -26,6 +26,7 @@ module.exports = {
         app.use(bodyparser.urlencoded({ extended: false }));
         app.post("/merberUpdate", function(request, response){
                 var condition = JSON.parse(request.body.update);
+                console.log(condition)
                     db.update("merber", condition, function(result){
                         response.send(result);
                     });

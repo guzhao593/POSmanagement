@@ -13,7 +13,6 @@ module.exports = {
                 } else if(result.data.length > 0){
                     response.send({status:false, message:"当前用户已存在"});
                 } else {
-                    console.log(request.body);
                     db.insert("user", request.body, function(result){
                         response.send(result);
                     });
@@ -23,4 +22,5 @@ module.exports = {
         app.post("/login", function(requset, response){
         });
     }
+
 }
