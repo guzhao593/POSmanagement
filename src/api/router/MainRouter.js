@@ -6,6 +6,7 @@ var purchaseRouter = require('./PurchaseRouter.js');
 
 var merberRouter = require("./MerberRouter.js");
 
+var orderformRouter = require("./OrderForm.js");
 module.exports = {
     Register: function(app){
         // //跨域
@@ -36,6 +37,9 @@ module.exports = {
         purchaseRouter.TableDel(app);
         purchaseRouter.Receive(app);
         purchaseRouter.ChangeStatus(app);
+
+        //订单管理
+        orderformRouter.OrderOut(app);
 
         //会员管理
         merberRouter.MerberFind(app);

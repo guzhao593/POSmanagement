@@ -58,12 +58,12 @@ define(['jquery'],function(){
                                             var obj = {code:valCode}
                                             console.log(obj);
                                             
-                                            $.post(base + '/productRemove',obj,function(response){
+                                            $.post(base + '/productRemove',obj,function(result){
                                                 $('.t-table tbody').text('');
                                                 $('.page').text('');
                                                 select();
 
-                                                console.log(response);
+                                                console.log(result);
                                             });
                                             $('.t-cover').hide();
                                         
@@ -763,6 +763,91 @@ define(['jquery'],function(){
                 }
             }
             return Merber.init();
+        },
+        order:function(){
+            var self = this
+            var Order = {
+                init:function(){
+                    $.post(self.baseUrl+'/orderout',function(result){
+                        console.log(result)
+                        var $thead = $('<thead/>').html(`<th></th>
+                                                    <th>单据状态</th>
+                                                    <th>单据号</th>
+                                                    <th>售货员</th>
+                                                    <th>成交金额</th>
+                                                    <th>单据日期</th>
+                                                    `);
+                        var $table = $('<table/>').addClass('list').append($thead)
+                            for(var i=1;i<=result.data.length;i++){
+                            // if(response.data[i-1].status == '0'){
+                            //     status = "进货";
+
+                                
+                            // }else if(response.data[i-1].status == '1'){
+                            //     status = '入库'
+    
+                            // }
+                            var $tr = $('<tr/>').html(
+                                `<td>${i}</td>
+                                <td><span class="gb label label-info">出库</span></td>
+                                <td class="click"><a>${result.data[i-1].listNum}</a></td>
+                                <td>${result.data[i-1].salesMan}</td>
+                                <td>${result.data[i-1].allPrice}</td>
+                                <td>${result.data[i-1].date}</td>
+                                `
+                                )
+                            $table.append($tr)
+                        }
+                        $('.tablebox').html('').append($table)
+                        //点击单号跳到单据页面
+                        //
+                        $('.click').click(function(){
+
+                            var listNum = $(this).text();
+                            var h2 = $('<h3/>').html('订单'+listNum)
+                            for(var i=0;i<result.data.length;i++){
+                                if(result.data[i].listNum == listNum){
+                                 
+                                  var str ="["+ result.data[i].data + "]";
+                                  var arr = JSON.parse(str)
+                                
+
+                                    var $tab = $('<table/>').html(
+                                        `<tr>
+                                            <th></th>
+                                            <th>供应商</th>
+                                            <th>商品编码</th>
+                                            <th>商品条码</th>
+                                            <th>商品名称</th>
+                                            <th>批发价</th>
+                                            <th>数量</th>
+                                            <th>总计</th>
+                                        </tr>`
+                                        ).addClass('l-tab')
+                                    for(var j=0;j<arr.length;j++){
+                                        
+                                        $tr = $('<tr/>');
+                                        $rank = $('<td/>').html(j)
+                                        $prov = $('<td>').html(arr[j].prov)
+                                        $code = $('<td>').html(arr[j].code)
+                                        $barc = $('<td>').html(arr[j].barc)
+                                        $name = $('<td/>').html(arr[j].name)
+                                        $price = $('<td>').html(arr[j].price)
+                                        $num = $('<td>').html(arr[j].num)
+                                        // $all = $('<td>').html(arr[j].all)
+                                        $tr.append($rank,$prov,$code,$barc,$name,$price,$num)
+                                        $tab.append($tr)
+                                    }
+                                    $('.tablebox').html('');
+                                    $('.tablebox').append(h2,$tab)
+                                }
+                             }
+                        })
+                    })
+                }
+
+            }
+            return Order.init();
         }
     }
 
