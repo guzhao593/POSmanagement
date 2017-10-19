@@ -134,15 +134,15 @@
 
 .content .content-right .t-table tbody tr:hover { background-color: #EEEEEE; }
 
-.content .content-right .t-table tbody tr th { text-align: center; width: 120px; height: 38px; }
+.content .content-right .t-table tbody tr th { text-align: center; width: 90px; height: 38px; }
 
 .content .content-right .t-table tbody tr th .add { color: #449D44; margin-right: 10px; }
 
 .content .content-right .t-table tbody tr th .remove { color: #C9302C; }
 
-.content .content-right .t-table tbody tr td { text-align: center; width: 120px; height: 38px; }
+.content .content-right .t-table tbody tr th:first-child { widows: 80px; }
 
-.content .content-right .t-table tbody tr td input { border: none; width: 120px; height: 38px; text-align: center; }
+.content .content-right .t-table tbody tr td { text-align: center; width: 90px; height: 38px; }
 
 .content .content-right .t-table tfoot tr:hover { background-color: #EEEEEE; }
 
@@ -163,3 +163,53 @@
 .content .content-right .page ul li { float: left; width: 30px; height: 30px; background-color: #31B0D5; margin-right: 10px; line-height: 30px; text-align: center; }
 
 .content .content-right .page ul li:last-child { margin-right: 50px; }
+
+.content .content-right #t-product { height: 560px; position: relative; }
+
+.content .content-right #t-product .t-cover { position: absolute; top: 0px; right: 0px; width: 100%; background-color: rgba(0, 0, 0, 0.4); display: none; height: 560px; }
+
+.content .content-right #t-product .t-cover .z-addform, .content .content-right #t-product .t-cover .z-updateform { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); height: 500px; width: 700px; background-color: #fff; border: 1px solid #ccc; }
+
+.content .content-right #t-product .t-cover .z-addform .z-title, .content .content-right #t-product .t-cover .z-updateform .z-title { height: 50px; line-height: 50px; font-size: 14px; border-bottom: 1px solid #ccc; color: #478fca; text-indent: 5px; width: 100%; position: relative; }
+
+.content .content-right #t-product .t-cover .z-addform .z-title .glyphicon-remove, .content .content-right #t-product .t-cover .z-updateform .z-title .glyphicon-remove { position: absolute; right: 10px; font-size: 20px; top: 50%; transform: translateY(-50%); color: #ccc; }
+
+.content .content-right #t-product .t-cover .z-addform .z-title .glyphicon-remove:hover, .content .content-right #t-product .t-cover .z-updateform .z-title .glyphicon-remove:hover { color: #666; }
+
+.content .content-right #t-product .t-cover .z-addform .z-content, .content .content-right #t-product .t-cover .z-updateform .z-content { margin: 10px; border: 1px solid #ccc; padding: 10px 20px; height: 380px; position: relative; }
+
+.content .content-right #t-product .t-cover .z-addform .z-content .form-group, .content .content-right #t-product .t-cover .z-updateform .z-content .form-group { margin-right: 20px; }
+
+.content .content-right #t-product .t-cover .z-addform .z-content .form-group .form-control, .content .content-right #t-product .t-cover .z-updateform .z-content .form-group .form-control { width: 215px; display: inline-block; }
+
+.content .content-right #t-product .t-cover .z-addform .z-content .form-group label, .content .content-right #t-product .t-cover .z-updateform .z-content .form-group label { width: 70px; }
+
+.content .content-right #t-product .t-cover .z-addform .z-content .tips, .content .content-right #t-product .t-cover .z-updateform .z-content .tips { position: absolute; bottom: 10px; right: 20px; color: red; }
+
+.content .content-right #t-product .t-cover .z-addform .z-bottom, .content .content-right #t-product .t-cover .z-updateform .z-bottom { border-top: 1px solid #ccc; height: 48px; background-color: #eff3f8; }
+
+.content .content-right #t-product .t-cover .z-addform .z-bottom .btn-success, .content .content-right #t-product .t-cover .z-updateform .z-bottom .btn-success { float: right; margin-top: 7px; margin-right: 10px; width: 80px; border-radius: 0px; }
+
+.content .content-right #t-product .t-cover .z-remove { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); height: 150px; width: 100%; background-color: #333; display: none; }
+
+.content .content-right #t-product .t-cover .z-remove .z-showcode { height: 30px; color: #ddd; font-size: 16px; text-align: center; margin-top: 30px; }
+
+.content .content-right #t-product .t-cover .z-remove .z-showbtn { height: 30px; text-align: center; margin-top: 20px; }
+
+.content .content-right #t-product .t-cover .z-remove .z-showbtn .btn { margin-right: 10px; width: 80px; height: 35px; border-radius: 0px; font-size: 16px; }
+
+.content .content-right #t-product .t-cover .t-find { display: none; }
+
+.content .content-right #t-money { height: 600px; width: 800px; position: relative; }
+
+.content .content-right #t-money .t-table { float: left; }
+
+.content .content-right #t-money .t-table .tbody { overflow: auto; height: 400px; }
+
+.content .content-right #t-money .bar { text-align: center; line-height: 100px; width: 970px; position: absolute; left: 0; bottom: 0; height: 100px; border: 1px solid #DDDDDD; }
+
+.content .content-right #t-money .bar .flbar { margin-left: 20px; }
+
+.content .content-right #t-money .bar #barCode { width: 200px; margin: 33px 50px 0 20px; }
+
+.content .content-right #t-money .bar #total { width: 200px; margin: 33px 0 0 20px; }

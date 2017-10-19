@@ -22,32 +22,196 @@
             <thead>
                 <tr>
                     <th>序号</th>
-                    <th>操作</th>
-                    <th>供应商</th>
+                    <th>商品分类</th>
                     <th>商品编码</th>
                     <th>商品条码</th>
                     <th>商品名称</th>
+                    <th>型号规格</th>
+                    <th>供应商</th>
                     <th>单价</th>
+                    <th>会员价</th>
                     <th>数量</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr class="copy">
-                    <th>1</th>
-                    <th><i class="glyphicon glyphicon-plus add"></i><i class="glyphicon glyphicon-remove remove"></i></th>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-            </tbody>
-            <tfoot>
-                
-            </tfoot>
+            <tbody class="tbody"></tbody>
+            <tfoot></tfoot>
         </table>
         <div class="page"></div>
+        <div class="t-cover">
+            <div class="z-addform">
+                <div class="z-title"><i class="glyphicon glyphicon-plus"></i><span class="z-title-word">产品-新增</span><i class="glyphicon glyphicon-remove"></i></div>
+                <div class="z-content">
+                    <div class="form-group fl">
+                        <label for="classify" style="color:red;">商品分类</label>
+                        <input type="text" class="form-control must" id="classify" data-name="code">
+                    </div>
+                    <div class="form-group fl">
+                        <label for="productCode">商品编码</label>
+                        <input type="text" class="form-control must" id="productCode" data-name="card">
+                    </div>
+                    <div class="form-group fl">
+                        <label for="barCode"  style="color:red;">商品条码</label><input type="text" class="form-control must"  id="barCode" />
+                    </div>
+                    <div class="form-group fl">
+                        <label for="productName"  style="color:red;">商品名称</label>
+                        <input type="text" class="form-control must must" id="productName" data-name="name">
+                    </div>
+                    <div class="form-group fl">
+                        <label for="total">型号规格</label>
+                        <input type="text" class="form-control must" id="total" total-name="total">
+                    </div>
+                    <div class="form-group fl">
+                        <label for="provider" style="color:red;">供应商</label>
+                        <input type="text" class="form-control must" id="provider" data-name="code">
+                    </div>
+                    <div class="form-group fl">
+                        <label for="price">单价</label>
+                        <input type="text" class="form-control must" id="price" price-name="tel">
+                    </div>
+                    <div class="form-group fl">
+                        <label for="price">会员价</label>
+                        <input type="text" class="form-control must" id="price" price-name="tel">
+                    </div>
+                    <div class="form-group fl">
+                        <label for="qty">数量</label>
+                        <input type="text" class="form-control must" id="qty" qty-name="qty">
+                    </div>
+                    <div class="form-group fl">
+                        <label for="mdate">添加日期</label>
+                        <input type="date" class="form-control must" id="mdate" data-name="date">
+                    </div>
+                    <div class="tips">注：红色字体为必填项</div>
+                </div>
+                <div class="z-bottom">
+                    <button type="button" class="btn btn-success btn-add">增加</button>
+                </div>
+            </div>
+            <div class="z-updateform" style="display:none;">
+                <div class="z-title"><i class="glyphicon glyphicon-plus"></i><span class="z-title-word">产品-修改</span><i class="glyphicon glyphicon-remove"></i></div>
+                <div class="z-content">
+                    <div class="form-group fl">
+                        <label for="classify" style="color:red;">商品分类</label>
+                        <input type="text" class="form-control must" id="classify" data-name="code">
+                    </div>
+                    <div class="form-group fl">
+                        <label for="productCode">商品编码</label>
+                        <input type="text" class="form-control" id="productCode" data-name="card">
+                    </div>
+                    <div class="form-group fl">
+                        <label for="barCode"  style="color:red;">商品条码</label><input type="text" class="form-control"  id="barCode" />
+                    </div>
+                    <div class="form-group fl">
+                        <label for="productName"  style="color:red;">商品名称</label>
+                        <input type="text" class="form-control must" id="productName" data-name="name">
+                    </div>
+                    <div class="form-group fl">
+                        <label for="total">型号规格</label>
+                        <input type="text" class="form-control" id="total" total-name="total">
+                    </div>
+                    <div class="form-group fl">
+                        <label for="provider" style="color:red;">供应商</label>
+                        <input type="text" class="form-control must" id="provider" data-name="code">
+                    </div>
+                    <div class="form-group fl">
+                        <label for="price">单价</label>
+                        <input type="text" class="form-control" id="price" price-name="tel">
+                    </div>
+                    <div class="form-group fl">
+                        <label for="price">会员价</label>
+                        <input type="text" class="form-control" id="price" price-name="tel">
+                    </div>
+                    <div class="form-group fl">
+                        <label for="qty">数量</label>
+                        <input type="text" class="form-control" id="qty" qty-name="qty">
+                    </div>
+                    <div class="form-group fl">
+                        <label for="mdate">添加日期</label>
+                        <input type="date" class="form-control" id="mdate" data-name="date">
+                    </div>
+                    <div class="tips">注：红色字体为必填项</div>
+                </div>
+                <div class="z-bottom">
+                    <button type="button" class="btn btn-success btn-add">修改</button>
+                </div>
+            </div>
+            <div class="z-remove">
+                <div class="z-showcode">你确认要删除[<span>000001</span>]项吗？</div>
+                <div class="z-showbtn">
+                        <button type="button" class="btn btn-success  affirm">确认</button>
+                        <button type="button" class="btn btn-info cancel ">取消</button>
+                </div>
+            </div>
+            <div class="t-find fl">
+                <select name="sle" id="z-condition" class="form-control-1 fl" data-name="class">
+                    <option value="code">会员编号</option>
+                    <option value="name">会员姓名</option>
+                    <option value="class">会员类型</option>
+                    <option value="gender">性别</option>
+                    <option value="card">卡号</option>
+                    <option value="tel">手机号</option>
+                    <option value="birthday">生日</option>
+                    <option value="date">办理日期</option>
+                    <option value="integral">积分</option>
+                    <option value="consume">累计消费</option>
+                    <option value="status">状态</option>
+                </select>
+                <select name="" id="z-findclass" class="form-control-1 fl" data-name="class">
+                    <option value="包含">包含</option>
+                    <option value="等于">等于</option>
+                    <option value="不等于">不等于</option>
+                    <option value="大于">大于</option>
+                    <option value="小于">小于</option>
+                </select>
+                <input type="text" class="form-control-1 z-findval fl" placeholder="查找值不能为空">
+            </div>
+        </div>   
+    </div>
+    <div id="t-money">
+        <p class="navtop clearfix">
+            <span class="title"><i class="glyphicon glyphicon-file fl"></i>收银管理</span>
+        </p>
+        <div class="tablebox">
+          <form action="" class="l-form clearfix">
+                <div>单据号<input type="text" placeholder="自动编码" class="listnum"></div>
+                <div>单据日期<input type="text" class="gys" name="gys" placeholder="自动生成"></div>
+                <div>会员<input type="text" class="mc" name="mc"></div>
+                <div class="l-div">
+                <button type="button" class="l-create btn btn-primary fr">生成进货单</button>
+                </div>      
+               
+          </form>
+     
+        </div>
+        <table class="t-table table-bordered">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>商品分类</th>
+                    <th>商品编码</th>
+                    <th>商品条码</th>
+                    <th>商品名称</th>
+                    <th>型号规格</th>
+                    <th>供应商</th>
+                    <th>单价</th>
+                    <th>会员价</th>
+                    <th>数量</th>
+                </tr>
+            </thead>
+            <tbody class="tbody"></tbody>
+            <tfoot></tfoot>
+        </table>
+        <div class="bar">
+            <div class="form-group fl">
+                <label for="barCode" class="fl flbar">商品条码</label><input type="text" class="form-control fl"  id="barCode" />
+            </div>
+            <div class="form-group fl">
+                <label for="total" class="fl">商品总价</label><input type="text" class="form-control fl"  id="total" />
+            </div>
+            <div class="t-div">
+                <button type="button" class="l-create btn btn-primary">生成二维码</button>
+            </div>
+            
+        </div>
     </div>
 </body>
 </html>

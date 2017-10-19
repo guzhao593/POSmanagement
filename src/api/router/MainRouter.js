@@ -26,7 +26,8 @@ module.exports = {
         //产品管理
         productRouter.ProductIn(app);
         productRouter.ProductOut(app);
-
+        productRouter.ProductRemove(app);
+        productRouter.ProductUpdate(app);
         //采购管理
         purchaseRouter.GoodsIn(app);
         purchaseRouter.ListOut(app);

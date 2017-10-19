@@ -1,7 +1,8 @@
 define(['jquery'],function(){
     return {
         baseUrl:"http://localhost:8848",
-        Product:function($){
+        Product:function(){
+            var base = this.baseUrl;
             $('.probtn').click(function(){
              $('.content-right').load('html/productManagement.html #t-product',function(){
                     $('.change button').click(function(){
@@ -11,7 +12,6 @@ define(['jquery'],function(){
                         var add = $('.t-table tfoot');
                         $(this).parent().parent().clone(true,true).appendTo(add);
                         var num = $('.t-table tfoot tr').children('th').eq(0).text();
-                        console.log(num);
                         $('.t-table tfoot tr').each(function(idx,item){
                                 var td = $(item).children().first();
                                 td.text(idx+1);
@@ -28,136 +28,278 @@ define(['jquery'],function(){
                         });
                     });
 
+                    // 查询表
+                    select();
+                    function remove(){
+                            $('.t-table tbody tr').click(function(){
+                                var tr = $('.t-table tbody tr');
+                                tr.each(function(idx,item){
+                                    $(item).css({backgroundColor:''});
+                                })
+                                $(this).css({backgroundColor:'#FF6600'})
+                                if($(this).css({backgroundColor:'#FF6600'})){
+                                    var $this = this;
 
-                    //表格编辑
-                    $(function(){ 
-                        $("td").click(function(event){ 
-                        //td中已经有了input,则不需要响应点击事件
-                        if($(this).children("input").length > 0){
-                            return false;
+                                    $('.change .btn').eq(3).click(function(){
+                                         
+                                        $('.t-cover').show();
+                                        $('.z-updateform').hide();
+                                        $('.z-remove').show();
+                                        $('.z-addform').hide();
+                                        $('.glyphicon-remove').click(function(){
+                                            $('.t-cover').hide();
+                                        })
+                                        $('.z-showbtn .cancel').click(function(){
+                                            $('.t-cover').hide();
+                                        })
 
-                        } 
-                    
-                        var tdObj = $(this); 
-                        var preText = tdObj.html();
-                        //得到当前文本内容 
-                        var inputObj = $("<input type='text' />");
-                        //创建一个文本框元素 
-                        tdObj.html(""); //清空td中的所有元素 
-                        inputObj 
-                        .width(tdObj.width())
-                        //设置文本框宽度与td相同 
-                        .height(tdObj.height()) 
-                        .css({border:"0px"})
-                        .val(preText) 
-                        .appendTo(tdObj)
-                        //把创建的文本框插入到tdObj子节点的最后
-                        .trigger("focus")
-                        //用trigger方法触发事件 
-                        .trigger("select"); 
-                        inputObj.keyup(function(event){ 
-                        if(13 == event.which){
-                        //用户按下回车 
-                            var text = $(this).val(); 
-                            tdObj.html(text); 
-                        } 
-                        else if(27 == event.which){ 
-                            //ESC键 
-                            tdObj.html(preText); 
-                       } 
-                      }); 
-                      //已进入编辑状态后，不再处理click事件 
-                      inputObj.click(function(){ 
-                       return false; 
-                      }); 
-                     }); 
+                                        $('.z-showbtn .affirm').off('click').on('click',function(){
+                                            var valCode = $($this).children('td').eq(1).text();
+                                            var obj = {code:valCode}
+                                            console.log(obj);
+                                            
+                                            $.post(base + '/productRemove',obj,function(response){
+                                                $('.t-table tbody').text('');
+                                                $('.page').text('');
+                                                select();
+
+                                                console.log(response);
+                                            });
+                                            $('.t-cover').hide();
+                                        
+                                    });
+                                    });
+
+                                }    
+                            }); 
+                        }
+                    function updata(){
+                            $('.t-table tbody tr').click(function(){
+                                var tr = $('.t-table tbody tr');
+                                tr.each(function(idx,item){
+                                    $(item).css({backgroundColor:''});
+                                })
+                                $(this).css({backgroundColor:'#FF6600'})
+                                if($(this).css({backgroundColor:'#FF6600'})){
+                                    var $this = this;
+                                    $('.change .btn').eq(1).click(function(){
+                                        $('.t-cover').show();
+                                        $('.z-updateform').show();
+                                        $('.z-addform').hide();
+                                        $('.z-remove').hide();
+                                        var td = $($this).children('td');
+                                        $('.t-cover .z-updateform .form-control').each(function(idx){
+                                                $(this).val(td.eq(idx).text());
+                                        });
+
+                                        
+                                        $('.glyphicon-remove').click(function(){
+                                            $('.t-cover').hide();
+                                        })
+
+                                        $('.t-cover .z-updateform .btn-add').off('click').on('click',function(){
+                                            var input = $('.t-cover .z-updateform .form-control');
+                                            console.log(input);
+                                            var obj = {
+                                                    classify:input.eq(0).val(),
+                                                    code:input.eq(1).val(),
+                                                    barc:input.eq(2).val(),
+                                                    name:input.eq(3).val(),
+                                                    typeMode:input.eq(4).val(),
+                                                    prov:input.eq(5).val(),
+                                                    price:input.eq(6).val(),
+                                                    vipPrice:input.eq(7).val(),
+                                                    num:input.eq(8).val(),
+                                                    addDate:input.eq(9).val()
+                                                }
+                                            if(obj.provider != '' && obj.barCode != ''&& obj.productName != ''){
+                                                console.log(td.eq(1).text());
+                                                $.post(base + '/productOut',{productCode:td.eq(1).text()},function(response,data){
+                                                        var dataObj = {};
+                                                            for(var key in response.data[0]){
+                                                                if(key != "_id"){
+                                                                    dataObj[key] = response.data[0][key];
+                                                                }
+                                                        }
+                                                        console.log(response,data);
+                                                        $.post(base + '/productUpdate',{update:JSON.stringify({origin:dataObj,update:obj})},function(response,data){
+                                                            $('.t-table tbody').text('');
+                                                            $('.page').text('');
+                                                            select();
+                                                            if(response.status){
+                                                                alert('修改成功');
+                                                            }
+                                                            console.log(response,data);
+                                                    });
+                                                });
+                                                
+                                            }  
+                                        })
+                                    });    
+                                }
+                            });
+                        }
+                    function select(){
+                        $.post(base + '/productOut',{},function(response,data){
+                        var tbody = $('.t-table tbody');
+                        var tfoot = $('.t-table tfoot');
+                        var leng = response.data.length;
+                        var page = Math.ceil(leng/10);
+                        var pagul = $('<ul/>')
+                        for(var j=0;j<page;j++){
+                            $(`<li>${j+1}</li>`).appendTo(pagul);
+                        }
+                        // $('.t-table tbody').text('');
+                        pagul.appendTo($('.page'));
+                        pagul.children().eq(0).css({backgroundColor:'#337AB7'});
+                        function insert(){
+                            var tr = $(`
+                                    <tr>
+                                        <th>${i+1}</th>
+                                        <td>${response.data[i].classify}</td>
+                                        <td>${response.data[i].code}</td>
+                                        <td>${response.data[i].barc}</td>
+                                        <td>${response.data[i].name}</td>
+                                        <td>${response.data[i].typeMode}</td>
+                                        <td>${response.data[i].prov}</td>
+                                        <td>${response.data[i].price}</td>
+                                        <td>${response.data[i].vipPrice}</td>
+                                        <td>${response.data[i].num}</td>
+                                    </tr>
+                                    `).appendTo(tbody);
+                        }
+                        if(response.data.length <= 10){
+                            for(var i=0;i<response.data.length;i++){
+                                insert();
+                            }
+                        }else{
+                            for(var i=0;i<10;i++){
+                                insert();
+                            }
+                        }        
+                        
+                        pagul.children().off('click').on('click',function(){
+                            pagul.children().each(function(){
+                                $(this).css({backgroundColor:'#31B0D5'});
+                            })
+                            $(this).css({backgroundColor:'#337AB7'});
+                            tbody.text('');
+                            var num = $(this).index();
+                               
+                            for(var i=10*num;i<10*(num+1);i++){
+                                var tr = $(`
+                                    <tr>
+                                        <th>${i+1}</th>
+                                        <td>${response.data[i].classify}</td>
+                                        <td>${response.data[i].code}</td>
+                                        <td>${response.data[i].barc}</td>
+                                        <td>${response.data[i].name}</td>
+                                        <td>${response.data[i].typeMode}</td>
+                                        <td>${response.data[i].prov}</td>
+                                        <td>${response.data[i].price}</td>
+                                        <td>${response.data[i].vipPrice}</td>
+                                        <td>${response.data[i].num}</td>
+                                    </tr>
+                                    `).appendTo(tbody);
+                            }
+                            remove(); 
+                        })
+                       
+                        $('.change .btn').eq(0).click(function(){
+                            $('.t-cover').show();
+                            $('.z-addform').show();
+                            $('.z-remove').hide();
+                            $('.z-updateform').hide();
+                            $('.glyphicon-remove').click(function(){
+                                $('.t-cover').hide();
+                            })
+                            $('.z-addform .btn-add').click(function(){
+                                var obj = {
+                                    classify:$('.z-addform .must').eq(0).val(),
+                                    code:$('.z-addform .must').eq(1).val(),
+                                    barc:$('.z-addform .must').eq(2).val(),
+                                    name:$('.z-addform .must').eq(3).val(),
+                                    typeMode:$('.z-addform .must').eq(4).val(),
+                                    prov:$('.z-addform .must').eq(5).val(),
+                                    price:$('.z-addform .must').eq(6).val(),
+                                    vipPrice:$('.z-addform .must').eq(7).val(),
+                                    num:$('.z-addform .must').eq(8).val(),
+                                    addDate:$('.z-addform .must').eq(9).val()
+                                }
+                                console.log(obj);
+                                if(obj.provider != '' && obj.barCode != ''&& obj.productName != ''){
+                                    $.post(base + '/productIn',obj,function(response,data,da){
+                                            if(response.status){
+                                                alert('添加成功');
+                                                $('.t-table tbody').text('');
+                                                $('.page').text('');
+                                                select();
+                                            }
+                                    console.log(response,data);
+                                    });
+                                }  
+                            })
+                        });
+                        $('.change .btn').eq(2).click(function(){
+                            $('.t-cover').show();
+                            $('.t-find').show();
+                            $('.z-addform').hide();
+                            $('.z-remove').hide();
+                            $('.z-updateform').hide();
+                        });
+                        updata();                        
+                        remove();  
                     });
-            });
-
-            // $.post("http://localhost:8848/productIn",{provider:'ee1qq',
-            //     productCode:3,
-            //     barCode:998283,
-            //     productName:3,
-            //     unitPrice:2,
-            //     quantity:2
-            // },function(response,data,da){
-            //     console.log(666);
-            //     console.log(response,data);
-            // var addBtn = $('.t-table')
-            // console.log(addBtn);
-            // });
-            
-            //查询表
-            $.post("http://localhost:8848/productOut",{},function(response,data){
-                var tr = $('.t-table tbody .copy');
-
-                var tfoot = $('.t-table tfoot');
-                var leng = response.data.length;
-                var page = Math.ceil(leng/10);
-                var pagul = $('<ul/>')
-                for(var j=0;j<page;j++){
-                    $(`<li>${j+1}</li>`).appendTo(pagul);
-                }
-                // $('.t-table tbody').text('');
-                pagul.appendTo($('.page'));
-                pagul.children().eq(0).css({backgroundColor:'#337AB7'});
-                function Copy(){
-                        var Tr = tr.clone(true,true)
-                        $(Tr.children('th')[0]).text(`${i+1}`)
-                        $(Tr.children('td')[0]).text(`${response.data[i].provider}`);
-                        $(Tr.children('td')[1]).text(`${response.data[i].productCode}`);
-                        $(Tr.children('td')[2]).text(`${response.data[i].barCode}`);
-                        $(Tr.children('td')[3]).text(`${response.data[i].productName}`);
-                        $(Tr.children('td')[4]).text(`${response.data[i].unitPrice}`);
-                        $(Tr.children('td')[5]).text(`${response.data[i].quantity}`);
-                        Tr.appendTo(tfoot);
                     }
-                for(var i=0;i<10;i++){
-                    Copy();
-                }
-                tr.hide();
-                pagul.children().click(function(){
-                    pagul.children().each(function(){
-                        $(this).css({backgroundColor:'#31B0D5'});
-                    })
-                    $(this).css({backgroundColor:'#337AB7'});
-                    tfoot.text('');
-                    tr.show();
-                    var num = $(this).index();
-                    for(var i=10*num;i<10*(num+1);i++){
-                        var Tr = tr.clone(true,true)
-                        $(Tr.children('th')[0]).text(`${i+1}`)
-                        $(Tr.children('td')[0]).text(`${response.data[i].provider}`);
-                        $(Tr.children('td')[1]).text(`${response.data[i].productCode}`);
-                        $(Tr.children('td')[2]).text(`${response.data[i].barCode}`);
-                        $(Tr.children('td')[3]).text(`${response.data[i].productName}`);
-                        $(Tr.children('td')[4]).text(`${response.data[i].unitPrice}`);
-                        $(Tr.children('td')[5]).text(`${response.data[i].quantity}`);
-                        Tr.appendTo(tfoot);
-                }
-                    tr.hide();
-                })
-
-                console.log(response.data.length,data);
-
-
-                $('.change .btn').eq(0).click(function(){
-                    $.post("http://localhost:8848/productIn",{provider:'ee1qq',
-                        productCode:3,
-                        barCode:998283,
-                        productName:3,
-                        unitPrice:2,
-                        quantity:2
-                    },function(response,data,da){
-                        console.log(666);
-                        console.log(response,data);
-                    var addBtn = $('.t-table')
-                    console.log(addBtn);
-                    });            
-                })
-
+                                  
+                });
+                
             });
-
+        },
+        Money:function(){
+            var base = this.baseUrl;
+            $('.moneyBtn').click(function(){
+                $('.content-right').load('html/productManagement.html #t-money',function(){
+                        var num = 0;
+                        $('.bar #barCode').blur(function(event) {
+                                if($(this).val()){
+                                    $.post(base + '/productOut',{code:$(this).val()},function(response,data){
+                                        if(response.data.length>0){
+                                            num++;
+                                        }
+                                        function insert(){
+                                            var tr = $(`
+                                                        <tr>
+                                                            <th>${i+1}</th>
+                                                            <td>${response.data[i].classify}</td>
+                                                            <td>${response.data[i].code}</td>
+                                                            <td>${response.data[i].barc}</td>
+                                                            <td>${response.data[i].name}</td>
+                                                            <td>${response.data[i].typeMode}</td>
+                                                            <td>${response.data[i].prov}</td>
+                                                            <td>${response.data[i].price}</td>
+                                                            <td>${response.data[i].vipPrice}</td>
+                                                            <td>${response.data[i].num}</td>
+                                                        </tr>
+                                                        `).appendTo($('.tbody'));
+                                        }
+                                        // var total=0;
+                                        for(var i=0;i<response.data.length;i++){
+                                            insert();
+                                            var total = + response.data[i].price*1;
+                                            console.log(total,response.data[i].price); 
+                                            $('#total').val(total);
+                                            
+                                        }
+                                        console.log(response)
+                                    });
+                                }
+                                
+                        });
+                        $('.bar #barCode').focus(function(){
+                            $(this).val('');
+                        });
+                });
             });
         },
         addlist:function(){

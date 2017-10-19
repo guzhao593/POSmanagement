@@ -35,7 +35,9 @@ module.exports = {
         app.use(bodyparser.json());
         app.use(bodyparser.urlencoded({ extended: false }));
         app.post("/merberRomove", function(request, response){
-                    db.delete("merber", request.body, function(result){
+                    db.delete("merber", request.body, function(result)
+                    {
+                        console.log(request.body);
                         response.send(result);
                     });
             });

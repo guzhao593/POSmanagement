@@ -115,6 +115,7 @@ module.exports = {
                 } else {
                     collection.update(_condition.origin,_condition.update);
                     _callback({status:true,data:_condition});
+                    console.log(_condition);
                     db.close();
                 }
                 db.close();
