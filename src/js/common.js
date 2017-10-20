@@ -168,16 +168,6 @@ define(['jquery'],function(){
                                     </tr>
                                     `).appendTo(tbody);
                         }
-                        if(response.data.length <= 10){
-                            for(var i=0;i<response.data.length;i++){
-                                insert();
-                            }
-                        }else{
-                            for(var i=0;i<10;i++){
-                                insert();
-                            }
-                        }        
-                        
                         pagul.children().off('click').on('click',function(){
                             pagul.children().each(function(){
                                 $(this).css({backgroundColor:'#31B0D5'});
@@ -204,7 +194,15 @@ define(['jquery'],function(){
                             }
                             remove(); 
                         })
-                       
+                        if(response.data.length <= 10){
+                            for(var i=0;i<response.data.length;i++){
+                                insert();
+                            }
+                        }else{
+                            for(var i=0;i<10;i++){
+                                insert();
+                            }
+                        } 
                         $('.change .btn').eq(0).click(function(){
                             $('.t-cover').show();
                             $('.z-addform').show();
@@ -263,14 +261,14 @@ define(['jquery'],function(){
                         var num = 0;
                         $('.bar #barCode').blur(function(event) {
                                 if($(this).val()){
-                                    $.post(base + '/productOut',{code:$(this).val()},function(response,data){
+                                    $.post(base + '/productOut',{barc:$(this).val()},function(response,data){
                                         if(response.data.length>0){
                                             num++;
                                         }
                                         function insert(){
                                             var tr = $(`
                                                         <tr>
-                                                            <th>${i+1}</th>
+                                                            <th>${num}</th>
                                                             <td>${response.data[i].classify}</td>
                                                             <td>${response.data[i].code}</td>
                                                             <td>${response.data[i].barc}</td>
@@ -291,14 +289,59 @@ define(['jquery'],function(){
                                             $('#total').val(total);
                                             
                                         }
-                                        console.log(response)
+                                        console.log(response);
                                     });
                                 }
-                                
                         });
                         $('.bar #barCode').focus(function(){
                             $(this).val('');
                         });
+                        //生成售货单
+                        $('.t-create').click(function(){
+                            var arry = [];
+                            $('.tbody tr').each(function(idx){
+                                var obj = {
+                                    classify:$(this).children('td').eq(0).text(),
+                                    code:$(this).children('td').eq(1).text(),
+                                    barc:$(this).children('td').eq(2).text(),
+                                    name:$(this).children('td').eq(3).text(),
+                                    typeMode:$(this).children('td').eq(4).text(),
+                                    prov:$(this).children('td').eq(5).text(),
+                                    price:$(this).children('td').eq(6).text(),
+                                    vipPrice:$(this).children('td').eq(7).text(),
+                                    num:$(this).children('td').eq(8).text(),
+                                    addDate:$(this).children('td').eq(9).text()
+                                }
+                                arry.push(JSON.stringify(obj));
+                            });
+
+                            var listNum = $('.listnum').val() || 'LJ'+Math.ceil(Math.random()*100000);
+                            var time = (new Date()).toLocaleDateString().split('/').join('-');
+                            var list = $('.tablebox .listt')
+                            var tobj = {
+                                data:arry.join(),
+                                listNum:listNum,
+                                date:time,
+                                merber:list.eq(2).val(),
+                                salesMan:list.eq(3).val(),
+                                allPrice:$('.bar .tot').val(),
+                            } 
+
+                            $.post(base + '/billIn',tobj,function(response,data){
+                                    
+                            });
+                        })
+                        //生成二维码
+                        // $
+                        //打印小票
+                        $('.t-create').click(function(){
+                            console.log(666)
+                            $.post("http://10.3.131.33:81/print", {text: "JR 超市收银系统  \n*************************************\n商品名称：香烟\n单品金额：100 元 \n商品数量：10 条\n总金额：1000 元\n买单时间：2017-08-15 10:53:19\n*************************************\n"}, function(res){
+                                console.log(res)
+                            })
+
+                        })
+
                 });
             });
         },
@@ -770,81 +813,98 @@ define(['jquery'],function(){
                 init:function(){
                     $.post(self.baseUrl+'/orderout',function(result){
                         console.log(result)
-                        var $thead = $('<thead/>').html(`<th></th>
-                                                    <th>单据状态</th>
-                                                    <th>单据号</th>
-                                                    <th>售货员</th>
-                                                    <th>成交金额</th>
-                                                    <th>单据日期</th>
-                                                    `);
-                        var $table = $('<table/>').addClass('list').append($thead)
-                            for(var i=1;i<=result.data.length;i++){
-                            // if(response.data[i-1].status == '0'){
-                            //     status = "进货";
+                        showtab()
+                        function showtab(){
+                            var $thead = $('<thead/>').html(`<th></th>
+                                                        <th>单据状态</th>
+                                                        <th>单据号</th>
+                                                        <th>售货员</th>
+                                                        <th>成交金额</th>
+                                                        <th>单据日期</th>
+                                                        `);
+                            var $table = $('<table/>').addClass('list').append($thead)
+                                for(var i=1;i<=result.data.length;i++){
+        
+                                var $tr = $('<tr/>').html(
+                                    `<td>${i}</td>
+                                    <td><span class="gb label label-info">出库</span></td>
+                                    <td class="click"><a>${result.data[i-1].listNum}</a></td>
+                                    <td>${result.data[i-1].salesMan}</td>
+                                    <td>${result.data[i-1].allPrice}</td>
+                                    <td>${result.data[i-1].date}</td>
+                                    `
+                                    )
+                                $table.append($tr)
+                            }
+                            $('.tablebox').html('').append($table)
+                            //点击单号跳到单据页面
+                            $('.click').click(function(){
 
-                                
-                            // }else if(response.data[i-1].status == '1'){
-                            //     status = '入库'
-    
-                            // }
-                            var $tr = $('<tr/>').html(
-                                `<td>${i}</td>
-                                <td><span class="gb label label-info">出库</span></td>
-                                <td class="click"><a>${result.data[i-1].listNum}</a></td>
-                                <td>${result.data[i-1].salesMan}</td>
-                                <td>${result.data[i-1].allPrice}</td>
-                                <td>${result.data[i-1].date}</td>
-                                `
-                                )
-                            $table.append($tr)
-                        }
-                        $('.tablebox').html('').append($table)
-                        //点击单号跳到单据页面
-                        //
-                        $('.click').click(function(){
+                                var listNum = $(this).text();
+                                var h2 = $('<h3/>').html('订单'+listNum)
+                                for(var i=0;i<result.data.length;i++){
+                                    if(result.data[i].listNum == listNum){
+                                     
+                                      var str ="["+ result.data[i].data + "]";
+                                      var arr = JSON.parse(str)
+                                    
 
-                            var listNum = $(this).text();
-                            var h2 = $('<h3/>').html('订单'+listNum)
-                            for(var i=0;i<result.data.length;i++){
-                                if(result.data[i].listNum == listNum){
-                                 
-                                  var str ="["+ result.data[i].data + "]";
-                                  var arr = JSON.parse(str)
-                                
-
-                                    var $tab = $('<table/>').html(
-                                        `<tr>
-                                            <th></th>
-                                            <th>供应商</th>
-                                            <th>商品编码</th>
-                                            <th>商品条码</th>
-                                            <th>商品名称</th>
-                                            <th>批发价</th>
-                                            <th>数量</th>
-                                            <th>总计</th>
-                                        </tr>`
-                                        ).addClass('l-tab')
-                                    for(var j=0;j<arr.length;j++){
-                                        
-                                        $tr = $('<tr/>');
-                                        $rank = $('<td/>').html(j)
-                                        $prov = $('<td>').html(arr[j].prov)
-                                        $code = $('<td>').html(arr[j].code)
-                                        $barc = $('<td>').html(arr[j].barc)
-                                        $name = $('<td/>').html(arr[j].name)
-                                        $price = $('<td>').html(arr[j].price)
-                                        $num = $('<td>').html(arr[j].num)
-                                        // $all = $('<td>').html(arr[j].all)
-                                        $tr.append($rank,$prov,$code,$barc,$name,$price,$num)
-                                        $tab.append($tr)
+                                        var $tab = $('<table/>').html(
+                                            `<tr>
+                                                <th></th>
+                                                <th>供应商</th>
+                                                <th>商品编码</th>
+                                                <th>商品条码</th>
+                                                <th>商品名称</th>
+                                                <th>批发价</th>
+                                                <th>数量</th>
+                                                <th>总计</th>
+                                            </tr>`
+                                            ).addClass('l-tab')
+                                        for(var j=0;j<arr.length;j++){
+                                            
+                                            $tr = $('<tr/>');
+                                            $rank = $('<td/>').html(j)
+                                            $prov = $('<td>').html(arr[j].prov)
+                                            $code = $('<td>').html(arr[j].code)
+                                            $barc = $('<td>').html(arr[j].barc)
+                                            $name = $('<td/>').html(arr[j].name)
+                                            $price = $('<td>').html(arr[j].price)
+                                            $num = $('<td>').html(arr[j].num)
+                                            // $all = $('<td>').html(arr[j].all)
+                                            $tr.append($rank,$prov,$code,$barc,$name,$price,$num)
+                                            $tab.append($tr)
+                                        }
+                                        $('.tablebox').html('');
+                                        $('.tablebox').append(h2,$tab)
                                     }
-                                    $('.tablebox').html('');
-                                    $('.tablebox').append(h2,$tab)
-                                }
-                             }
+                                 }
+                            })
+
+                            $('.list').on('click','tr',function(){
+                              
+                                $('.list').children().removeClass('selector')
+                                $(this).addClass('selector');
+                            })
+                            // 删
+                            $('.l-del').off('click').on('click',function(){
+                             
+                                var listNum = $('.selector .click').text()
+                                console.log(listNum)
+                                $.post(self.baseUrl+'/orderdele',{listNum:listNum},function(result){
+                                    console.log(result)
+                                }) 
+                                $('.selector .click').parent().remove()
+                            })
+                        }
+                        //查看
+                        $('.l-find').click(function(){
+                            showtab();
                         })
                     })
+                
                 }
+                
 
             }
             return Order.init();

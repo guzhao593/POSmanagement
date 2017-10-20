@@ -29,6 +29,7 @@ module.exports = {
         productRouter.ProductOut(app);
         productRouter.ProductRemove(app);
         productRouter.ProductUpdate(app);
+        productRouter.OrderForm(app);
         //采购管理
 
         //采购管理+进货
@@ -40,7 +41,7 @@ module.exports = {
 
         //订单管理
         orderformRouter.OrderOut(app);
-
+        orderformRouter.OrderDele(app);
         //会员管理
         merberRouter.MerberFind(app);
         merberRouter.MerberAdd(app);

@@ -9,35 +9,24 @@ module.exports = {
             db.select("product", {barCode:request.body.barCode}, function(result){
                 if(!result.status){
                     response.send(result);
-                }
-                // else if(result.data.barCode == request.body.barCode){
-                //         console.log(666);
-                //         response.send({status:false, message:"当前用户已存在"})
-                //     }
-                    else{
-                        console.log(666)
+                }else{
+                    console.log(666)
                     db.insert("product", request.body, function(result){
                         response.send(result);
                     });
                 } 
-
-                // if(result.data.barCode != request.body.barCode){
-                //     db.insert("user", request.body, function(result){
-                //         response.send(result);
-                //     });
-                // } 
-                
             });
         });
     },
     ProductOut:function(app){
         app.post("/productOut", function(request, response){
             db.select("product", request.body, function(result){
+                console.log(request.body)
                 if(!result.status){
                     response.send(result);
                 } 
                 else {
-                        response.send(result);
+                    response.send(result);
                 }
             });
         });
@@ -61,5 +50,12 @@ module.exports = {
                         response.send(result);
                     });
             });
+    },
+    OrderForm:function(app){
+        app.post("/billIn", function(request, response){
+                    db.insert("orderform", request.body, function(result){
+                        response.send(result);
+                    });
+            }); 
     }
 }

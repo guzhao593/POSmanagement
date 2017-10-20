@@ -11,5 +11,13 @@ module.exports = {
                 response.send(result)
             })
         })
+    },
+    OrderDele:function(app){
+        app.post('/orderdele',function(request,response){
+            // console.log(request.body)
+            db.delete('orderform',request.body,function(result){
+                response.send(result);
+            })
+        })
     }
 }
