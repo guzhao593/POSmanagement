@@ -21,6 +21,7 @@ module.exports = {
     ProductOut:function(app){
         app.post("/productOut", function(request, response){
             db.select("product", request.body, function(result){
+                console.log(request.body)
                 if(!result.status){
                     response.send(result);
                 } 

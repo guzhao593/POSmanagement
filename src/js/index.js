@@ -4,17 +4,22 @@ require(['config'],function(){
         // ws.onmessage = function(_msg){
         //   console.log(_msg);
         // }
-        
+         //点击员工管理按纽加载员工管理页面
+        $('.content-right').load('html/staff.html',function(){
+            //执行员工管理函数
+            com.staff();
+        }); 
        //是否登录
        com.issign();
         //产品管理
         com.Product();
         //收银管理
         com.Money();
-        //进货单
+        //进货单 入库
         com.addlist();
         //点击菜单按纽
         $('.navlist').on('click','li',function(){
+          $(this).addClass('hover').siblings().removeClass('hover');
           //点击会员管理按纽
           if($(this).hasClass('merber')){
                //点击会员管理按纽加载会员管理页面
@@ -48,6 +53,11 @@ require(['config'],function(){
               }); 
           }
         })
-
+        //订单
+        $('.order').click(function(){
+            $('.content-right').load('html/order.html',function(){
+                 com.order();
+            })
+        })
     });
 });

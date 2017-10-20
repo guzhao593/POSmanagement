@@ -16,6 +16,10 @@
 
 .content .navleft .navlist li a b { display: block; width: 20px; height: 20px; float: right; margin-top: 11px; font-weight: normal; }
 
+.content .navleft .navlist .hover { background: #fff; text-decoration: none; }
+
+.content .navleft .navlist .hover a { color: #2b7dbc; }
+
 .content .content-right { width: 89%; position: relative; }
 
 .content .content-right p { margin: 0px; line-height: 37px; height: 37px; background-color: #f9f9f9; }
