@@ -117,8 +117,9 @@ module.exports = {
                     if(error){
                 _callback({status:false, message: error});
                 } else {
-                    _callback({status:true,data:_condition});
                     collection.update(_condition.origin,_condition.update);
+                    _callback({status:true,data:_condition});
+                    console.log(_condition);
                     db.close();
                 }
                 db.close();

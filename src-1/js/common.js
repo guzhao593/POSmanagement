@@ -3,10 +3,129 @@ define(['jquery'],function(){
         baseUrl:"http://localhost:8848",
         Product:function(){
             var base = this.baseUrl;
-            $('.probtn').click(function(){
-             $('.content-right').load('html/productManagement.html #t-product',function(){
-                    $('.change button').click(function(){
-                    });
+            var Trod = {
+                init:function(){
+                    var self = this;
+                    $('.probtn').click(function(){
+                        $('.content-right').load('html/productManagement.html #t-product',function(){
+                            // 查询表
+                            self.select();
+                            self.updata();
+                            // function select(){
+                            //     $.post(base + '/productOut',{},function(response,data){
+                            //             var tbody = $('.t-table tbody');
+                            //             var tfoot = $('.t-table tfoot');
+                            //             var leng = response.data.length;
+                            //             var page = Math.ceil(leng/10);
+                            //             var pagul = $('<ul/>')
+                            //             for(var j=0;j<page;j++){
+                            //                 $(`<li>${j+1}</li>`).appendTo(pagul);
+                            //             }
+                            //             // $('.t-table tbody').text('');
+                            //             pagul.appendTo($('.page'));
+                            //             pagul.children().eq(0).css({backgroundColor:'#337AB7'});
+                            //             function insert(){
+                            //                 var tr = $(`
+                            //                         <tr>
+                            //                             <th>${i+1}</th>
+                            //                             <td>${response.data[i].classify}</td>
+                            //                             <td>${response.data[i].code}</td>
+                            //                             <td>${response.data[i].barc}</td>
+                            //                             <td>${response.data[i].name}</td>
+                            //                             <td>${response.data[i].typeMode}</td>
+                            //                             <td>${response.data[i].prov}</td>
+                            //                             <td>${response.data[i].price}</td>
+                            //                             <td>${response.data[i].vipPrice}</td>
+                            //                             <td>${response.data[i].num}</td>
+                            //                         </tr>
+                            //                         `).appendTo(tbody);
+                            //             }
+                            //             pagul.children().off('click').on('click',function(){
+                            //                 pagul.children().each(function(){
+                            //                     $(this).css({backgroundColor:'#31B0D5'});
+                            //                 })
+                            //                 $(this).css({backgroundColor:'#337AB7'});
+                            //                 tbody.text('');
+                            //                 var num = $(this).index();
+                                               
+                            //                 for(var i=10*num;i<10*(num+1);i++){
+                            //                     var tr = $(`
+                            //                         <tr>
+                            //                             <th>${i+1}</th>
+                            //                             <td>${response.data[i].classify}</td>
+                            //                             <td>${response.data[i].code}</td>
+                            //                             <td>${response.data[i].barc}</td>
+                            //                             <td>${response.data[i].name}</td>
+                            //                             <td>${response.data[i].typeMode}</td>
+                            //                             <td>${response.data[i].prov}</td>
+                            //                             <td>${response.data[i].price}</td>
+                            //                             <td>${response.data[i].vipPrice}</td>
+                            //                             <td>${response.data[i].num}</td>
+                            //                         </tr>
+                            //                         `).appendTo(tbody);
+                            //                 }
+                            //                 self.removeTable(); 
+                            //             })
+                            //             if(response.data.length <= 10){
+                            //                 for(var i=0;i<response.data.length;i++){
+                            //                     insert();
+                            //                 }
+                            //             }else{
+                            //                 for(var i=0;i<10;i++){
+                            //                     insert();
+                            //                 }
+                            //             } 
+                            //             $('.change .btn').eq(0).click(function(){
+                            //                 $('.t-cover').show();
+                            //                 $('.z-addform').show();
+                            //                 $('.z-remove').hide();
+                            //                 $('.z-updateform').hide();
+                            //                 $('.glyphicon-remove').click(function(){
+                            //                     $('.t-cover').hide();
+                            //                 })
+                            //                 $('.z-addform .btn-add').click(function(){
+                            //                     var obj = {
+                            //                         classify:$('.z-addform .must').eq(0).val(),
+                            //                         code:$('.z-addform .must').eq(1).val(),
+                            //                         barc:$('.z-addform .must').eq(2).val(),
+                            //                         name:$('.z-addform .must').eq(3).val(),
+                            //                         typeMode:$('.z-addform .must').eq(4).val(),
+                            //                         prov:$('.z-addform .must').eq(5).val(),
+                            //                         price:$('.z-addform .must').eq(6).val(),
+                            //                         vipPrice:$('.z-addform .must').eq(7).val(),
+                            //                         num:$('.z-addform .must').eq(8).val(),
+                            //                         addDate:$('.z-addform .must').eq(9).val()
+                            //                     }
+                            //                     console.log(obj);
+                            //                     if(obj.provider != '' && obj.barCode != ''&& obj.productName != ''){
+                            //                         $.post(base + '/productIn',obj,function(response,data,da){
+                            //                                 if(response.status){
+                            //                                     alert('添加成功');
+                            //                                     $('.t-table tbody').text('');
+                            //                                     $('.page').text('');
+                            //                                     select();
+                            //                                 }
+                            //                         console.log(response,data);
+                            //                         });
+                            //                     }  
+                            //                 })
+                            //             });
+                            //             $('.change .btn').eq(2).click(function(){
+                            //                         $('.t-cover').show();
+                            //                         $('.t-find').show();
+                            //                         $('.z-addform').hide();
+                            //                         $('.z-remove').hide();
+                            //                         $('.z-updateform').hide();
+                            //             });
+                            //             self.updata();     
+                            //             self.removeTable();   
+                            //         });
+                            //     }        
+                            });
+                        
+                        });
+                    },
+                editTable:function(){
                     //增加行
                     $('.t-table .add').click(function(){
                         var add = $('.t-table tfoot');
@@ -27,234 +146,231 @@ define(['jquery'],function(){
                                 td.text(idx+1);
                         });
                     });
-
-                    // 查询表
-                    select();
-                    function remove(){
-                            $('.t-table tbody tr').click(function(){
-                                var tr = $('.t-table tbody tr');
-                                tr.each(function(idx,item){
-                                    $(item).css({backgroundColor:''});
-                                })
-                                $(this).css({backgroundColor:'#FF6600'})
-                                if($(this).css({backgroundColor:'#FF6600'})){
-                                    var $this = this;
-
-                                    $('.change .btn').eq(3).click(function(){
-                                         
-                                        $('.t-cover').show();
-                                        $('.z-updateform').hide();
-                                        $('.z-remove').show();
-                                        $('.z-addform').hide();
-                                        $('.glyphicon-remove').click(function(){
-                                            $('.t-cover').hide();
-                                        })
-                                        $('.z-showbtn .cancel').click(function(){
-                                            $('.t-cover').hide();
-                                        })
-
-                                        $('.z-showbtn .affirm').off('click').on('click',function(){
-                                            var valCode = $($this).children('td').eq(1).text();
-                                            var obj = {code:valCode}
-                                            console.log(obj);
-                                            
-                                            $.post(base + '/productRemove',obj,function(result){
-                                                $('.t-table tbody').text('');
-                                                $('.page').text('');
-                                                select();
-
-                                                console.log(result);
-                                            });
-                                            $('.t-cover').hide();
-                                        
-                                    });
-                                    });
-
-                                }    
-                            }); 
-                        }
-                    function updata(){
-                            $('.t-table tbody tr').click(function(){
-                                var tr = $('.t-table tbody tr');
-                                tr.each(function(idx,item){
-                                    $(item).css({backgroundColor:''});
-                                })
-                                $(this).css({backgroundColor:'#FF6600'})
-                                if($(this).css({backgroundColor:'#FF6600'})){
-                                    var $this = this;
-                                    $('.change .btn').eq(1).click(function(){
-                                        $('.t-cover').show();
-                                        $('.z-updateform').show();
-                                        $('.z-addform').hide();
-                                        $('.z-remove').hide();
-                                        var td = $($this).children('td');
-                                        $('.t-cover .z-updateform .form-control').each(function(idx){
-                                                $(this).val(td.eq(idx).text());
-                                        });
-
-                                        
-                                        $('.glyphicon-remove').click(function(){
-                                            $('.t-cover').hide();
-                                        })
-
-                                        $('.t-cover .z-updateform .btn-add').off('click').on('click',function(){
-                                            var input = $('.t-cover .z-updateform .form-control');
-                                            console.log(input);
-                                            var obj = {
-                                                    classify:input.eq(0).val(),
-                                                    code:input.eq(1).val(),
-                                                    barc:input.eq(2).val(),
-                                                    name:input.eq(3).val(),
-                                                    typeMode:input.eq(4).val(),
-                                                    prov:input.eq(5).val(),
-                                                    price:input.eq(6).val(),
-                                                    vipPrice:input.eq(7).val(),
-                                                    num:input.eq(8).val(),
-                                                    addDate:input.eq(9).val()
-                                                }
-                                            if(obj.provider != '' && obj.barCode != ''&& obj.productName != ''){
-                                                console.log(td.eq(1).text());
-                                                $.post(base + '/productOut',{productCode:td.eq(1).text()},function(response,data){
-                                                        var dataObj = {};
-                                                            for(var key in response.data[0]){
-                                                                if(key != "_id"){
-                                                                    dataObj[key] = response.data[0][key];
-                                                                }
-                                                        }
-                                                        console.log(response,data);
-                                                        $.post(base + '/productUpdate',{update:JSON.stringify({origin:dataObj,update:obj})},function(response,data){
-                                                            $('.t-table tbody').text('');
-                                                            $('.page').text('');
-                                                            select();
-                                                            if(response.status){
-                                                                alert('修改成功');
-                                                            }
-                                                            console.log(response,data);
-                                                    });
-                                                });
-                                                
-                                            }  
-                                        })
-                                    });    
-                                }
-                            });
-                        }
-                    function select(){
-                        $.post(base + '/productOut',{},function(response,data){
-                        var tbody = $('.t-table tbody');
-                        var tfoot = $('.t-table tfoot');
-                        var leng = response.data.length;
-                        var page = Math.ceil(leng/10);
-                        var pagul = $('<ul/>')
-                        for(var j=0;j<page;j++){
-                            $(`<li>${j+1}</li>`).appendTo(pagul);
-                        }
-                        // $('.t-table tbody').text('');
-                        pagul.appendTo($('.page'));
-                        pagul.children().eq(0).css({backgroundColor:'#337AB7'});
-                        function insert(){
-                            var tr = $(`
-                                    <tr>
-                                        <th>${i+1}</th>
-                                        <td>${response.data[i].classify}</td>
-                                        <td>${response.data[i].code}</td>
-                                        <td>${response.data[i].barc}</td>
-                                        <td>${response.data[i].name}</td>
-                                        <td>${response.data[i].typeMode}</td>
-                                        <td>${response.data[i].prov}</td>
-                                        <td>${response.data[i].price}</td>
-                                        <td>${response.data[i].vipPrice}</td>
-                                        <td>${response.data[i].num}</td>
-                                    </tr>
-                                    `).appendTo(tbody);
-                        }
-                        pagul.children().off('click').on('click',function(){
-                            pagul.children().each(function(){
-                                $(this).css({backgroundColor:'#31B0D5'});
-                            })
-                            $(this).css({backgroundColor:'#337AB7'});
-                            tbody.text('');
-                            var num = $(this).index();
-                               
-                            for(var i=10*num;i<10*(num+1);i++){
-                                var tr = $(`
-                                    <tr>
-                                        <th>${i+1}</th>
-                                        <td>${response.data[i].classify}</td>
-                                        <td>${response.data[i].code}</td>
-                                        <td>${response.data[i].barc}</td>
-                                        <td>${response.data[i].name}</td>
-                                        <td>${response.data[i].typeMode}</td>
-                                        <td>${response.data[i].prov}</td>
-                                        <td>${response.data[i].price}</td>
-                                        <td>${response.data[i].vipPrice}</td>
-                                        <td>${response.data[i].num}</td>
-                                    </tr>
-                                    `).appendTo(tbody);
-                            }
-                            remove(); 
+                },
+                removeTable:function(){
+                    var self = this;
+                    $('.t-table tbody tr').click(function(){
+                        var tr = $('.t-table tbody tr');
+                        tr.each(function(idx,item){
+                            $(item).css({backgroundColor:''});
                         })
-                        if(response.data.length <= 10){
-                            for(var i=0;i<response.data.length;i++){
-                                insert();
-                            }
-                        }else{
-                            for(var i=0;i<10;i++){
-                                insert();
-                            }
-                        } 
-                        $('.change .btn').eq(0).click(function(){
-                            $('.t-cover').show();
-                            $('.z-addform').show();
-                            $('.z-remove').hide();
-                            $('.z-updateform').hide();
-                            $('.glyphicon-remove').click(function(){
-                                $('.t-cover').hide();
-                            })
-                            $('.z-addform .btn-add').click(function(){
-                                var obj = {
-                                    classify:$('.z-addform .must').eq(0).val(),
-                                    code:$('.z-addform .must').eq(1).val(),
-                                    barc:$('.z-addform .must').eq(2).val(),
-                                    name:$('.z-addform .must').eq(3).val(),
-                                    typeMode:$('.z-addform .must').eq(4).val(),
-                                    prov:$('.z-addform .must').eq(5).val(),
-                                    price:$('.z-addform .must').eq(6).val(),
-                                    vipPrice:$('.z-addform .must').eq(7).val(),
-                                    num:$('.z-addform .must').eq(8).val(),
-                                    addDate:$('.z-addform .must').eq(9).val()
-                                }
-                                console.log(obj);
-                                if(obj.provider != '' && obj.barCode != ''&& obj.productName != ''){
-                                    $.post(base + '/productIn',obj,function(response,data,da){
-                                            if(response.status){
-                                                alert('添加成功');
-                                                $('.t-table tbody').text('');
-                                                $('.page').text('');
-                                                select();
-                                            }
-                                    console.log(response,data);
+                        $(this).css({backgroundColor:'#FF6600'})
+                        if($(this).css({backgroundColor:'#FF6600'})){
+                            var $this = this;
+
+                            $('.change .btn').eq(3).click(function(){
+                                $('.t-cover').show();
+                                $('.z-updateform').hide();
+                                $('.z-remove').show();
+                                $('.z-addform').hide();
+                                $('.z-remove').find('span').text($($this).find('td').eq(2).text());
+                                $('.glyphicon-remove').click(function(){
+                                    $('.t-cover').hide();
+                                })
+                                $('.z-showbtn .cancel').click(function(){
+                                    $('.t-cover').hide();
+                                })
+
+                                $('.z-showbtn .affirm').off('click').on('click',function(){
+                                    var valCode = $($this).children('td').eq(2).text();
+                                    var obj = {barc:valCode};  
+                                    $.post(base + '/productRemove',obj,function(response){
+                                        $('.t-table tbody').text('');
+                                        $('.page').text('');
+                                        self.select();
                                     });
-                                }  
-                            })
+                                    $('.t-cover').hide();
+                                
+                            });
+                            });
+
+                        }    
+                    });     
+                },
+                select:function(){
+                    var self = this;
+                        $.post(base + '/productOut',{},function(response,data){
+                                var tbody = $('.t-table tbody');
+                                var tfoot = $('.t-table tfoot');
+                                var leng = response.data.length;
+                                var page = Math.ceil(leng/10);
+                                var pagul = $('<ul/>')
+                                for(var j=0;j<page;j++){
+                                    $(`<li>${j+1}</li>`).appendTo(pagul);
+                                }
+                                // $('.t-table tbody').text('');
+                                pagul.appendTo($('.page'));
+                                pagul.children().eq(0).css({backgroundColor:'#337AB7'});
+                                function insert(){
+                                    var tr = $(`
+                                            <tr>
+                                                <th>${i+1}</th>
+                                                <td>${response.data[i].classify}</td>
+                                                <td>${response.data[i].code}</td>
+                                                <td>${response.data[i].barc}</td>
+                                                <td>${response.data[i].name}</td>
+                                                <td>${response.data[i].typeMode}</td>
+                                                <td>${response.data[i].prov}</td>
+                                                <td>${response.data[i].price}</td>
+                                                <td>${response.data[i].vipPrice}</td>
+                                                <td>${response.data[i].num}</td>
+                                            </tr>
+                                            `).appendTo(tbody);
+                                }
+                                pagul.children().off('click').on('click',function(){
+                                    pagul.children().each(function(){
+                                        $(this).css({backgroundColor:'#31B0D5'});
+                                    })
+                                    $(this).css({backgroundColor:'#337AB7'});
+                                    tbody.text('');
+                                    var num = $(this).index();
+                                       
+                                    for(var i=10*num;i<10*(num+1);i++){
+                                        var tr = $(`
+                                            <tr>
+                                                <th>${i+1}</th>
+                                                <td>${response.data[i].classify}</td>
+                                                <td>${response.data[i].code}</td>
+                                                <td>${response.data[i].barc}</td>
+                                                <td>${response.data[i].name}</td>
+                                                <td>${response.data[i].typeMode}</td>
+                                                <td>${response.data[i].prov}</td>
+                                                <td>${response.data[i].price}</td>
+                                                <td>${response.data[i].vipPrice}</td>
+                                                <td>${response.data[i].num}</td>
+                                            </tr>
+                                            `).appendTo(tbody);
+                                    }
+                                    self.removeTable(); 
+                                })
+                                if(response.data.length <= 10){
+                                    for(var i=0;i<response.data.length;i++){
+                                        insert();
+                                    }
+                                }else{
+                                    for(var i=0;i<10;i++){
+                                        insert();
+                                    }
+                                } 
+                                $('.change .btn').eq(0).click(function(){
+                                    $('.t-cover').show();
+                                    $('.z-addform').show();
+                                    $('.z-remove').hide();
+                                    $('.z-updateform').hide();
+                                    $('.glyphicon-remove').click(function(){
+                                        $('.t-cover').hide();
+                                    })
+                                    $('.z-addform .btn-add').click(function(){
+                                        var obj = {
+                                            classify:$('.z-addform .must').eq(0).val(),
+                                            code:$('.z-addform .must').eq(1).val(),
+                                            barc:$('.z-addform .must').eq(2).val(),
+                                            name:$('.z-addform .must').eq(3).val(),
+                                            typeMode:$('.z-addform .must').eq(4).val(),
+                                            prov:$('.z-addform .must').eq(5).val(),
+                                            price:$('.z-addform .must').eq(6).val(),
+                                            vipPrice:$('.z-addform .must').eq(7).val(),
+                                            num:$('.z-addform .must').eq(8).val(),
+                                            addDate:$('.z-addform .must').eq(9).val()
+                                        }
+                                        console.log(obj);
+                                        if(obj.provider != '' && obj.barCode != ''&& obj.productName != ''){
+                                            $.post(base + '/productIn',obj,function(response,data,da){
+                                                    if(response.status){
+                                                        alert('添加成功');
+                                                        $('.t-table tbody').text('');
+                                                        $('.page').text('');
+                                                        self.select();
+                                                    }
+                                            console.log(response,data);
+                                            });
+                                        }  
+                                    })
+                                });
+                                $('.change .btn').eq(2).click(function(){
+                                            $('.t-cover').show();
+                                            $('.t-find').show();
+                                            $('.z-addform').hide();
+                                            $('.z-remove').hide();
+                                            $('.z-updateform').hide();
+                                });
+                                self.updata();     
+                                self.removeTable();   
                         });
-                        $('.change .btn').eq(2).click(function(){
-                            $('.t-cover').show();
-                            $('.t-find').show();
-                            $('.z-addform').hide();
-                            $('.z-remove').hide();
-                            $('.z-updateform').hide();
-                        });
-                        updata();                        
-                        remove();  
-                    });
-                    }
-                                  
-                });
-                
-            });
+                                
+                },
+                updata:function(){
+                    var self = this;
+                    $('.t-table tbody tr').click(function(){
+                        var tr = $('.t-table tbody tr');
+                        tr.each(function(idx,item){
+                            $(item).css({backgroundColor:''});
+                        })
+                        $(this).css({backgroundColor:'#FF6600'})
+                        if($(this).css({backgroundColor:'#FF6600'})){
+                            var $this = this;
+                            $('.change .btn').eq(1).click(function(){
+                                $('.t-cover').show();
+                                $('.z-updateform').show();
+                                $('.z-addform').hide();
+                                $('.z-remove').hide();
+                                var td = $($this).children('td');
+                                $('.t-cover .z-updateform .form-control').each(function(idx){
+                                        $(this).val(td.eq(idx).text());
+                                });
+
+                                
+                                $('.glyphicon-remove').click(function(){
+                                    $('.t-cover').hide();
+                                })
+
+                                $('.t-cover .z-updateform .btn-add').off('click').on('click',function(){
+                                    var input = $('.t-cover .z-updateform .form-control');
+                                    console.log(input);
+                                    var obj = {
+                                            classify:input.eq(0).val(),
+                                            code:input.eq(1).val(),
+                                            barc:input.eq(2).val(),
+                                            name:input.eq(3).val(),
+                                            typeMode:input.eq(4).val(),
+                                            prov:input.eq(5).val(),
+                                            price:input.eq(6).val(),
+                                            vipPrice:input.eq(7).val(),
+                                            num:input.eq(8).val(),
+                                            addDate:input.eq(9).val()
+                                        }
+                                    if(obj.provider != '' && obj.barCode != ''&& obj.productName != ''){
+                                        console.log(td.eq(1).text());
+                                        $.post(base + '/productOut',{productCode:td.eq(1).text()},function(response,data){
+                                                var dataObj = {};
+                                                    for(var key in response.data[0]){
+                                                        if(key != "_id"){
+                                                            dataObj[key] = response.data[0][key];
+                                                        }
+                                                }
+                                                console.log(response,data);
+                                                $.post(base + '/productUpdate',{update:JSON.stringify({origin:dataObj,update:obj})},function(response,data){
+                                                    $('.t-table tbody').text('');
+                                                    $('.page').text('');
+                                                    self.select();
+                                                    if(response.status){
+                                                        alert('修改成功');
+                                                    }
+                                                    console.log(response,data);
+                                            });
+                                        });
+                                    }  
+                                });
+                            });    
+                        }
+                    });   
+                }
+
+            }
+            Trod.init();
+            
         },
-        Money:function(jq){
+        Money:function(){
             var base = this.baseUrl;
             $('.moneyBtn').click(function(){
                 $('.content-right').load('html/productManagement.html #t-money',function(){
@@ -284,12 +400,16 @@ define(['jquery'],function(){
                                         // var total=0;
                                         for(var i=0;i<response.data.length;i++){
                                             insert();
-                                            var total = + response.data[i].price*1;
-                                            console.log(total,response.data[i].price); 
-                                            $('#total').val(total);
+                                            
                                             
                                         }
-                                        console.log(response);
+                                        var total = 0;
+                                        $('.tbody tr').each(function(idx){
+
+                                            total += $(this).children('td').eq(7).text()*$(this).children('td').eq(8).text();
+                                            $('#total').val(total);
+                                         })
+                                        
                                     });
                                 }
                         });
@@ -328,27 +448,16 @@ define(['jquery'],function(){
                             } 
                            
                             $.post(base + '/billIn',tobj,function(response,data){
-                                    
+                                    console.log(response);
                             });
 
                             //生成二维码
                                 $('#qrcode').qrcode("http://10.3.131.37:666/html/prcode.html");
                                 $('.bar-cover').show();
                         })
-
-                        //生成二维码
-                        // $
-                        //打印小票
-                        // $('.t-create').click(function(){
-                        //     console.log(666)
-                        //     $.post("http://10.3.131.33:81/print", {text: "JR 超市收银系统  \n*************************************\n商品名称：香烟\n单品金额：100 元 \n商品数量：10 条\n总金额：1000 元\n买单时间：2017-08-15 10:53:19\n*************************************\n"}, function(res){
-                        //         console.log(res)
-                        //     })
-
-                        // })
-
                         
                         
+
                 });
             });
         },
@@ -813,108 +922,6 @@ define(['jquery'],function(){
                 }
             }
             return Merber.init();
-        },
-        order:function(){
-            var self = this
-            var Order = {
-                init:function(){
-                    $.post(self.baseUrl+'/orderout',function(result){
-                        console.log(result)
-                        showtab()
-                        function showtab(){
-                            var $thead = $('<thead/>').html(`<th></th>
-                                                        <th>单据状态</th>
-                                                        <th>单据号</th>
-                                                        <th>售货员</th>
-                                                        <th>成交金额</th>
-                                                        <th>单据日期</th>
-                                                        `);
-                            var $table = $('<table/>').addClass('list').append($thead)
-                                for(var i=1;i<=result.data.length;i++){
-        
-                                var $tr = $('<tr/>').html(
-                                    `<td>${i}</td>
-                                    <td><span class="gb label label-info">出库</span></td>
-                                    <td class="click"><a>${result.data[i-1].listNum}</a></td>
-                                    <td>${result.data[i-1].salesMan}</td>
-                                    <td>${result.data[i-1].allPrice}</td>
-                                    <td>${result.data[i-1].date}</td>
-                                    `
-                                    )
-                                $table.append($tr)
-                            }
-                            $('.tablebox').html('').append($table)
-                            //点击单号跳到单据页面
-                            $('.click').click(function(){
-
-                                var listNum = $(this).text();
-                                var h2 = $('<h3/>').html('订单'+listNum)
-                                for(var i=0;i<result.data.length;i++){
-                                    if(result.data[i].listNum == listNum){
-                                     
-                                      var str ="["+ result.data[i].data + "]";
-                                      var arr = JSON.parse(str)
-                                    
-
-                                        var $tab = $('<table/>').html(
-                                            `<tr>
-                                                <th></th>
-                                                <th>供应商</th>
-                                                <th>商品编码</th>
-                                                <th>商品条码</th>
-                                                <th>商品名称</th>
-                                                <th>批发价</th>
-                                                <th>数量</th>
-                                                <th>总计</th>
-                                            </tr>`
-                                            ).addClass('l-tab')
-                                        for(var j=0;j<arr.length;j++){
-                                            
-                                            $tr = $('<tr/>');
-                                            $rank = $('<td/>').html(j)
-                                            $prov = $('<td>').html(arr[j].prov)
-                                            $code = $('<td>').html(arr[j].code)
-                                            $barc = $('<td>').html(arr[j].barc)
-                                            $name = $('<td/>').html(arr[j].name)
-                                            $price = $('<td>').html(arr[j].price)
-                                            $num = $('<td>').html(arr[j].num)
-                                            // $all = $('<td>').html(arr[j].all)
-                                            $tr.append($rank,$prov,$code,$barc,$name,$price,$num)
-                                            $tab.append($tr)
-                                        }
-                                        $('.tablebox').html('');
-                                        $('.tablebox').append(h2,$tab)
-                                    }
-                                 }
-                            })
-
-                            $('.list').on('click','tr',function(){
-                              
-                                $('.list').children().removeClass('selector')
-                                $(this).addClass('selector');
-                            })
-                            // 删
-                            $('.l-del').off('click').on('click',function(){
-                             
-                                var listNum = $('.selector .click').text()
-                                console.log(listNum)
-                                $.post(self.baseUrl+'/orderdele',{listNum:listNum},function(result){
-                                    console.log(result)
-                                }) 
-                                $('.selector .click').parent().remove()
-                            })
-                        }
-                        //查看
-                        $('.l-find').click(function(){
-                            showtab();
-                        })
-                    })
-                
-                }
-                
-
-            }
-            return Order.init();
         }
     }
 

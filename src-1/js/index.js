@@ -4,7 +4,7 @@ require(['config'],function(){
         //产品管理
         com.Product();
         com.Money();
-        //进货单 入库
+        //进货单
         com.addlist();
         //点击会员管理按纽
         $('.navlist').on('click','li',function(){
@@ -17,12 +17,5 @@ require(['config'],function(){
               }); 
           }
         })
-        //订单
-        $('.order').click(function(){
-            $('.content-right').load('html/order.html',function(){
-                 com.order();
-            })
-        })
-       
     });
 });

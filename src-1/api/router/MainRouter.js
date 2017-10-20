@@ -6,16 +6,6 @@ var purchaseRouter = require('./PurchaseRouter.js');
 
 var merberRouter = require("./MerberRouter.js");
 
-
-var staffRouter = require("./StaffRouter.js");
-
-var stockRouter = require("./StockRouter.js");
-
-var putawayRouter = require("./PutawayRouter.js");
-
-
-var orderformRouter = require("./OrderForm.js");
-
 var path = require('path');
 
 var  express = require('express');
@@ -35,7 +25,7 @@ module.exports = {
             }
         });
         app.use(express.static(path.resolve(__dirname , '../')));
-
+        console.log(path.resolve(__dirname , '../../'));
         userRouter.Register(app);
         //产品管理
         productRouter.ProductIn(app);
@@ -52,32 +42,12 @@ module.exports = {
         purchaseRouter.Receive(app);
         purchaseRouter.ChangeStatus(app);
 
-        //订单管理
-        orderformRouter.OrderOut(app);
-        orderformRouter.OrderDele(app);
         //会员管理
         merberRouter.MerberFind(app);
         merberRouter.MerberAdd(app);
         merberRouter.MerberUpdate(app);
         merberRouter.MerberRomove(app);
 
-         //员工管理
-        staffRouter.StaffFind(app);
-        staffRouter.StaffAdd(app);
-        staffRouter.StaffUpdate(app);
-        staffRouter.StaffRomove(app);
-
-         //库存管理
-        stockRouter.StockFind(app);
-        stockRouter.StockAdd(app);
-        stockRouter.StockUpdate(app);
-        stockRouter.StockRomove(app);
-
-         //上架管理
-        putawayRouter.PutawayFind(app);
-        putawayRouter.PutawayAdd(app);
-        putawayRouter.PutawayUpdate(app);
-        putawayRouter.PutawayRomove(app);
     }
 
 }
