@@ -1,6 +1,6 @@
 require(['config'],function(){
-    require(['jquery','common','bootstrap'],function($,com){
-        var baseUrl = com.baseUrl;
+    require(['jquery','common','bootstrap','qrcode'],function($,com){
+       
         //产品管理
         com.Product();
         com.Money();

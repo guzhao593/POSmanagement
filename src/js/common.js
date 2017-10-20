@@ -254,7 +254,7 @@ define(['jquery'],function(){
                 
             });
         },
-        Money:function(){
+        Money:function(jq){
             var base = this.baseUrl;
             $('.moneyBtn').click(function(){
                 $('.content-right').load('html/productManagement.html #t-money',function(){
@@ -326,11 +326,16 @@ define(['jquery'],function(){
                                 salesMan:list.eq(3).val(),
                                 allPrice:$('.bar .tot').val(),
                             } 
-
+                           
                             $.post(base + '/billIn',tobj,function(response,data){
                                     
                             });
+
+                            //生成二维码
+                                $('#qrcode').qrcode("http://10.3.131.37:666/html/prcode.html");
+                                $('.bar-cover').show();
                         })
+<<<<<<< HEAD
                         //生成二维码
                         // $
                         //打印小票
@@ -341,6 +346,10 @@ define(['jquery'],function(){
                             })
 
                         })
+=======
+                        
+                        
+>>>>>>> 11c7789642b1e57f26210ed593df24c3071e0461
 
                 });
             });
