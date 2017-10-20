@@ -6,14 +6,13 @@ var purchaseRouter = require('./PurchaseRouter.js');
 
 var merberRouter = require("./MerberRouter.js");
 
-<<<<<<< HEAD
+
 var orderformRouter = require("./OrderForm.js");
-=======
+
 var path = require('path');
 
 var  express = require('express');
 
->>>>>>> 11c7789642b1e57f26210ed593df24c3071e0461
 module.exports = {
     Register: function(app){
         // //跨域
