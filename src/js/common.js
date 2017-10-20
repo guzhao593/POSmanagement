@@ -166,16 +166,6 @@ define(['jquery'],function(){
                                     </tr>
                                     `).appendTo(tbody);
                         }
-                        if(response.data.length <= 10){
-                            for(var i=0;i<response.data.length;i++){
-                                insert();
-                            }
-                        }else{
-                            for(var i=0;i<10;i++){
-                                insert();
-                            }
-                        }        
-                        
                         pagul.children().off('click').on('click',function(){
                             pagul.children().each(function(){
                                 $(this).css({backgroundColor:'#31B0D5'});
@@ -202,7 +192,15 @@ define(['jquery'],function(){
                             }
                             remove(); 
                         })
-                       
+                        if(response.data.length <= 10){
+                            for(var i=0;i<response.data.length;i++){
+                                insert();
+                            }
+                        }else{
+                            for(var i=0;i<10;i++){
+                                insert();
+                            }
+                        } 
                         $('.change .btn').eq(0).click(function(){
                             $('.t-cover').show();
                             $('.z-addform').show();
@@ -261,43 +259,107 @@ define(['jquery'],function(){
                 $('.content-right').load('html/productManagement.html #t-money',function(){
                         var num = 0;
                         $('.bar #barCode').blur(function(event) {
+                            var nbarc = $(this).val();
                                 if($(this).val()){
-                                    $.post(base + '/productOut',{code:$(this).val()},function(response,data){
+                                    $.post(base + '/productOut',{barc:$(this).val()},function(response,data){
                                         if(response.data.length>0){
                                             num++;
+                                        }
+                                        var js = 0;
+                                        $(".m-barc").each(function(){
+                                            if( nbarc == $(this).text()){
+                                                js++;
+                                                $(this).closest('tr').find(".m-num").text($(this).closest('tr').find(".m-num").text()*1 +1);
+                                            }
+                                        });
+                                        if(js==0){
+                                            insert();
                                         }
                                         function insert(){
                                             var tr = $(`
                                                         <tr>
-                                                            <th>${i+1}</th>
-                                                            <td>${response.data[i].classify}</td>
-                                                            <td>${response.data[i].code}</td>
-                                                            <td>${response.data[i].barc}</td>
-                                                            <td>${response.data[i].name}</td>
-                                                            <td>${response.data[i].typeMode}</td>
-                                                            <td>${response.data[i].prov}</td>
-                                                            <td>${response.data[i].price}</td>
-                                                            <td>${response.data[i].vipPrice}</td>
-                                                            <td>${response.data[i].num}</td>
+                                                            <th>${num}</th>
+                                                            <td>${response.data[0].classify}</td>
+                                                            <td>${response.data[0].code}</td>
+                                                            <td class="m-barc">${response.data[0].barc}</td>
+                                                            <td>${response.data[0].name}</td>
+                                                            <td>${response.data[0].typeMode}</td>
+                                                            <td>${response.data[0].prov}</td>
+                                                            <td>${response.data[0].price}</td>
+                                                            <td>${response.data[0].vipPrice}</td>
+                                                            <td class="m-num">1</td>
                                                         </tr>
                                                         `).appendTo($('.tbody'));
                                         }
-                                        // var total=0;
-                                        for(var i=0;i<response.data.length;i++){
-                                            insert();
-                                            var total = + response.data[i].price*1;
-                                            console.log(total,response.data[i].price); 
+                                        var total = 0;
+                                        $('.tbody tr').each(function(idx){
+
+                                            total += $(this).children('td').eq(6).text()*$(this).children('td').eq(8).text();
                                             $('#total').val(total);
-                                            
-                                        }
-                                        console.log(response)
+                                         })
+                                        console.log(response);
                                     });
                                 }
-                                
                         });
                         $('.bar #barCode').focus(function(){
                             $(this).val('');
                         });
+                        var socket = io("ws://localhost:8818");
+                        //生成售货单
+                        $('.t-create').click(function(){
+                            var arry = [];
+                            $('.tbody tr').each(function(idx){
+                                var obj = {
+                                    classify:$(this).children('td').eq(0).text(),
+                                    code:$(this).children('td').eq(1).text(),
+                                    barc:$(this).children('td').eq(2).text(),
+                                    name:$(this).children('td').eq(3).text(),
+                                    typeMode:$(this).children('td').eq(4).text(),
+                                    prov:$(this).children('td').eq(5).text(),
+                                    price:$(this).children('td').eq(6).text(),
+                                    vipPrice:$(this).children('td').eq(7).text(),
+                                    num:$(this).children('td').eq(8).text(),
+                                    addDate:$(this).children('td').eq(9).text()
+                                }
+                                arry.push(JSON.stringify(obj));
+                            });
+
+                            var listNum = $('.listnum').val() || 'LJ'+Math.ceil(Math.random()*100000);
+                            var time = (new Date()).toLocaleDateString().split('/').join('-');
+                            var list = $('.tablebox .listt')
+                            var tobj = {
+                                data:arry.join(),
+                                listNum:listNum,
+                                date:time,
+                                merber:list.eq(2).val(),
+                                salesMan:list.eq(3).val(),
+                                allPrice:$('.bar .tot').val(),
+                            } 
+                            
+                            $.post(base + '/billIn',tobj,function(response,data){
+                                    console.log(response);
+                            });
+
+                            //生成二维码
+                                $('#qrcode').html('');
+                                $('#qrcode').qrcode("http://10.3.131.27:666/html/prcode.html?data="+arry);
+                                console.log("http://10.3.131.27:666/html/prcode.html?data="+JSON.stringify(arry));
+                                $('.bar-cover').show();
+                        })
+                        
+                        socket.on('ok', function(data){
+                            if(data == "true"){
+                                $('#qrcode').text('支付已完成').css({
+                                    color:'#fff',
+                                    fontSize:'30px',
+                                    textAlign:'center',
+                                    lineHeight:'256px'
+                                });
+                                $('.bar-cover').hide(1000);
+                            }
+                        })
+                        
+
                 });
             });
         },

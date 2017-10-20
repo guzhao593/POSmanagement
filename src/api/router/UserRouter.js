@@ -5,6 +5,7 @@ var cookie = require('cookie-parser');
 var session = require('express-session');
 var url = require('url');
 var jwt = require('jsonwebtoken');
+var ws = 
 module.exports = {
     Register: function(app){
         app.use(bodyparser.json());
@@ -74,6 +75,7 @@ module.exports = {
                 }
             })        
         })
+
     }
 
 }

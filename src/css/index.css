@@ -200,16 +200,24 @@
 
 .content .content-right #t-product .t-cover .t-find { display: none; }
 
-.content .content-right #t-money { height: 520px; width: 800px; position: relative; }
+.content .content-right #t-money { height: 525px; width: 100%; position: relative; margin: 0 0; }
 
-.content .content-right #t-money .t-table { float: left; }
+.content .content-right #t-money .navtop { width: 100%; float: left; }
 
-.content .content-right #t-money .t-table .tbody { overflow: auto; height: 400px; }
+.content .content-right #t-money .tablebox .l-form div:nth-child(n-2) { margin-left: 70px; }
 
-.content .content-right #t-money .bar { text-align: center; line-height: 100px; width: 970px; position: absolute; left: 0; bottom: 0; height: 100px; border: 1px solid #DDDDDD; }
+.content .content-right #t-money .t-tbody { height: 340px; overflow: auto; }
+
+.content .content-right #t-money .t-tbody .t-table { margin-left: 35px; }
+
+.content .content-right #t-money .bar { position: relative; margin-left: 10px; text-align: center; line-height: 100px; width: 80%; position: absolute; left: 35px; bottom: -10px; border: 1px solid #DDDDDD; }
 
 .content .content-right #t-money .bar .flbar { margin-left: 20px; }
 
 .content .content-right #t-money .bar #barCode { width: 200px; margin: 33px 50px 0 20px; }
 
 .content .content-right #t-money .bar #total { width: 200px; margin: 33px 0 0 20px; }
+
+.content .content-right #t-money .bar-cover { position: absolute; top: 0px; right: 0px; width: 100%; background-color: rgba(0, 0, 0, 0.4); display: none; height: 560px; }
+
+.content .content-right #t-money .bar-cover #qrcode { position: absolute; top: 50%; left: 50%; z-index: 100; height: 256px; width: 256px; transform: translate(-50%, -50%); }

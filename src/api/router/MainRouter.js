@@ -11,6 +11,9 @@ var staffRouter = require("./StaffRouter.js");
 var stockRouter = require("./StockRouter.js");
 
 var putawayRouter = require("./PutawayRouter.js");
+var path = require('path');
+
+var  express = require('express');
 
 module.exports = {
     Register: function(app){
@@ -26,14 +29,15 @@ module.exports = {
               next();
             }
         });
-        // app.use(express.static(__dirname + '/'));
-        
+        app.use(express.static(path.resolve(__dirname , '../')));
+
         userRouter.Register(app);
         //产品管理
         productRouter.ProductIn(app);
         productRouter.ProductOut(app);
         productRouter.ProductRemove(app);
         productRouter.ProductUpdate(app);
+        productRouter.OrderForm(app);
         //采购管理
 
         //采购管理+进货

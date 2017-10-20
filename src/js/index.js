@@ -1,7 +1,12 @@
 require(['config'],function(){
     require(['jquery','common','bootstrap'],function($,com){
-        //是否登录
-        com.issign();
+        // var ws = new WebSocket("ws://localhost:888");
+        // ws.onmessage = function(_msg){
+        //   console.log(_msg);
+        // }
+        
+       //是否登录
+       com.issign();
         //产品管理
         com.Product();
         //收银管理
@@ -43,5 +48,6 @@ require(['config'],function(){
               }); 
           }
         })
+
     });
 });
