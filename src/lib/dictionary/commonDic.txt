@@ -1,0 +1,16 @@
+{
+    "cn": {
+        "_id": "标识",
+        "listNum": "单据号",
+        "buyMan": "采购员",
+        "allPrice": "采购金额",
+        "date":"采购日期",
+        "status":"单据状态"
+    },
+    "en": {
+        "_id": "ID",
+        "procode": "Product Code",
+        "proprice": "Product Price",
+        "proname": "Product Name"       
+    }
+}

@@ -7,16 +7,16 @@ module.exports = {
         app.use(bodyparser.json());
         app.use(bodyparser.urlencoded({ extended: false }));
         app.post("/PutawayAdd", function(request, response){
-            newdb.select("putaway", {productCode:request.body.productCode},function(result){
+            newdb.select("putaway", {code:request.body.code},function(result){
+                console.log({code:request.body.code});
                 if(result.data.length == 0){
                     newdb.insert("putaway", request.body, function(result){
                         response.send(result);
                     });
                 } else {
-                    request.body.quantity = request.body.quantity*1 + result.data[0].quantity*1;
+                    request.body.num = request.body.num*1 + result.data[0].num*1;
                     var condition = {origin:result.data[0],update:request.body}
                     newdb.Zupdate("putaway", condition, function(result){
-                        console.log(result);
                         response.send(result);
                     });
                 }

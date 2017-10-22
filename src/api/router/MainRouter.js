@@ -6,13 +6,11 @@ var purchaseRouter = require('./PurchaseRouter.js');
 
 var merberRouter = require("./MerberRouter.js");
 
-
 var staffRouter = require("./StaffRouter.js");
 
 var stockRouter = require("./StockRouter.js");
 
 var putawayRouter = require("./PutawayRouter.js");
-
 
 var orderformRouter = require("./OrderForm.js");
 
@@ -55,6 +53,8 @@ module.exports = {
         //订单管理
         orderformRouter.OrderOut(app);
         orderformRouter.OrderDele(app);
+        orderformRouter.SupplierAdd(app);
+        orderformRouter.SupplierShow(app);
         //会员管理
         merberRouter.MerberFind(app);
         merberRouter.MerberAdd(app);

@@ -5,7 +5,6 @@ var cookie = require('cookie-parser');
 var session = require('express-session');
 var url = require('url');
 var jwt = require('jsonwebtoken');
-var ws = 
 module.exports = {
     Register: function(app){
         app.use(bodyparser.json());
@@ -49,7 +48,7 @@ module.exports = {
                 if(!result.status){
                     response.send(result);
                 } else if(result.data.length > 0){
-                    console.log(request.body);
+                    // console.log(request.body);
                     var token = jwt.sign(request.body, "secret",  {
                         'expiresIn': 1440 // 设置过期时间
                     })

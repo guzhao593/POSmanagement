@@ -53,7 +53,7 @@ module.exports = {
     },
     OrderForm:function(app){
         app.post("/billIn", function(request, response){
-                    db.insert("orderform", request.body, function(result){
+                    db.insert("order", request.body, function(result){
                         response.send(result);
                     });
             }); 

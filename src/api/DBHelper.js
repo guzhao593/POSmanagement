@@ -90,14 +90,11 @@ module.exports = {
                             });
                         }else{
                             collection.find(_condition || {}).toArray(function(error,dataset){
-                                // console.log(_condition)
-
                                 if(error){
                                     _callback({status: false, message:error});
                                 } else {
                                     _callback({status: true, data: dataset});
                                     db.close();
-                                    // console.log(dataset)
                                 }
                             });
                         }

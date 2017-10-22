@@ -7,16 +7,15 @@ module.exports = {
         app.use(bodyparser.json());
         app.use(bodyparser.urlencoded({ extended: false }));
         app.post("/StockAdd", function(request, response){
-            newdb.select("product", {productCode:request.body.productCode},function(result){
+            newdb.select("product", {code:request.body.code},function(result){
                 if(result.data.length == 0){
                     newdb.insert("product", request.body, function(result){
                         response.send(result);
                     });
                 } else {
-                    request.body.quantity = request.body.quantity*1 + result.data[0].quantity*1;
+                    request.body.num = request.body.num*1 + result.data[0].num*1;
                     var condition = {origin:result.data[0],update:request.body}
                     newdb.Zupdate("product", condition, function(result){
-                        console.log(result);
                         response.send(result);
                     });
                 }
