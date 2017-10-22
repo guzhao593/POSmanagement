@@ -1,5 +1,5 @@
 var bodyparser = require("body-parser");
-var db = require("../DBHelper.js");
+var newdb = require("../DB.js");
 var urlencode = bodyparser.urlencoded({extended: false});
 
 module.exports = {
@@ -7,7 +7,7 @@ module.exports = {
         app.use(bodyparser.json());
         app.use(bodyparser.urlencoded({ extended: false }));
         app.post("/merberAdd", function(request, response){
-                    db.insert("merber", request.body, function(result){
+                    newdb.insert("merber", request.body, function(result){
                         response.send(result);
                     });
             });
@@ -16,7 +16,16 @@ module.exports = {
         app.use(bodyparser.json());
         app.use(bodyparser.urlencoded({ extended: false }));
         app.post("/merberFind", function(request, response){
-                    db.select("merber", request.body, function(result){
+                    newdb.select("merber", request.body, function(result){
+                        response.send(result);
+                    });
+            });
+    },
+    MerberConFind:function(app){
+        app.use(bodyparser.json());
+        app.use(bodyparser.urlencoded({ extended: false }));
+        app.post("/merberConFind", function(request, response){
+                    newdb.conSelect("merber", request.body, function(result){
                         response.send(result);
                     });
             });
@@ -26,8 +35,19 @@ module.exports = {
         app.use(bodyparser.urlencoded({ extended: false }));
         app.post("/merberUpdate", function(request, response){
                 var condition = JSON.parse(request.body.update);
-                console.log(condition)
-                    db.update("merber", condition, function(result){
+                    newdb.dataUpdate("merber", condition, function(result){
+                        response.send(result);
+                    });
+            });
+    },
+    MerberMax:function(app){
+        app.use(bodyparser.json());
+        app.use(bodyparser.urlencoded({ extended: false }));
+        app.post("/merberMax", function(request, response){
+                    for( var key in request.body){
+                        request.body[key] = request.body[key]*1;
+                    }
+                    newdb.maxSelect("merber", request.body, function(result){
                         response.send(result);
                     });
             });
@@ -36,9 +56,8 @@ module.exports = {
         app.use(bodyparser.json());
         app.use(bodyparser.urlencoded({ extended: false }));
         app.post("/merberRomove", function(request, response){
-                    db.delete("merber", request.body, function(result)
+                    newdb.delete("merber", request.body, function(result)
                     {
-                        console.log(request.body);
                         response.send(result);
                     });
             });

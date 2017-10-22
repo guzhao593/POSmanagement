@@ -47,8 +47,6 @@ module.exports = {
                             response.send(res)
                         })
                        }else if(result.data.length > 0){
-                            console.log(result.data[0].num)
-                            console.log(arr[i].num)
                             Num = arr[i].num*1 + result.data[0].num*1;
                             // console.log(num)
                            
@@ -62,7 +60,6 @@ module.exports = {
     },
     ChangeStatus:function(app){
         app.post('/changestatus',function(req,res){
-            console.log(req.body)
             Ndb.update('addlist',{origin:{listNum:req.body.listNum},refresh:{status:req.body.status}},function(res){
                 // console.log(res)
                 response.send(res)

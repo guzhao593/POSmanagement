@@ -57,8 +57,6 @@ define(['jquery'],function(){
                                         $('.z-showbtn .affirm').off('click').on('click',function(){
                                             var valCode = $($this).children('td').eq(1).text();
                                             var obj = {code:valCode}
-                                            console.log(obj);
-                                            
                                             $.post(base + '/productRemove',obj,function(result){
                                                 $('.t-table tbody').text('');
                                                 $('.page').text('');
@@ -97,7 +95,6 @@ define(['jquery'],function(){
 
                                         $('.t-cover .z-updateform .btn-add').off('click').on('click',function(){
                                             var input = $('.t-cover .z-updateform .form-control');
-                                            console.log(input);
                                             var obj = {
                                                     classify:input.eq(0).val(),
                                                     code:input.eq(1).val(),
@@ -111,23 +108,21 @@ define(['jquery'],function(){
                                                     addDate:input.eq(9).val()
                                                 }
                                             if(obj.provider != '' && obj.barCode != ''&& obj.productName != ''){
-                                                console.log(td.eq(1).text());
-                                                $.post(base + '/productOut',{productCode:td.eq(1).text()},function(response,data){
+                                                $.post(base + '/productOut',{code:td.eq(1).text()},function(response,data){
                                                         var dataObj = {};
                                                             for(var key in response.data[0]){
                                                                 if(key != "_id"){
                                                                     dataObj[key] = response.data[0][key];
                                                                 }
                                                         }
-                                                        console.log(response,data);
                                                         $.post(base + '/productUpdate',{update:JSON.stringify({origin:dataObj,update:obj})},function(response,data){
                                                             $('.t-table tbody').text('');
                                                             $('.page').text('');
                                                             select();
-                                                            if(response.status){
-                                                                alert('修改成功');
+                                                            if(response.ok){
+                                                                $('.t-cover').hide();
+                                                                $('.z-addform').hide();
                                                             }
-                                                            console.log(response,data);
                                                     });
                                                 });
                                                 
@@ -149,7 +144,7 @@ define(['jquery'],function(){
                         }
                         // $('.t-table tbody').text('');
                         pagul.appendTo($('.page'));
-                        pagul.children().eq(0).css({backgroundColor:'#337AB7'});
+                        pagul.children().eq(0).css({backgroundColor:'#5cb85c'});
                         function insert(){
                             var tr = $(`
                                     <tr>
@@ -167,10 +162,10 @@ define(['jquery'],function(){
                                     `).appendTo(tbody);
                         }
                         pagul.children().off('click').on('click',function(){
-                            pagul.children().each(function(){
-                                $(this).css({backgroundColor:'#31B0D5'});
-                            })
-                            $(this).css({backgroundColor:'#337AB7'});
+                            // pagul.children().each(function(){
+                            //     $(this).css({backgroundColor:'#31B0D5'});
+                            // })
+                            $(this).css({backgroundColor:'#5cb85c'}).siblings().css({backgroundColor:'#ccc'});
                             tbody.text('');
                             var num = $(this).index();
                                
@@ -209,7 +204,8 @@ define(['jquery'],function(){
                             $('.glyphicon-remove').click(function(){
                                 $('.t-cover').hide();
                             })
-                            $('.z-addform .btn-add').click(function(){
+                            $('.z-addform .btn-add').off('click').on('click',function(){
+                                console.log(9999);
                                 var obj = {
                                     classify:$('.z-addform .must').eq(0).val(),
                                     code:$('.z-addform .must').eq(1).val(),
@@ -222,16 +218,15 @@ define(['jquery'],function(){
                                     num:$('.z-addform .must').eq(8).val(),
                                     addDate:$('.z-addform .must').eq(9).val()
                                 }
-                                console.log(obj);
-                                if(obj.provider != '' && obj.barCode != ''&& obj.productName != ''){
+                                if(obj.classify != '' && obj.barc != '' && obj.name != ''){
                                     $.post(base + '/productIn',obj,function(response,data,da){
                                             if(response.status){
-                                                alert('添加成功');
                                                 $('.t-table tbody').text('');
                                                 $('.page').text('');
+                                                $('.t-cover').hide();
+                                                $('.z-addform').hide();
                                                 select();
                                             }
-                                    console.log(response,data);
                                     });
                                 }  
                             })
@@ -297,14 +292,13 @@ define(['jquery'],function(){
                                             total += $(this).children('td').eq(6).text()*$(this).children('td').eq(8).text();
                                             $('#total').val(total);
                                          })
-                                        console.log(response);
                                     });
                                 }
                         });
                         $('.bar #barCode').focus(function(){
                             $(this).val('');
                         });
-                        var socket = io("ws://localhost:8818");
+                        var socket = io("ws://http://10.3.131.37:8818");
                         //生成售货单
                         $('.t-create').click(function(){
                             var arry = [];
@@ -343,7 +337,6 @@ define(['jquery'],function(){
                             //生成二维码
                                 $('#qrcode').html('');
                                 $('#qrcode').qrcode("http://10.3.131.27:666/html/prcode.html?data="+arry);
-                                console.log("http://10.3.131.27:666/html/prcode.html?data="+JSON.stringify(arry));
                                 $('.bar-cover').show();
                         })
                         
@@ -366,6 +359,8 @@ define(['jquery'],function(){
         addlist:function(){
             var self = this;
             $('.addlist').click(function(){
+
+
 
                 $('.content-right').load('../html/addtable.html',function(){
                     showtab();
@@ -423,13 +418,11 @@ define(['jquery'],function(){
                                     months = nowTime.getMonth();
                                     day = nowTime.getDate();
                                     time = year + '-' + months + '-' + day;
-                                    console.log(time);
 
                                     var buyMan = $('.buy-man').val() || '未写入';
                                     var allPrice = $('.allPrice').val() || '未写入';
 
                                     var trs = $('.l-table').find('tbody').children().length-1;
-                                    
                                     var arr = [];
                                     for(var i=1;i<=trs;i++){
                                         var $currentTr = $('.t'+i);
@@ -443,12 +436,10 @@ define(['jquery'],function(){
                                             price:$currentTr.children('td:nth-child(7)').text(),
                                             num:$currentTr.children('td:nth-child(8)').text(),
                                             all:$currentTr.children('td:nth-child(9)').text()
-                                        }   
-                                       console.log(obj)
+                                        }
                                         arr.push(JSON.stringify(obj));
                                     }
                                     var tab = {listNum:listNum,date:time,buyMan:buyMan,allPrice:allPrice,status:'0',data:arr.join()};
-                                    console.log(tab);
                                     
 
                                     $.post(self.baseUrl+'/addlist',tab,function(response){
@@ -470,7 +461,6 @@ define(['jquery'],function(){
                     
                     function showtab(){
                         $.get(self.baseUrl+'/listOut',function(response){
-                        console.log(response)
                         var $thead = $('<thead/>').html(`<th></th>
                                                     <th>单据状态</th>
                                                     <th>单据号</th>
@@ -514,10 +504,8 @@ define(['jquery'],function(){
                         // 删
                         $('.l-del').off('click').on('click',function(){
                          
-                            var listNum = $('.selector .click').text()
-                            console.log(listNum)
+                            var listNum = $('.selector .click').text();
                             $.post(self.baseUrl+'/tableDel',{listNum:listNum},function(result){
-                                console.log(result)
                             }) 
                             $('.selector .click').parent().remove()
                         })
@@ -607,7 +595,6 @@ define(['jquery'],function(){
 
                             //编辑实收数量
                             $('.tablebox .l-tab').on('click','td',function(){
-                                // console.log(66)
                                 var td = $(this).parent().children('td:last-child').get(0)
                                 
                                 if(this == td){
@@ -630,13 +617,12 @@ define(['jquery'],function(){
 
                             //收货入库
                             $('.inWarehouse').click(function(){
-                                console.log(response)
                                 var nowlist;
                                 $.post(self.baseUrl+'/changestatus',{listNum:listNum,status:'1'},function(res){
-                                    console.log(res)
                                 })
                             
-                                var trs = $('.l-tab').children().length-1;
+                                var trs = $('.l-tab').children().children().length-1;
+
                                 var arr = [];
                                 for(var i=0;i<trs;i++){
                                     var $currentTr = $('.t'+(i+1));
@@ -650,9 +636,7 @@ define(['jquery'],function(){
                                     }
                                     arr.push(obj)
                                 }
-                                console.log(JSON.stringify(arr))
                                 $.post(self.baseUrl+'/receive',{data:JSON.stringify(arr)},function(result){
-                                    console.log(result.status)
                                     if(result.status == true){
                                         alert('商品已入库')
                                     }
@@ -707,20 +691,24 @@ define(['jquery'],function(){
                     $('.z-addform').show().siblings().hide();
                     $('.z-title-word').text('会员-增加');
                     $('.btn-add').text('增加');
+                    var newCode = '';
+                    var newCard = '';
                     //自动编码
-                    $.post(`${$this.baseUrl}/merberFind`,{find:'count()'},function(res){
+                    $.post(`${$this.baseUrl}/MerberMax`,{code:-1},function(res){
                         var prevCode = res.data[0].code*1;
-                        $('#mbcode').val(`00000${prevCode+1}`.substr(-6,6));
-                        $('#mcard').val(`888800000${prevCode+1}`.substr(-10,10));
+                        newCode =`00000${prevCode+1}`.slice(-6);
+                        newCard = `888800000${prevCode+1}`.slice(-10);
+                        $('#mbcode').attr('disabled',true).val(newCode);
+                        $('#mcard').attr('disabled',true).val(newCard);
                         $('#mdate').val((new Date()).toLocaleDateString().split('/').join('-'));
                     });
+                   
                     //取消增加
                     $('.glyphicon-remove').click(function(){
                         $('.z-cover').hide();
                     });
                     //点击增加按纽
                     $('.btn-add').off("click").on("click",function(){
-                        console.log(9999);
                         var js = 0;
                         $('.must',".z-addform").each(function(){
                             if($(this).val() == ''){
@@ -733,10 +721,12 @@ define(['jquery'],function(){
                             return false;
                         }
                         var data = {};
-                        console.log(data);
                         $('.z-addform .form-control').each(function(){
                             data[$(this).attr('data-name')] = $(this).val();
                         });
+                        //防止有人恶意修改
+                        data['code'] = newCode;
+                        data['card'] = newCard;
                         $.post(`${$this.baseUrl}/merberAdd`,data,function(res){
                             self.show({});
                         });
@@ -745,7 +735,8 @@ define(['jquery'],function(){
                 },
                 //显示数据
                 show:function(data){
-                    $.post(`${$this.baseUrl}/merberFind`,data,function(res){
+                    var findClass = data.classify ? '/merberConFind' : '/merberFind';
+                    $.post(`${$this.baseUrl}${findClass}`,data,function(res){
                         if(res.data.length >0){
                             $('.z-table tbody').html('');
                             res.data.forEach(function(item){
@@ -787,7 +778,12 @@ define(['jquery'],function(){
                         $('.btn-update').text('修改').off("click").on("click",function(){
                                 var data = {};
                                 $('.form-control').each(function(){
-                                    data[$(this).attr('data-name')] = $(this).val();
+                                    var dataName = $(this).attr('data-name');
+                                    if(dataName == 'integral' || dataName == "consume"){
+                                        data[$(this).attr('data-name')] = $(this).val()*1;
+                                    }else{
+                                        data[$(this).attr('data-name')] = $(this).val();
+                                    }
                                 });
                                 var dataObj = {};
                                 for(var key in res.data[0]){
@@ -812,7 +808,7 @@ define(['jquery'],function(){
                     
                     $(".affirm").off("click").on('click',function(){
                             $.post(`${$this.baseUrl}/merberRomove`,{code:$(".z-showcode span").text()},function(res){
-                                if(res.status){
+                                if(res.ok){
                                     self.show({});
                                     $('.z-cover').hide();
                                     $(".z-remove").hide();
@@ -832,7 +828,7 @@ define(['jquery'],function(){
                     var condition = $('#z-condition').val();
                     var findClass = $('#z-findclass').val();
                     var findval = $('.z-findval').val();
-                    self.show({condition:condition,findval:findval,class:findClass});
+                    self.show({condition:condition,findval:findval,classify:findClass});
                 }
             }
             return Merber.init();
@@ -876,12 +872,12 @@ define(['jquery'],function(){
                     var self = this;
                     $('.z-cover').show().height(window.innerHeight - $('.change').offset().top-2).css({top:$('.navtop').height()});
                     $('.z-addform').show().siblings().hide();
+                    var newStaffcode = '';
                     //自动编码
-                    $.post(`${$this.baseUrl}/StaffFind`,{find:'count()'},function(res){
-                        var prevCode = res.status == false ? 0 : res.data[0].staffcode*1;
-                        console.log(prevCode);
-                        $('#staffcode').val(`00000${prevCode+1}`.substr(-6,6));
-                        $('#staffcard').val(`888800000${prevCode+1}`.substr(-10,10));
+                    $.post(`${$this.baseUrl}/StaffMax`,{staffcode:-1},function(res){
+                        var prevCode = res.data == undefined ? 0 : res.data[0].staffcode*1;
+                        newStaffcode = `00000${prevCode+1}`.slice(-6);
+                        $('#staffcode').attr('disabled',true).val(newStaffcode);
                         $('#staffdate').val((new Date()).toLocaleDateString().split('/').join('-'));
                     });
                     //取消增加
@@ -901,10 +897,11 @@ define(['jquery'],function(){
                             return false;
                         }
                         var data = {};
-                        console.log(data);
                         $('.z-addform .form-control').each(function(){
                             data[$(this).attr('data-name')] = $(this).val();
                         });
+                        //防止有人恶意修改
+                        data['staffcode'] = newStaffcode;
                         $.post(`${$this.baseUrl}/StaffAdd`,data,function(res){
                             self.show({});
                         });
@@ -913,7 +910,8 @@ define(['jquery'],function(){
                 },
                 //显示数据
                 show:function(data){
-                    $.post(`${$this.baseUrl}/StaffFind`,data,function(res){
+                    var findClass = data.classify ? '/staffConFind' : '/staffFind';
+                    $.post(`${$this.baseUrl}${findClass}`,data,function(res){
                         if(res.data.length >0){
                             $('.z-table tbody').html('');
                             res.data.forEach(function(item){
@@ -979,7 +977,7 @@ define(['jquery'],function(){
                     
                     $(".affirm").off("click").on('click',function(){
                             $.post(`${$this.baseUrl}/StaffRomove`,{staffcode:$(".z-showcode span").text()},function(res){
-                                if(res.status){
+                                if(res.ok){
                                     self.show({});
                                     $('.z-cover').hide();
                                     $(".z-remove").hide();
@@ -999,7 +997,7 @@ define(['jquery'],function(){
                     var condition = $('#z-condition').val();
                     var findClass = $('#z-findclass').val();
                     var findval = $('.z-findval').val();
-                    self.show({condition:condition,findval:findval,class:findClass});
+                    self.show({condition:condition,findval:findval,classify:findClass});
                 }
             }
             return Staff.init();
@@ -1084,14 +1082,6 @@ define(['jquery'],function(){
                     var self = this;
                     $('.z-cover').show().height(window.innerHeight - $('.change').offset().top-2).css({top:$('.navtop').height()});
                     $('.z-addform').show().siblings().hide();
-                    //自动编码
-                    // $.post(`${$this.baseUrl}/StockFind`,{find:'count()'},function(res){
-                    //     var prevCode = res.status == false ? 0 : res.data[0].productCode*1;
-                    //     console.log(prevCode);
-                    //     $('#productCode').val(`00000${prevCode+1}`.substr(-6,6));
-                    //     $('#stockcard').val(`888800000${prevCode+1}`.substr(-10,10));
-                    //     $('#stockdate').val((new Date()).toLocaleDateString().split('/').join('-'));
-                    // });
                     //取消增加
                     $('.glyphicon-remove').click(function(){
                         $('.z-cover').hide();
@@ -1109,7 +1099,6 @@ define(['jquery'],function(){
                             return false;
                         }
                         var data = {};
-                        console.log(data);
                         $('.z-addform .form-control').each(function(){
                             data[$(this).attr('data-name')] = $(this).val();
                         });
@@ -1121,7 +1110,8 @@ define(['jquery'],function(){
                 },
                 //显示数据
                 show:function(data){
-                    $.post(`${$this.baseUrl}/StockFind`,data,function(res){
+                    var findClass = data.classify ? '/StockConFind' : '/StockFind';
+                    $.post(`${$this.baseUrl}${findClass}`,data,function(res){
                         if(res.data.length >0){
                             $('.z-table tbody').html('');
                             res.data.forEach(function(item){
@@ -1197,18 +1187,17 @@ define(['jquery'],function(){
                         $('.btn-putaway').off("click").on("click",function(){
                                 var data = {};
                                 $('.form-control').each(function(){
-                                    data[$(this).attr('data-name')] = $(this).val();
-                                });
-                                var dataObj = {};
-                                var updateObj = {};
-                                for(var key in res.data[0]){
-                                    if(key != "_id"){
-                                        dataObj[key] = res.data[0][key];
-                                        updateObj[key] = res.data[0][key];
+                                    if($(this).is("#num") == 'num'){
+                                        data[$(this).attr('data-name')] = $(this).val()*1;
+                                    }else{
+                                        data[$(this).attr('data-name')] = $(this).val();
                                     }
-                                }
-                                updateObj.num = updateObj.num*1 - data.num*1;
-                                $.post(`${$this.baseUrl}/StockUpdate`,{update:JSON.stringify({origin:dataObj,update:updateObj})},function(res){
+                                });
+                                var stockData = {
+                                    find:{code : res.data[0].code},
+                                    num:{num : -($('#num').val()*1)}
+                                };
+                                $.post(`${$this.baseUrl}/StockUpdate`,{stockData:JSON.stringify(stockData)},function(res){
                                         $.post(`${$this.baseUrl}/PutawayAdd`,data,function(res){
                                             self.show({});
                                             $('.z-cover').hide();
@@ -1224,7 +1213,7 @@ define(['jquery'],function(){
                     var condition = $('#z-condition').val();
                     var findClass = $('#z-findclass').val();
                     var findval = $('.z-findval').val();
-                    self.show({condition:condition,findval:findval,class:findClass});
+                    self.show({condition:condition,findval:findval,classify:findClass});
                 }
             }
             return Stock.init();
@@ -1293,7 +1282,6 @@ define(['jquery'],function(){
                             return false;
                         }
                         var data = {};
-                        console.log(data);
                         $('.z-addform .form-control').each(function(){
                             data[$(this).attr('data-name')] = $(this).val();
                         });
@@ -1305,7 +1293,8 @@ define(['jquery'],function(){
                 },
                 //显示数据
                 show:function(data){
-                    $.post(`${$this.baseUrl}/PutawayFind`,data,function(res){
+                    var findClass = data.classify ? '/PutawayConFind' : '/PutawayFind';
+                    $.post(`${$this.baseUrl}${findClass}`,data,function(res){
                         if(res.data.length >0){
                             $('.z-table tbody').html('');
                             res.data.forEach(function(item){
@@ -1377,23 +1366,17 @@ define(['jquery'],function(){
                         $('.glyphicon-remove').click(function(){
                             $('.z-cover').hide();
                         });
-
                         $('.btn-outaway').off("click").on("click",function(){
-                                var data = {};
-                                $('.form-control').each(function(){
-                                    data[$(this).attr('data-name')] = $(this).val();
-                                });
-                                var dataObj = {};
-                                var updateObj = {};
-                                for(var key in res.data[0]){
-                                    if(key != "_id"){
-                                        dataObj[key] = res.data[0][key];
-                                        updateObj[key] = res.data[0][key];
-                                    }
-                                }
-                                updateObj.num = updateObj.num*1 - data.num*1;
-                                $.post(`${$this.baseUrl}/PutawayUpdate`,{update:JSON.stringify({origin:dataObj,update:updateObj})},function(res){
-                                        $.post(`${$this.baseUrl}/StockAdd`,data,function(res){
+                                var putawayData = {
+                                    find:{code : res.data[0].code},
+                                    num:{num : -($('#num').val()*1)}
+                                };
+                                var stockData = {
+                                    find:{code : res.data[0].code},
+                                    num:{num : $('#num').val()*1}
+                                };
+                                $.post(`${$this.baseUrl}/PutawayUpdate`,{putawayData:JSON.stringify(putawayData)},function(res){
+                                        $.post(`${$this.baseUrl}/StockAdd`,{stockData:JSON.stringify(stockData)},function(res){
                                             self.show({});
                                             $('.z-cover').hide();
                                             $('.z-outawayform').hide();
@@ -1408,17 +1391,17 @@ define(['jquery'],function(){
                     var condition = $('#z-condition').val();
                     var findClass = $('#z-findclass').val();
                     var findval = $('.z-findval').val();
-                    self.show({condition:condition,findval:findval,class:findClass});
+                    self.show({condition:condition,findval:findval,classify:findClass});
                 }
             }
             return Putaway.init();
         },
+        //订单管理
         order:function(){
-            var self = this
+            var self = this;
             var Order = {
                 init:function(){
                     $.post(self.baseUrl+'/orderout',function(result){
-                        console.log(result)
                         showtab()
                         function showtab(){
                             var $thead = $('<thead/>').html(`<th></th>
@@ -1463,14 +1446,13 @@ define(['jquery'],function(){
                                                 <th>商品条码</th>
                                                 <th>商品名称</th>
                                                 <th>批发价</th>
-                                                <th>数量</th>
-                                                <th>总计</th>
+                                                <th>数量</th> 
                                             </tr>`
                                             ).addClass('l-tab')
                                         for(var j=0;j<arr.length;j++){
                                             
                                             $tr = $('<tr/>');
-                                            $rank = $('<td/>').html(j)
+                                            $rank = $('<td/>').html(j+1)
                                             $prov = $('<td>').html(arr[j].prov)
                                             $code = $('<td>').html(arr[j].code)
                                             $barc = $('<td>').html(arr[j].barc)
@@ -1496,9 +1478,7 @@ define(['jquery'],function(){
                             $('.l-del').off('click').on('click',function(){
                              
                                 var listNum = $('.selector .click').text()
-                                console.log(listNum)
                                 $.post(self.baseUrl+'/orderdele',{listNum:listNum},function(result){
-                                    console.log(result)
                                 }) 
                                 $('.selector .click').parent().remove()
                             })

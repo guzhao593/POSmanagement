@@ -55,24 +55,30 @@ module.exports = {
         orderformRouter.OrderDele(app);
         //会员管理
         merberRouter.MerberFind(app);
+        merberRouter.MerberConFind(app);
         merberRouter.MerberAdd(app);
         merberRouter.MerberUpdate(app);
         merberRouter.MerberRomove(app);
+        merberRouter.MerberMax(app);
 
          //员工管理
         staffRouter.StaffFind(app);
+        staffRouter.StaffConFind(app);
         staffRouter.StaffAdd(app);
         staffRouter.StaffUpdate(app);
         staffRouter.StaffRomove(app);
+        staffRouter.StaffMax(app);
 
          //库存管理
         stockRouter.StockFind(app);
+        stockRouter.StockConFind(app);
         stockRouter.StockAdd(app);
         stockRouter.StockUpdate(app);
         stockRouter.StockRomove(app);
 
          //上架管理
         putawayRouter.PutawayFind(app);
+        putawayRouter.PutawayConFind(app);
         putawayRouter.PutawayAdd(app);
         putawayRouter.PutawayUpdate(app);
         putawayRouter.PutawayRomove(app);

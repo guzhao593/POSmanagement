@@ -1,8 +1,8 @@
-.header { box-shadow: none; min-height: 8%; background: #438eb9; }
+.header { box-shadow: none; min-height: 8%; background: #438eb9; overflow: hidden; }
 
 .header .fl { color: #ffffff; font-size: 24px; text-shadow: none; padding-top: 8px; margin-left: 20px; height: auto; }
 
-.content { height: 92%; }
+.content { height: 92%; min-height: 320px; }
 
 .content .navleft { width: 11%; height: 100%; background-color: #f2f2f2; border-style: solid; border-color: #cccccc; border-width: 0 1px 0 0; }
 
@@ -31,6 +31,8 @@
 .content .content-right .change { height: 40px; border-top: 1px solid #DCE8F1; border-bottom: 1px solid #E0E2E5; background-color: #F8FAFC; }
 
 .content .content-right .change .btn { margin-top: 5px; margin-right: 5px; height: 30px; line-height: 16px; border-radius: 0px; width: 60px; font-size: 12px; }
+
+.content .content-right .change .l-find { margin-left: -65px; }
 
 .content .content-right .change .btn-success { margin-left: -65px; }
 
@@ -134,11 +136,13 @@
 
 .content .content-right .z-cover .z-remove .z-showbtn .btn { margin-right: 10px; width: 80px; height: 35px; border-radius: 0px; font-size: 16px; }
 
-.content .content-right .t-table thead tr th { text-align: center; padding: 0 15px; height: 38px; }
+.content .content-right .t-table { margin: 10px 0 0 10px; }
+
+.content .content-right .t-table thead tr th { text-align: center; padding: 0 15px; height: 38px; background-color: #F8FAFC; }
 
 .content .content-right .t-table tbody tr:hover { background-color: #EEEEEE; }
 
-.content .content-right .t-table tbody tr th { text-align: center; width: 90px; height: 38px; }
+.content .content-right .t-table tbody tr th { text-align: center; width: 90px; height: 36px; }
 
 .content .content-right .t-table tbody tr th .add { color: #449D44; margin-right: 10px; }
 
@@ -146,25 +150,25 @@
 
 .content .content-right .t-table tbody tr th:first-child { widows: 80px; }
 
-.content .content-right .t-table tbody tr td { text-align: center; padding: 0 15px; height: 38px; }
+.content .content-right .t-table tbody tr td { text-align: center; padding: 0 15px; height: 36px; }
 
 .content .content-right .t-table tfoot tr:hover { background-color: #EEEEEE; }
 
-.content .content-right .t-table tfoot tr th { text-align: center; width: 120px; height: 38px; }
+.content .content-right .t-table tfoot tr th { text-align: center; width: 120px; height: 36px; }
 
 .content .content-right .t-table tfoot tr th .add { color: #449D44; margin-right: 10px; }
 
 .content .content-right .t-table tfoot tr th .remove { color: #C9302C; }
 
-.content .content-right .t-table tfoot tr td { text-align: center; width: 120px; height: 38px; }
+.content .content-right .t-table tfoot tr td { text-align: center; width: 120px; height: 36px; }
 
-.content .content-right .t-table tfoot tr td input { border: none; width: 120px; height: 38px; text-align: center; }
+.content .content-right .t-table tfoot tr td input { border: none; width: 120px; height: 36px; text-align: center; }
 
-.content .content-right .page { width: 1000px; height: 50px; margin-left: 10px; margin-top: 10px; }
+.content .content-right .page { width: 1000px; margin-left: 20px; margin-top: 15px; }
 
-.content .content-right .page ul { float: right; }
+.content .content-right .page ul { float: left; }
 
-.content .content-right .page ul li { float: left; width: 30px; height: 30px; background-color: #31B0D5; margin-right: 10px; line-height: 30px; text-align: center; }
+.content .content-right .page ul li { float: left; width: 20px; height: 20px; background-color: #ccc; margin-right: 10px; line-height: 20px; text-align: center; }
 
 .content .content-right .page ul li:last-child { margin-right: 50px; }
 

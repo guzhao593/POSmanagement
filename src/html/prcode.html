@@ -16,12 +16,13 @@
    
 </script>
 <script type="text/javascript">
-      var socket = io("ws://localhost:8818");
+      var socket = io("ws://http://10.3.131.37:8818");
+      console.log(socket);
       var data = JSON.parse(decodeURI(location.search.slice(1).split('=')[1]));
      $('.prcode').click(function(){
       $(this).css({
         backgroundColor:'#f60'
-      })
+      });
       socket.emit('pay','true');
       var str = '天天 超市收银系统  \n*************************************\n';
       var total = 0;
@@ -29,11 +30,11 @@
         item =JSON.parse(item);
         str += `商品名称：${item.name}\n单品金额：${item.price} 元 \n商品数量：${item.num} 条\n金额：${item.num*1 * item.price*1} 元\n`;
           total += item.num*1 * item.price*1
-      })
+      });
       str += `\n总金额：${total} 元\n买单时间：${(new Date()).toLocaleDateString()}\n*************************************\n`;
       $.post("http://10.3.131.33:81/print", {text: str}, function(res){
                 console.log(res)
-              })
+              });
     });
 </script>
 

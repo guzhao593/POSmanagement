@@ -2,6 +2,7 @@
     box-shadow: none;
     min-height: 8%;
     background: #438eb9;
+    overflow: hidden;
     .fl{
         color: #ffffff;
         font-size: 24px;
@@ -14,13 +15,14 @@
 
 .content{
     height:92%;
+    min-height:320px;
     .navleft{
         width:11%;
          height:100%;
         background-color: #f2f2f2;
         border-style: solid;
         border-color: #cccccc;
-        border-width: 0 1px 0 0;
+        border-width: 0 1px 0 0;   
         .navlist{
             li{
                 display: block;
@@ -71,6 +73,7 @@
                 }
         }
     }
+    
     .content-right{
         width: 89%;
         position:relative;
@@ -81,7 +84,7 @@
             background-color: #f9f9f9;
         }
         .title{
-            float: left;
+            float:left;
             margin-left:14px;
             margin-top:2px;
             position:relative;
@@ -102,6 +105,7 @@
                 margin-top:5px;margin-right:5px;height:30px;line-height:16px;
                 border-radius:0px;width:60px;font-size:12px;
             }
+            .l-find{margin-left:-65px;}
             .btn-success{
                 margin-left:-65px;
             }
@@ -316,9 +320,10 @@
             }
         }
         .t-table{
+                margin:10px 0 0 10px;
                 thead{
                     tr{
-                        th{text-align: center;padding:0 15px;height: 38px;
+                        th{text-align: center;padding:0 15px;height: 38px;background-color:#F8FAFC;
 
                         }
                     }
@@ -326,12 +331,12 @@
                 tbody{
                     tr:hover{background-color:#EEEEEE;}
                     tr{
-                        th{text-align: center;width:90px;height: 38px;
+                        th{text-align: center;width:90px;height: 36px;
                             .add{color:#449D44;margin-right:10px;}
                             .remove{color:#C9302C;}
                             &:first-child{widows: 80px;}
                         }
-                        td{text-align: center;padding:0 15px;height: 38px;
+                        td{text-align: center;padding:0 15px;height: 36px;
                    
                         }
                     }
@@ -339,20 +344,20 @@
                 tfoot{
                         tr:hover{background-color:#EEEEEE;}
                         tr{
-                            th{text-align: center;width:120px;height: 38px;
+                            th{text-align: center;width:120px;height: 36px;
                                 .add{color:#449D44;margin-right:10px;}
                                 .remove{color:#C9302C;}
                             }
-                            td{text-align: center;width:120px;height: 38px;
+                            td{text-align: center;width:120px;height: 36px;
                                 
-                                input{border:none;width:120px;height: 38px;text-align: center;}
+                                input{border:none;width:120px;height: 36px;text-align: center;}
                             }
                         }
                 }  
             }
-        .page{width: 1000px;height: 50px;margin-left: 10px;margin-top:10px;
-            ul{float:right;
-                li{float:left;width: 30px;height: 30px;background-color:#31B0D5;margin-right:10px;line-height:30px;text-align: center;
+        .page{width: 1000px;margin-left: 20px;margin-top:15px;
+            ul{float:left;
+                li{float:left;width: 20px;height: 20px;background-color:#ccc;margin-right:10px;line-height:20px;text-align: center;
                     &:last-child{margin-right:50px;}
                 }
             }
@@ -467,6 +472,5 @@
                 }
                 
         }
-
     }
 }

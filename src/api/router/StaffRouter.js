@@ -1,5 +1,5 @@
 var bodyparser = require("body-parser");
-var db = require("../DBHelper.js");
+var newdb = require("../DB.js");
 var urlencode = bodyparser.urlencoded({extended: false});
 
 module.exports = {
@@ -7,7 +7,7 @@ module.exports = {
         app.use(bodyparser.json());
         app.use(bodyparser.urlencoded({ extended: false }));
         app.post("/StaffAdd", function(request, response){
-                    db.insert("staff", request.body, function(result){
+                    newdb.insert("staff", request.body, function(result){
                         response.send(result);
                     });
             });
@@ -16,7 +16,28 @@ module.exports = {
         app.use(bodyparser.json());
         app.use(bodyparser.urlencoded({ extended: false }));
         app.post("/StaffFind", function(request, response){
-                    db.select("staff", request.body, function(result){
+                    newdb.select("staff", request.body, function(result){
+                        response.send(result);
+                    });
+            });
+    },
+    StaffConFind:function(app){
+        app.use(bodyparser.json());
+        app.use(bodyparser.urlencoded({ extended: false }));
+        app.post("/staffConFind", function(request, response){
+                    newdb.conSelect("staff", request.body, function(result){
+                        response.send(result);
+                    });
+            });
+    },
+    StaffMax:function(app){
+        app.use(bodyparser.json());
+        app.use(bodyparser.urlencoded({ extended: false }));
+        app.post("/StaffMax", function(request, response){
+                    for( var key in request.body){
+                        request.body[key] = request.body[key]*1;
+                    }
+                    newdb.maxSelect("staff", request.body, function(result){
                         response.send(result);
                     });
             });
@@ -26,7 +47,7 @@ module.exports = {
         app.use(bodyparser.urlencoded({ extended: false }));
         app.post("/StaffUpdate", function(request, response){
                 var condition = JSON.parse(request.body.update);
-                    db.update("staff", condition, function(result){
+                    newdb.dataUpdate("staff", condition, function(result){
                         response.send(result);
                     });
             });
@@ -35,7 +56,7 @@ module.exports = {
         app.use(bodyparser.json());
         app.use(bodyparser.urlencoded({ extended: false }));
         app.post("/StaffRomove", function(request, response){
-                    db.delete("staff", request.body, function(result){
+                    newdb.delete("staff", request.body, function(result){
                         response.send(result);
                     });
             });
