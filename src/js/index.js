@@ -1,9 +1,5 @@
 require(['config'],function(){
-    require(['jquery','common','bootstrap'],function($,com){
-        // var ws = new WebSocket("ws://localhost:888");
-        // ws.onmessage = function(_msg){
-        //   console.log(_msg);
-        // }
+    require(['jquery','common','bootstrap','datagird'],function($,com){
          //点击员工管理按纽加载员工管理页面
         $('.content-right').load('html/staff.html',function(){
             //执行员工管理函数
@@ -59,5 +55,12 @@ require(['config'],function(){
                  com.order();
             })
         })
+        //供应商
+        $('.provider').click(function(){
+          $('.content-right').load('html/provider.html',function(){
+            com.supplier();
+          })
+        })
+
     });
 });

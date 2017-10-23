@@ -15,7 +15,7 @@
 
 .content{
     height:92%;
-    min-height:320px;
+    min-height:360px;
     .navleft{
         width:11%;
          height:100%;
@@ -46,6 +46,9 @@
                         background:#fff;
                         text-decoration:none;
                     }
+                    span{
+                        margin-left:-3px;
+                    }
                     i{
                         display: block;
                         margin: 0;
@@ -56,9 +59,10 @@
                     }
                     b{
                         display:block;
-                        width:20px;height:20px;
+                        width:10px;height:10px;
                         float:right;
                         margin-top:11px;
+                        left:-10px;
                         font-weight:normal;
                     }
                 }
@@ -67,10 +71,9 @@
                 a{
                     color: #2b7dbc;
                 }
-                    
-                    background:#fff;
-                    text-decoration:none;
-                }
+                background:#fff;
+                text-decoration:none;
+            }
         }
     }
     
@@ -153,8 +156,10 @@
                 
                 .l-table{
                     &:first-child{width:20px;height:33px;}
+
                     th{
                         padding:10px 20px;border:1px solid #E1E1E1;
+                        text-align:center;
                     }
                     tr{
                         border:1px solid #E1E1E1;
@@ -246,7 +251,7 @@
                         }
                     }
                 }
-            }
+        }
         .z-cover{
             position:absolute;
             right:0px;width:100%;background-color:rgba(0,0,0,0.4);display:none;

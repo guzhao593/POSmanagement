@@ -16,5 +16,19 @@ module.exports = {
                 response.send(result);
             })
         })
+    },
+    SupplierAdd:function(app){
+        app.post('/supplieradd',function(req,res){
+            newdb.insert('supplier',req.body,function(result){
+                res.send(result);
+            })
+        })
+    },
+    SupplierShow:function(app){
+        app.post("/supplierfind", function(request, response){
+                    newdb.select("supplier", request.body, function(result){
+                        response.send(result);
+                    });
+            });
     }
 }

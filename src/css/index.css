@@ -2,7 +2,7 @@
 
 .header .fl { color: #ffffff; font-size: 24px; text-shadow: none; padding-top: 8px; margin-left: 20px; height: auto; }
 
-.content { height: 92%; min-height: 320px; }
+.content { height: 92%; min-height: 360px; }
 
 .content .navleft { width: 11%; height: 100%; background-color: #f2f2f2; border-style: solid; border-color: #cccccc; border-width: 0 1px 0 0; }
 
@@ -12,9 +12,11 @@
 
 .content .navleft .navlist li a:hover { color: #2b7dbc; background: #fff; text-decoration: none; }
 
+.content .navleft .navlist li a span { margin-left: -3px; }
+
 .content .navleft .navlist li a i { display: block; margin: 0; vertical-align: inherit; line-height: 39px; height: 39px; font-size: 18px; }
 
-.content .navleft .navlist li a b { display: block; width: 20px; height: 20px; float: right; margin-top: 11px; font-weight: normal; }
+.content .navleft .navlist li a b { display: block; width: 10px; height: 10px; float: right; margin-top: 11px; left: -10px; font-weight: normal; }
 
 .content .navleft .navlist .hover { background: #fff; text-decoration: none; }
 
@@ -56,7 +58,7 @@
 
 .content .content-right .tablebox .l-table:first-child { width: 20px; height: 33px; }
 
-.content .content-right .tablebox .l-table th { padding: 10px 20px; border: 1px solid #E1E1E1; }
+.content .content-right .tablebox .l-table th { padding: 10px 20px; border: 1px solid #E1E1E1; text-align: center; }
 
 .content .content-right .tablebox .l-table tr { border: 1px solid #E1E1E1; }
 

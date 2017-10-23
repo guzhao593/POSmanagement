@@ -1,0 +1,19 @@
+1.用户名：000001 密码：123
+2.baseUrl: 在js文件夹里面的common.js文件里的开头。
+3.在src文件夹里打开cmd命令窗口运行node server即可打开node服务器端口
+4.在api文件夹里打开cmd命令窗口运行node io即可打开socked.io端口。
+5.数据库文件为在./src/database文件夹里面。
+6.已配置模块：
+	Express
+	Body-parser
+	Gulp
+	Gulp-sass
+	Gulp-rename
+	Gulp-concat
+	Gulp-uglify
+	Browser-sync
+	Mongodb
+	jsonwebtoken
+	express-session
+	cookie-parser
+	socket.io

@@ -53,6 +53,8 @@ module.exports = {
         //订单管理
         orderformRouter.OrderOut(app);
         orderformRouter.OrderDele(app);
+        orderformRouter.SupplierAdd(app);
+        orderformRouter.SupplierShow(app);
         //会员管理
         merberRouter.MerberFind(app);
         merberRouter.MerberConFind(app);

@@ -1,6 +1,6 @@
 define(['jquery'],function(){
     return {
-        baseUrl:"http://localhost:8848",
+        baseUrl:"http://localhost:8848",  //10.3.131.27
         //产品管理
         Product:function(){
             var base = this.baseUrl;
@@ -364,6 +364,7 @@ define(['jquery'],function(){
 
                 $('.content-right').load('../html/addtable.html',function(){
                     showtab();
+                    
                      //增
                     $('.l-add').click(function(){
                         $('.tablebox').load('../html/tablebox.html',function(){
@@ -391,12 +392,65 @@ define(['jquery'],function(){
 
                                 //可编辑表格
                                 $('.tablebox .l-table').on('click','td',function(){
-
                                     if(this == $(this).parent().children()[0] || this == $(this).parent().children()[1]){
                                         return false;
                                     }
+                                    //可选商家
+                                    if(this == $(this).parent().children()[2]){
+                                       
+                                        if($(this).children().length == '0'){
+                                            var $select = $('<select/>').css({'width':'100%','height':'100%','border':'none'}).addClass('select');
+                                            $.post(self.baseUrl+'/supplierfind',{},function(res){
+                                            
+                                                var $option = $('<option/>').html(res.data[0].unname).attr({'value':res.data[0].unname});
+                                                $select.append($option)
+                                                for(var i=1;i<res.data.length;i++){
+                                                   
+                                                    if(res.data[i].unname != res.data[0].unname){
 
-                                    if($(this).find('input').length == 0){
+                                                        var $opt = $('<option/>').html(res.data[i].unname).attr({'value':res.data[i].unname})
+                                                        $select.append($opt)
+                                                    }
+                                                }
+
+
+                                            })
+                                                // $(this).children().remove()
+                                        }
+                                            $(this).append($select)
+                                    }
+
+
+                                    if(this == $(this).parent().children()[3]){
+                                        var it = $(this)
+                                        var curren = $(this).parent().children('td:nth-child(3)').children().val();
+                                        if($(this).children().length == '0'){
+                                          
+                                            var $select = $('<select/>').css({'width':'100%','height':"100%",'border':'none'}).addClass('chose')
+                                            $.post(self.baseUrl+'/supplierfind',{unname:curren},function(res){
+                                                console.log(res)
+                                                for(var i=0;i<res.data.length;i++){
+                                                    var $opt = $('<option/>').html(res.data[i].gdcode).attr({'value':res.data[i].gdcode})
+                                                    $select.append($opt)
+                                                }
+
+                                                $('.chose').click(function(){
+                                                    console.log($(this).val())
+                                                    for(var i=0;i<res.data.length;i++){
+                                                        if(res.data[i].gdcode == $(this).val()){
+                                                            it.parent().children('td:nth-child(6)').html('')
+                                                            it.parent().children('td:nth-child(6)').html(res.data[i].gdname)
+                                                        }
+                                                    }
+                                                })
+
+                                            })
+                                             $(this).append($select)
+                                        }
+                                        // console.log($(this).children().val())
+                                    }
+                                    
+                                    if($(this).find('input').length == 0 && this != $(this).parent().children()[2] && this != $(this).parent().children()[3] ){
                                         var $input = $('<input/>').text($(this).text());
                                         $(this).text('')
                                         $(this).append($input);
@@ -429,14 +483,15 @@ define(['jquery'],function(){
                                         
                                         var obj = {
                                             rank:$currentTr.children('td:nth-child(1)').text(),
-                                            prov:$currentTr.children('td:nth-child(3)').text(),
-                                            code:$currentTr.children('td:nth-child(4)').text(),
+                                            prov:$currentTr.children('td:nth-child(3)').children().val(),
+                                            code:$currentTr.children('td:nth-child(4)').children().val(),
                                             barc:$currentTr.children('td:nth-child(5)').text(),
                                             name:$currentTr.children('td:nth-child(6)').text(),
                                             price:$currentTr.children('td:nth-child(7)').text(),
                                             num:$currentTr.children('td:nth-child(8)').text(),
                                             all:$currentTr.children('td:nth-child(9)').text()
                                         }
+
                                         arr.push(JSON.stringify(obj));
                                     }
                                     var tab = {listNum:listNum,date:time,buyMan:buyMan,allPrice:allPrice,status:'0',data:arr.join()};
@@ -456,7 +511,7 @@ define(['jquery'],function(){
                     //查看进货单
                     $('.l-find').click(function(){
                         showtab();
-
+                        
                     })
                     
                     function showtab(){
@@ -496,6 +551,8 @@ define(['jquery'],function(){
                         }
                         $('.tablebox').html('').append($table)
 
+                        
+
                         //点击tr高亮
                         $('.list').on('click','tr',function(){
                             $('.list').children().removeClass('selector')
@@ -510,7 +567,6 @@ define(['jquery'],function(){
                             $('.selector .click').parent().remove()
                         })
 
-                        
                         //点击单号跳到单据页面
                         $('.click').click(function(){
                             var listNum = $(this).text();
@@ -1014,7 +1070,7 @@ define(['jquery'],function(){
                 $.post(`${$this.baseUrl}/login`,{staffcode:$(".staffcode").val(),password:$(".password").val()},function(req){
                     if(req.status){
                         document.cookie = 'token='+req.token+';path=/';
-                        window.location.href = 'index.html';
+                        window.location.href = '../index.html';
                     } else {
                         alert("登录不成功，请重新输入！");
                     }
@@ -1038,7 +1094,7 @@ define(['jquery'],function(){
               headers: {'Authorization': token},
               success: function(response){
                 if(response.status ==false || response == undefined ){
-                  location.href = '../login.html'
+                  location.href = '../html/login.html'
                 }
               }
             })
@@ -1257,14 +1313,6 @@ define(['jquery'],function(){
                     var self = this;
                     $('.z-cover').show().height(window.innerHeight - $('.change').offset().top-2).css({top:$('.navtop').height()});
                     $('.z-addform').show().siblings().hide();
-                    //自动编码
-                    // $.post(`${$this.baseUrl}/StockFind`,{find:'count()'},function(res){
-                    //     var prevCode = res.status == false ? 0 : res.data[0].productCode*1;
-                    //     console.log(prevCode);
-                    //     $('#productCode').val(`00000${prevCode+1}`.substr(-6,6));
-                    //     $('#stockcard').val(`888800000${prevCode+1}`.substr(-10,10));
-                    //     $('#stockdate').val((new Date()).toLocaleDateString().split('/').join('-'));
-                    // });
                     //取消增加
                     $('.glyphicon-remove').click(function(){
                         $('.z-cover').hide();
@@ -1494,6 +1542,69 @@ define(['jquery'],function(){
 
             }
             return Order.init();
+        },
+        // 供应商管理
+        supplier:function(){
+            var self = this;
+            show();
+            $('.l-add').click(function(){
+                // $('.z-cover').css({'display':'block'})
+                console.log(666)
+              $('.z-cover').show().height(window.innerHeight - $('.change').offset().top-2).css({top:$('.navtop').height()});
+                $('.z-addform').show().siblings().hide();
+                $('.z-title-word').text('供应商-增加');
+                $('.btn-add').text('增加');
+
+                $('.glyphicon-remove').click(function(){
+                        $('.z-cover').hide();
+                    });
+
+             //点击增加按纽
+                $('.btn-add').off("click").on("click",function(){
+                    var js = 0;
+                    $('.must',".z-addform").each(function(){
+                        if($(this).val() == ''){
+                            $(this).css('border','1px solid red');
+                            js++;
+                        }
+                    });
+                    if(js>0){
+                        return false;
+                    }
+                    var data = {};
+                    $('.z-addform .form-control').each(function(){
+                        data[$(this).attr('data-name')] = $(this).val();
+                    });
+                    console.log(data);
+                    $.post(`${self.baseUrl}/supplieradd`,data,function(res){
+                        console.log(res)
+                        show({}); 
+                    });
+                    $('.z-cover').hide();
+                })   
+            })
+
+            function show(data){
+                $.post(`${self.baseUrl}/supplierfind`,data,function(res){
+                    if(res.data.length >0){
+                        $('.z-table tbody').html('');
+                        res.data.forEach(function(item){
+                            var tr = $('<tr/>');
+                            for( var key in item){
+                                if(key != "_id" && key != "price" && key != "vipPrice" && key != "addDate" && key !="quantity"){
+                                    $('<td/>').text(item[key]).attr('data-name',key).appendTo(tr);
+                                }else{
+                                    tr.attr('data-id',item[key]);
+                                }
+                            }
+                        tr.appendTo($('.z-table tbody'));
+                        });
+                    } else {
+                        $('.z-table tbody').html(`<tr><td>查询数据为空</td></tr>`);
+                    }
+                });
+                return this;
+            }
         }
     }
 })

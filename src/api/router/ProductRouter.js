@@ -1,5 +1,5 @@
 var bodyparser = require("body-parser");
-var db = require("../DBHelper.js");
+// var db = require("../DBHelper.js");
 var urlencode = bodyparser.urlencoded({extended: false});
 var newdb = require("../DB.js");
 module.exports = {
